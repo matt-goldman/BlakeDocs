@@ -1,0 +1,172 @@
+@page
+@model RazorUI.Pages.Content.CourseContent
+@{
+    Layout = "_ContentLayout";
+}
+
+<div class="content-wrapper">
+    <!-- Left sidebar: Global table of contents (visible on large screens) -->
+    <div class="sidebar bg-light border-end p-3 d-none d-lg-block left-sidebar">
+        <h5>Course Content</h5>
+        <nav id="course-toc" class="course-toc nav flex-column">
+            @foreach (var module in Model.CourseSections)
+            {
+                <div class="module">
+                    <a class="nav-link module-title" href="#" data-bs-toggle="collapse" data-bs-target="#module-@module.Id">
+                        <i class="fas fa-chevron-@(module.Id == Model.ActiveModule ? "down" : "right") me-2"></i>@module.Text
+                    </a>
+                    <div id="module-@module.Id" class="collapse @(module.Id == Model.ActiveModule ? "show" : "") ps-2" >
+                        <nav class="nav flex-column module-pages">
+                            @foreach (var chapter in module.Children)
+                            {
+                                <a class="nav-link @(chapter.Id == Model.ActiveChapter ? "active" : "")" href="/Content/CourseContent?pageId=@chapter.Id" data-page-id="@chapter.Id">@chapter.Text</a>
+                            }
+                        </nav>
+                    </div>
+                </div>
+            }
+        </nav>
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content">
+        <h1>@Model.PageHeading</h1>
+
+        <!-- Mobile: Page table of contents (collapsible) -->
+        <div class="d-lg-none mb-4">
+            <button class="btn btn-outline-primary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#page-toc-mobile" aria-expanded="false" aria-controls="page-toc-mobile">
+                On This Page <i class="fas fa-chevron-down ms-2"></i>
+            </button>
+            <div class="collapse" id="page-toc-mobile">
+                <nav class="nav flex-column mt-3">
+                    <ul>
+                        @foreach (var docSection in Model.PageSections)
+                        {
+                            <li>
+                                <a href="#@docSection.Id">@docSection.Text</a>
+                                @if (docSection.Children.Count > 0)
+                                {
+                                    <ul>
+                                        @foreach (var child in docSection.Children)
+                                        {
+                                            <li>
+                                                <a href="#@child.Id">@child.Text</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <div id="content-area">
+            @Html.Raw(Model.HtmlContent)
+        </div>
+
+        <!-- Navigation buttons -->
+        <div class="container mt-auto">
+            <div class="d-flex justify-content-between mt-4">
+                @if (Model.PreviousPage != null)
+                {
+                    <a asp-page="/Content/CourseContent" asp-route-pageId="@Model.PreviousPage" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> @Model.PreviousPageName</a>
+                }
+
+                @if (Model.NextPage != null)
+                {
+                    <form id="nah" method="post"></form>
+                    <button id="nextPageButton" onclick="GoToNext('@Model.ActiveChapter', '@Model.NextPage')" class="btn btn-secondary">
+                        <span id="nextPageButtonSpinner" class="spinner-border spinner-border-sm" style="display:none;" aria-hidden="true"></span>
+                        @Model.NextPageName <i class="fas fa-arrow-right"></i>
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Right sidebar: Page table of contents (visible on large screens) -->
+    <div class="sidebar bg-light border-start p-3 d-none d-lg-block right-sidebar">
+        <div class="toc-container">
+        <h6>On this page</h6>
+            <nav>
+                <ul>
+                    @foreach (var docSection in Model.PageSections)
+                    {
+                        <li> 
+                            <a href="#@docSection.Id">@docSection.Text</a> 
+                            @if (docSection.Children.Count > 0) 
+                            { 
+                                <ul> 
+                                    @foreach (var child in docSection.Children) 
+                                    { 
+                                        <li> 
+                                            <a href="#@child.Id">@child.Text</a> 
+                                        </li> 
+                                    } 
+                                </ul> 
+                            } 
+                        </li>
+                        }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Off-canvas sidebar for global table of contents (mobile) -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="globalTocOffcanvas" aria-labelledby="globalTocOffcanvasLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="globalTocOffcanvasLabel">Course Contents</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <nav class="nav flex-column">
+            @foreach (var module in Model.CourseSections)
+            {
+                <div class="module">
+                    <a class="nav-link module-title" href="#" data-bs-toggle="collapse" data-bs-target="#module-@module.Id">
+                        <i class="fas fa-chevron-@(module.Id == Model.ActiveModule ? "down" : "right") me-2"></i>@module.Text
+                    </a>
+                    <div id="module-@module.Id" class="collapse @(module.Id == Model.ActiveModule ? "show" : "") ps-2">
+                        <nav class="nav flex-column module-pages">
+                            @foreach (var chapter in module.Children)
+                            {
+                                <a class="nav-link @(chapter.Id == Model.ActiveChapter ? "active" : "")" href="/Content/CourseContent?pageId=@chapter.Id" data-page-id="@chapter.Id">@chapter.Text</a>
+                            }
+                        </nav>
+                    </div>
+                </div>
+            }
+        </nav>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/js/contentFunctions.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            
+            Prism.highlightAll();
+
+            if (Prism.plugins.lineHighlight) {
+                document.querySelectorAll("pre").forEach(pre => {
+                    Prism.plugins.lineHighlight.highlightLines(pre);
+                });
+            } else {
+                console.warn("Prism lineHighlight plugin not found!");
+            }
+
+            if (Prism.plugins.lineHighlightExtended) {
+                document.querySelectorAll("pre code").forEach(code => {
+                    Prism.plugins.lineHighlightExtended.highlightLines(code);
+                });
+
+            } else {
+                console.warn("Extended line highlight plugin not found!");
+            }
+        });
+    </script>
+}

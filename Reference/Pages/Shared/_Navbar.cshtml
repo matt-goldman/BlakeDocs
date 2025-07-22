@@ -1,0 +1,60 @@
+﻿@{
+    var pageId = Context.Request.Query["pageId"];
+}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">.NET MAUI Workshop</a>
+        @if (Context.Request.Path.StartsWithSegments("/Content/CourseContent") && !string.IsNullOrEmpty(pageId))
+        {
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#globalTocOffcanvas" aria-controls="globalTocOffcanvas">
+                <i class="fas fa-bars"></i>
+            </button>
+        }
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-ellipsis-v"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
+                </li>
+                @if (User?.Identities?.Any(i => i.IsAuthenticated) ?? false)
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="courseDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Course
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="courseDropdown">
+                            @if (User.Identity?.IsAuthenticated == true)
+                            {
+                                <li><a class="dropdown-item" asp-page="/AuthenticatedHome">See My Progress</a></li>
+                            }
+                            else
+                            {
+                                <li><a class="dropdown-item" href="#">Log in to access</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+                @if (User?.IsInRole("Admin") ?? false)
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Admin
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                            <li><a class="dropdown-item" asp-page="/Admin/EditCourse">Edit Course</a></li>
+                            @if (Context.Request.Path.StartsWithSegments("/Content/CourseContent") && !string.IsNullOrEmpty(pageId))
+                            {
+                                <li><a class="dropdown-item" asp-page="/Admin/EditPage" asp-route-id="@pageId">Edit Page</a></li>
+                            }
+                            <li><a class="dropdown-item" href="/Admin/Users">Manage Students</a></li>
+                        </ul>
+                    </li>
+                }
+            </ul>
+            <partial name="_LoginPartial" />
+        </div>
+    </div>
+</nav>

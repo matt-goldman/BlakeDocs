@@ -1,0 +1,31 @@
+﻿@using System.Security.Principal
+
+<div class="d-flex align-items-center">
+    <ul class="navbar-nav">
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <span class="me-3 d-none d-lg-inline">Welcome, @(User.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value??User.Identity?.Name!)</span>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    @* <img src="https://via.placeholder.com/32" alt="Profile" width="32" height="32" class="rounded-circle"> *@
+                    <i class="fas fa-circle-user"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                    <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Profile</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout">Logout</a></li>
+                </ul>
+            </div>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Sign in</a>
+            </li>
+        }
+    </ul>
+</div>

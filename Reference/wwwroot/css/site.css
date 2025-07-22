@@ -1,0 +1,171 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+summary {
+    list-style-position: outside;
+    margin-left: 30px;
+    padding: 10px 10px 10px 20px;
+    border-radius: 5px;
+}
+
+details[open] summary {
+    border-radius: 5px 5px 0 0;
+}
+
+details {
+    background: #e4eaef;
+    border-radius: 5px;
+}
+
+section {
+    position: relative;
+}
+
+    section::before {
+        content: '';
+        display: block;
+        height: 1px;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        visibility: hidden;
+    }
+
+    section:target::before {
+        visibility: visible;
+        background-color: blue;
+    }
+
+    section:has(:target) {
+        background-color: rgba(0, 100, 255, 0.1); /* Highlight active section */
+        border-left: 4px solid blue;
+    }
+
+.sidebar a[href*="#"]:hover,
+.sidebar a[href*="#"]:target {
+    font-weight: bold;
+    color: blue;
+}
+
+section {
+    scroll-margin-top: 10px; /* Ensure smooth scrolling */
+}
+.sortable-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sortable-item {
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    user-select: none; /* Prevents text selection */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE/Edge */
+}
+
+    .sortable-item:hover {
+        background-color: #e9ecef;
+    }
+
+    .sortable-item .fas {
+        margin-right: 10px;
+    }
+
+.chapter-list {
+    margin-left: 20px;
+}
+
+.edit-icons {
+    float: right;
+}
+
+    .edit-icons i {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+    .edit-icons .fa-file-pen {
+        color: #28a745;
+    }
+
+.grip-handle {
+    cursor: grab;
+    display: inline-block;
+    width: 20px; /* Makes it easier to click */
+    height: 20px; /* Increase the area */
+}
+
+    .grip-handle:active {
+        cursor: grabbing;
+    }
+
+/* Standard Prism Line Highlight */
+pre[data-line] {
+    position: relative;
+    padding: 1em 0 1em 3em; /* Space for line numbers */
+}
+
+.line-highlight {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1.5em; /* Matches line height */
+    background: rgba(255, 255, 0, 0.15); /* Default highlight color */
+    pointer-events: none;
+    z-index: -1; /* Ensure it's behind the text */
+    white-space: pre;
+}
+
+/* Ensure highlight covers the entire width */
+pre[class*="language-"] {
+    position: relative;
+    overflow: visible; /* Ensures highlight is within bounds */
+}
+
+/* Fixes horizontal scrolling issue */
+pre.line-numbers {
+    position: relative;
+    padding-left: 3.8em; /* Adjust for line numbers */
+}
+
+.line-highlight.added {
+    background-color: rgba(0, 255, 128, 0.15) !important;
+    border-left: 3px solid rgba(0, 255, 128, 0.7);
+}
+
+.line-highlight.removed {
+    background-color: rgba(255, 0, 0, 0.15) !important;
+    border-left: 3px solid rgba(255, 0, 0, 0.7);
+}
+

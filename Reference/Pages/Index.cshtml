@@ -1,0 +1,214 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = ".NET MAUI Workshop";
+    Layout = "_HomepageLayout";
+}
+
+
+<!-- Hero Section -->
+<header class="container-fluid hero-section text-white text-center">
+    <div class="container hero-content">
+        <div class="col-md-6 text-md-start text-center">
+            <h1>.NET MAUI Hands-On Workshop</h1>
+            <p class="lead">Master .NET MAUI by Building a Real-World App in This <em>free</em> Hands-On Workshop.</p>
+            <a href="#enroll" class="btn btn-lg btn-light">Enroll Now</a>
+            <a href="#curriculum" class="btn btn-lg btn-outline-light">View Course Outline</a>
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="/images/desktop-and-phone-1.png" class="img-fluid rounded" alt="Course Preview">
+        </div>
+    </div>
+</header>
+
+<!-- Course Overview -->
+<section class="container my-5">
+    <div class="row align-items-center">
+        <div class="col-md-6 text-center">
+            <img src="/images/tablet-and-phone1.png" class="img-fluid" alt="Course Preview">
+        </div>
+        <div class="col-md-6">
+            <h2>Why Take This Course?</h2>
+            <p>Build cross-platform apps, gain hands-on experience, and learn from my real industry experience.</p>
+            <ul class="list-unstyled">
+                <li><i class="fa-solid fa-rocket"></i> <strong>Build a Real App</strong> - Work on a fully functional .NET MAUI project.</li>
+                <li><i class="fa-solid fa-hammer"></i> <strong>Hands-On Learning</strong> - Code along with structured exercises.</li>
+                <li><i class="fa-solid fa-book"></i> <strong>Learn Best Practices</strong> - Master .NET MAUI UI, navigation, and performance.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Screenshots / What You’ll Build -->
+<section class="container my-5">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h2>What You’ll Build</h2>
+            <p>By the end of this workshop, you will have built a fully functional .NET MAUI chat application.</p>
+            <p>Through hands-on lessons, you will:</p>
+            <ul class="list-unstyled">
+                <li><i class="fa-solid fa-mobile"></i> Develop a modern cross-platform mobile, tablet, and desktop app.</li>
+                <li><i class="fa-solid fa-code"></i> Implement best practices in .NET MAUI development.</li>
+                <li><i class="fa-solid fa-layer-group"></i> Work with UI, navigation, and backend integration.</li>
+            </ul>
+        </div>
+        <div class="col-md-6 text-center">
+            <video autoplay loop muted playsinline poster="/images/poster.png" width="200">
+                <source src="/images/general-kenobi.mp4" type="video/mp4">
+            </video>
+
+        </div>
+    </div>
+</section>
+
+<!-- Instructor Section -->
+<section class="container my-5">
+    <div class="row align-items-center">
+        <div class="col-md-6 text-center">
+            <img src="images/matt_goldman.jpg" class="rounded-circle" width="150" alt="Instructor Photo">
+        </div>
+        <div class="col-md-6">
+            <h2>Meet Your Instructor</h2>
+            <p>Matt is a .NET MAUI, solution architect, and trainer. As the author of <a href="https://www.manning.com/books/dot-net-maui-in-action?utm_source=goforgoldman&utm_medium=affiliate&utm_campaign=affiliate&a_aid=goforgoldman">.NET MAUI in Action</a>, he has helped countless developers master mobile and desktop app development. He has also delivered this workshop in-person.</p>
+            <p><strong>Where to find me:</strong></p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><i class="fa-solid fa-globe"></i> <a href="https://goforgoldman.com">My website</a></li>
+                <li class="list-inline-item"><i class="fa-solid fa-microphone"></i> <a href="https://www.beerdriven.dev">My podcast (Beer Driven Devs)</a></li>
+                <li class="list-inline-item"><i class="fa-solid fa-code"></i> <a href="https://github.com/matt-goldman">GitHub</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Course Curriculum -->
+<section id="curriculum" class="container my-5">
+    <h2 class="text-center">Course Curriculum</h2>
+    <div class="accordion" id="courseAccordion">
+
+        @foreach (var module in Model.CourseSections)
+        {
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#@module.Id">
+                        @module.Text
+                    </button>
+                </h2>
+                <div id="@module.Id" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <ul>
+                            @foreach (var topic in module.Children)
+                            {
+                                <li>@topic.Text</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+    </section>
+
+    <!-- Testimonials & Reviews -->
+    <section class="container my-5 text-center">
+        <h2>What Students Are Saying</h2>
+        <p>(Note: these are made up, but students would definitely say these things!)</p>
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <blockquote class="blockquote">"This course helped me build my first .NET MAUI app!"</blockquote>
+                    <p class="testimonial-stars">★★★★★</p>
+                    <p>- Happy Student</p>
+                </div>
+                <div class="carousel-item">
+                    <blockquote class="blockquote">"Fantastic hands-on learning experience!"</blockquote>
+                    <p class="testimonial-stars">★★★★☆</p>
+                    <p>- Software Developer</p>
+                </div>
+                <div class="carousel-item">
+                    <blockquote class="blockquote">"Well-structured and easy to follow."</blockquote>
+                    <p class="testimonial-stars">★★★★★</p>
+                    <p>- MAUI Enthusiast</p>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Pricing & Enrollment -->
+    <section id="enroll" class="container my-5 text-center">
+        <h2>Enroll Now</h2>
+        <p>Get lifetime access to the course and all future updates.</p>
+        <a asp-page="/Content/Enrol" asp-route-id="@Model.CourseId" class="btn btn-lg btn-success">$ FREE</a>
+    </section>
+
+    <!-- FAQs -->
+    <section class="container my-5">
+        <h2 class="text-center">Frequently Asked Questions</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                        Do I need prior experience with .NET MAUI?
+                    </button>
+                </h2>
+                <div id="faq1" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        No prior experience is needed! This course is beginner-friendly.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                        Why is this course free, what's the catch?
+                    </button>
+                </h2>
+                <div id="faq2" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <p>
+                            No catch. I just had all this content and wanted to give something back to the community, so I decided to make it available.
+                        </p>
+                        <p>
+                            I wrote a book on .NET MAUI (linked abvove); that's a lot more comprehensive than this. It is designed to make you completely self-sufficient, whereas this course is designed to be instructor-led. That's not to say you can't work through it on your own, but it's geared purely toward learning by doing, rather than teaching any fundamental concepts.
+                        </p>
+                        <p>
+                            The book is outdated now already, and by having this content here, I can release updates as frequently as I want, without having to publish a new edition.
+                        </p>
+                        <p>
+                        Truthfully though, I had considered monetising this content, but ultimately decided it had more value to the community as a free resource. If anyone wants to pay me to deliver this in person though, I'm open to it!
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                        Do I need to buy your book as well?
+                    </button>
+                </h2>
+                <div id="faq3" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <p>
+                            Not at all. I actually think the book and this workshop complement each other, but neither is a prerequisite for the other.
+                        </p>
+                        <p>
+                            If you've already read the book, you'll find new content here not covered in the book, and will benefit from the updated information here (the book was current for .NET 7, this is relevant for .NET 9 and will be for .NET 10 as well).
+                        </p>
+                        <p>
+                            If you've worked through this course but haven't read the book, you'll benefit from conceptual learning the book covers that's absent here.
+                        </p>
+                        <p>
+                            If you're after a recommendation that covers both, I would say read the book, but don't work through the code examples; work through this workshop for the hands-on aspect of the learning experience.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
