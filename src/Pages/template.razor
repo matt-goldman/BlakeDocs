@@ -1,0 +1,22 @@
+@using BlakePlugin.DocsRenderer.Components
+@using BlakePlugin.DocsRenderer.Utils
+
+<PageTitle>@Title</PageTitle>
+
+<p>
+    Published on: @Published
+</p>
+
+<p>
+    @Description
+</p>
+
+<SiteToc Nodes=@contentIndex />
+
+@Body
+
+<PageToc PageSections="@_sections" />
+
+@code {
+    private List<TocNode> contentIndex = TocUtils.BuildSiteTocNodes(GeneratedContentIndex.GetPages());
+}

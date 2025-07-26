@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlakeSampleDocs", "BlakeSampleDocs.csproj", "{F400A603-38F1-5FFB-75E2-D4E6C43DEC0E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlakeSampleDocs", "src\BlakeSampleDocs.csproj", "{C0F8023A-0D19-AF5E-C38F-714C42EDBB51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -10,15 +10,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F400A603-38F1-5FFB-75E2-D4E6C43DEC0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F400A603-38F1-5FFB-75E2-D4E6C43DEC0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F400A603-38F1-5FFB-75E2-D4E6C43DEC0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F400A603-38F1-5FFB-75E2-D4E6C43DEC0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0F8023A-0D19-AF5E-C38F-714C42EDBB51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0F8023A-0D19-AF5E-C38F-714C42EDBB51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0F8023A-0D19-AF5E-C38F-714C42EDBB51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0F8023A-0D19-AF5E-C38F-714C42EDBB51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {6C026959-7EA9-4B8E-9560-1090BC2DADAA}
+		SolutionGuid = {2F3D2E44-A94E-44B3-AA19-B01694AEAF52}
 	EndGlobalSection
 EndGlobal

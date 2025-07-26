@@ -24,6 +24,15 @@
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
             </NavLink>
         </div>
+
+        @foreach (var content in GeneratedContentIndex.GetPages())
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="@(content.Slug)">
+                    <span class="@(content.IconIdentifier)" aria-hidden="true"></span> @content.Title
+                </NavLink>
+            </div>
+        }
     </nav>
 </div>
 
