@@ -1,21 +1,44 @@
 @using BlakePlugin.DocsRenderer.Components
 @using BlakePlugin.DocsRenderer.Utils
 
-<PageTitle>@Title</PageTitle>
+<PageTitle>BlakeDocs - @Title</PageTitle>
 
-<p>
-    Published on: @Published
-</p>
+<div class="content-wrapper">
+    <!-- Full screen site TOC in left sidebar -->
+    <SiteToc Nodes=@contentIndex />
 
-<p>
-    @Description
-</p>
+    <!-- Main content area -->
+    <div class="main-content">
+        <h1>@Title</h1>
 
-<SiteToc Nodes=@contentIndex />
+        <!-- Mobile: Page table of contents (collapsible) -->
+        <PageTocMobile PageSections="@_sections"/>
 
-@Body
+        <!-- Generated page content -->
+        <div class="main-content">
+            @Body
 
-<PageToc PageSections="@_sections" />
+            <p>
+                Last updated: @Published
+            </p>
+        </div>
+
+        <!-- Full screen page TOC in right sidebar -->
+        <PageToc PageSections="@_sections" />
+    </div>
+</div>
+
+<!-- Off-canvas sidebar for mobile page TOC -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="globalTocOffcanvas" aria-labelledby="globalTocOffcanvasLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="globalTocOffcanvasLabel">Site Contents</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <SiteTocMobile Nodes="@contentIndex" />
+    </div>
+</div>
+
 
 @code {
     private List<TocNode> contentIndex = TocUtils.BuildSiteTocNodes(GeneratedContentIndex.GetPages());
