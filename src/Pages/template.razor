@@ -21,6 +21,26 @@
             <p>
                 Last updated: @Published
             </p>
+
+             <!-- Navigation buttons -->
+             <!-- TODO: refactor - need to add logic for previous/next pages, and need to change from a and button to NavLink -->
+            @* <div class="container mt-auto">
+                <div class="d-flex justify-content-between mt-4">
+                    @if (Model.PreviousPage != null)
+                    {
+                        <a asp-page="/Content/CourseContent" asp-route-pageId="@Model.PreviousPage" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> @Model.PreviousPageName</a>
+                    }
+
+                    @if (Model.NextPage != null)
+                    {
+                        <form id="nah" method="post"></form>
+                        <button id="nextPageButton" onclick="GoToNext('@Model.ActiveChapter', '@Model.NextPage')" class="btn btn-secondary">
+                            <span id="nextPageButtonSpinner" class="spinner-border spinner-border-sm" style="display:none;" aria-hidden="true"></span>
+                            @Model.NextPageName <i class="fas fa-arrow-right"></i>
+                        </button>
+                    }
+                </div>
+            </div> *@
         </div>
 
         <!-- Full screen page TOC in right sidebar -->
