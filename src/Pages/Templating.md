@@ -27,4 +27,5 @@ Use `template.razor` files in any folder to define how Markdown in that folder i
 * Starter template showcase
 
 * Authoring your own templates
-*
+
+* Need to mention `cascading-template.razor` for cascading templates
