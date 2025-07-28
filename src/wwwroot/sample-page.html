@@ -1,0 +1,294 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - Getting Started</title>
+    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/darkly/bootstrap.min.css" rel="stylesheet">-->
+    <style>
+        .sidebar {
+            height: 100vh;
+            overflow-y: auto;
+            position: sticky;
+            top: 0;
+        }
+
+        .content-area {
+            min-height: 100vh;
+        }
+
+        .toc {
+            height: 100vh;
+            overflow-y: auto;
+            position: sticky;
+            top: 0;
+        }
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            margin-bottom: 0.25rem;
+        }
+
+            .nav-link:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-link.active {
+                background-color: var(--bs-primary);
+                color: white;
+            }
+
+        .toc-link {
+            font-size: 0.875rem;
+            padding: 0.25rem 0.75rem;
+            color: var(--bs-secondary);
+            text-decoration: none;
+            display: block;
+            border-radius: 0.25rem;
+            margin-bottom: 0.125rem;
+        }
+
+            .toc-link:hover {
+                background-color: rgba(255, 255, 255, 0.05);
+                color: var(--bs-light);
+            }
+
+            .toc-link.active {
+                color: var(--bs-primary);
+                background-color: rgba(var(--bs-primary-rgb), 0.1);
+            }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .code-block {
+            background-color: var(--bs-dark);
+            border: 1px solid var(--bs-border-color);
+            border-radius: 0.375rem;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 991.98px) {
+            .sidebar, .toc {
+                position: static;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Left Sidebar - Site Navigation -->
+            <nav class="col-lg-2 col-md-3 sidebar bg-dark border-end">
+                <div class="p-3">
+                    <h5 class="text-primary mb-3">Documentation</h5>
+
+                    <div class="nav flex-column">
+                        <h6 class="text-muted text-uppercase small fw-bold mt-3 mb-2">Getting Started</h6>
+                        <a href="#" class="nav-link active">Introduction</a>
+                        <a href="#" class="nav-link">Installation</a>
+                        <a href="#" class="nav-link">Quick Start</a>
+                        <a href="#" class="nav-link">Configuration</a>
+
+                        <h6 class="text-muted text-uppercase small fw-bold mt-4 mb-2">Components</h6>
+                        <a href="#" class="nav-link">Buttons</a>
+                        <a href="#" class="nav-link">Forms</a>
+                        <a href="#" class="nav-link">Navigation</a>
+                        <a href="#" class="nav-link">Cards</a>
+                        <a href="#" class="nav-link">Modals</a>
+
+                        <h6 class="text-muted text-uppercase small fw-bold mt-4 mb-2">Layout</h6>
+                        <a href="#" class="nav-link">Grid System</a>
+                        <a href="#" class="nav-link">Flexbox</a>
+                        <a href="#" class="nav-link">Spacing</a>
+
+                        <h6 class="text-muted text-uppercase small fw-bold mt-4 mb-2">Advanced</h6>
+                        <a href="#" class="nav-link">Customization</a>
+                        <a href="#" class="nav-link">JavaScript</a>
+                        <a href="#" class="nav-link">Best Practices</a>
+                        <a href="#" class="nav-link">Migration Guide</a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-lg-8 col-md-6 content-area">
+                <div class="p-4">
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb" class="mb-4">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#" class="text-decoration-none">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#" class="text-decoration-none">Getting Started</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Introduction</li>
+                        </ol>
+                    </nav>
+
+                    <!-- Page Header -->
+                    <div class="mb-5">
+                        <h1 class="display-5 fw-bold mb-3">Getting Started</h1>
+                        <p class="lead text-muted">Learn how to quickly set up and start using our documentation system with Bootstrap and the Darkly theme.</p>
+                    </div>
+
+                    <!-- Content Sections -->
+                    <section id="overview" class="section">
+                        <h2 class="h3 mb-3">Overview</h2>
+                        <p>This documentation provides comprehensive guidance on building modern web applications. Whether you're a beginner or an experienced developer, you'll find the resources you need to get started quickly.</p>
+                        <p>Our system is built with the latest web standards and follows best practices for accessibility, performance, and maintainability.</p>
+                    </section>
+
+                    <section id="prerequisites" class="section">
+                        <h2 class="h3 mb-3">Prerequisites</h2>
+                        <p>Before getting started, make sure you have the following:</p>
+                        <ul>
+                            <li>Basic knowledge of HTML, CSS, and JavaScript</li>
+                            <li>A modern web browser</li>
+                            <li>A text editor or IDE</li>
+                            <li>Node.js (version 16 or higher)</li>
+                        </ul>
+                    </section>
+
+                    <section id="installation" class="section">
+                        <h2 class="h3 mb-3">Installation</h2>
+                        <p>You can install our framework using npm or yarn:</p>
+                        <div class="code-block">
+                            <code>
+                                # Using npm<br>
+                                npm install bootstrap@5.3.2<br><br>
+                                # Using yarn<br>
+                                yarn add bootstrap@5.3.2
+                            </code>
+                        </div>
+                        <p>Alternatively, you can use the CDN links as shown in this example.</p>
+                    </section>
+
+                    <section id="basic-usage" class="section">
+                        <h2 class="h3 mb-3">Basic Usage</h2>
+                        <p>Once installed, you can start using the components immediately. Here's a simple example:</p>
+                        <div class="code-block">
+                            <code>
+                                &lt;div class="container"&gt;<br>
+                                &nbsp;&nbsp;&lt;div class="row"&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="col-md-6"&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Hello World&lt;/h1&gt;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                                &nbsp;&nbsp;&lt;/div&gt;<br>
+                                &lt;/div&gt;
+                            </code>
+                        </div>
+                    </section>
+
+                    <section id="customization" class="section">
+                        <h2 class="h3 mb-3">Customization</h2>
+                        <p>The Darkly theme provides a sleek, dark interface that's easy on the eyes. You can customize colors, spacing, and other design elements by overriding CSS variables:</p>
+                        <div class="code-block">
+                            <code>
+                                :root {<br>
+                                &nbsp;&nbsp;--bs-primary: #007bff;<br>
+                                &nbsp;&nbsp;--bs-secondary: #6c757d;<br>
+                                &nbsp;&nbsp;--bs-success: #28a745;<br>
+                                }
+                            </code>
+                        </div>
+                    </section>
+
+                    <section id="next-steps" class="section">
+                        <h2 class="h3 mb-3">Next Steps</h2>
+                        <p>Now that you have the basics set up, explore the following sections:</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Components</h5>
+                                        <p class="card-text">Learn about all available UI components and how to use them effectively.</p>
+                                        <a href="#" class="btn btn-primary">Explore Components</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Layout System</h5>
+                                        <p class="card-text">Master the grid system and create responsive layouts with ease.</p>
+                                        <a href="#" class="btn btn-outline-primary">Learn Layout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+
+            <!-- Right Sidebar - Table of Contents -->
+            <aside class="col-lg-2 col-md-3 toc bg-dark border-start">
+                <div class="p-3">
+                    <h6 class="text-muted text-uppercase small fw-bold mb-3">On This Page</h6>
+                    <nav class="nav flex-column">
+                        <a href="#overview" class="toc-link active">Overview</a>
+                        <a href="#prerequisites" class="toc-link">Prerequisites</a>
+                        <a href="#installation" class="toc-link">Installation</a>
+                        <a href="#basic-usage" class="toc-link">Basic Usage</a>
+                        <a href="#customization" class="toc-link">Customization</a>
+                        <a href="#next-steps" class="toc-link">Next Steps</a>
+                    </nav>
+
+                    <hr class="my-4">
+
+                    <div class="mb-3">
+                        <h6 class="text-muted text-uppercase small fw-bold mb-2">Quick Links</h6>
+                        <a href="#" class="toc-link">GitHub Repository</a>
+                        <a href="#" class="toc-link">Report Issue</a>
+                        <a href="#" class="toc-link">Contribute</a>
+                        <a href="#" class="toc-link">Changelog</a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>-->
+    <script src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Update active TOC link on scroll
+        window.addEventListener('scroll', function () {
+            const sections = document.querySelectorAll('section[id]');
+            const tocLinks = document.querySelectorAll('.toc-link');
+
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
