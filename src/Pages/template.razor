@@ -1,15 +1,15 @@
 @using BlakePlugin.DocsRenderer.Components
 @using BlakePlugin.DocsRenderer.Utils
+@inject NavigationManager NavigationManager
 
 <PageTitle>BlakeDocs - @Title</PageTitle>
 
 <div class="content-wrapper">
     <!-- Full screen site TOC in left sidebar -->
-    <SiteToc Nodes=@contentIndex />
+    <SiteToc Nodes=@contentIndex ActiveSlug=@activeSlug />
 
     <!-- Main content area -->
     <div class="main-content">
-        <h1>@Title</h1>
 
         <!-- Mobile: Page table of contents (collapsible) -->
         <PageTocMobile PageSections="@_sections"/>
@@ -62,4 +62,21 @@
 
 @code {
     private List<TocNode> contentIndex = TocUtils.BuildSiteTocNodes(GeneratedContentIndex.GetPages());
+
+    private string activeSlug = string.Empty;
+
+    protected override void OnAfterRender(bool isFirstRender)
+    {
+        // Get the current page slug from the URL
+        activeSlug = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        
+        if (!activeSlug.StartsWith("/"))
+        {
+            activeSlug = "/" + activeSlug; // Ensure it starts with a slash
+        }
+
+        Console.WriteLine($"Active slug: {activeSlug}");
+
+        base.OnAfterRender(isFirstRender);
+    }
 }
