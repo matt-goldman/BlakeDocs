@@ -8,40 +8,40 @@
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
     <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/darkly/bootstrap.min.css" rel="stylesheet">-->
     <style>
-        .sidebar {
+        .bdr-sidebar {
             height: 100vh;
             overflow-y: auto;
             position: sticky;
             top: 0;
         }
 
-        .content-area {
+        .bdr-content-area {
             min-height: 100vh;
         }
 
-        .toc {
+        .bdr-toc {
             height: 100vh;
             overflow-y: auto;
             position: sticky;
             top: 0;
         }
 
-        .nav-link {
+        .nav-link bdr-nav-link {
             padding: 0.5rem 1rem;
             border-radius: 0.375rem;
             margin-bottom: 0.25rem;
         }
 
-            .nav-link:hover {
+            .nav-link bdr-nav-link:hover {
                 background-color: rgba(255, 255, 255, 0.1);
             }
 
-            .nav-link.active {
+            .nav-link bdr-nav-link.active {
                 background-color: var(--bs-primary);
                 color: white;
             }
 
-        .toc-link {
+        .bdr-toc-link {
             font-size: 0.875rem;
             padding: 0.25rem 0.75rem;
             color: var(--bs-secondary);
@@ -51,12 +51,12 @@
             margin-bottom: 0.125rem;
         }
 
-            .toc-link:hover {
+            .bdr-toc-link:hover {
                 background-color: rgba(255, 255, 255, 0.05);
                 color: var(--bs-light);
             }
 
-            .toc-link.active {
+            .bdr-toc-link.active {
                 color: var(--bs-primary);
                 background-color: rgba(var(--bs-primary-rgb), 0.1);
             }
@@ -74,7 +74,7 @@
         }
 
         @media (max-width: 991.98px) {
-            .sidebar, .toc {
+            .bdr-sidebar, .bdr-toc {
                 position: static;
                 height: auto;
             }
@@ -85,40 +85,40 @@
     <div class="container-fluid">
         <div class="row">
             <!-- Left Sidebar - Site Navigation -->
-            <nav class="col-lg-2 col-md-3 sidebar bg-dark border-end">
+            <nav class="col-lg-2 col-md-3 bdr-sidebar bg-dark border-end">
                 <div class="p-3">
                     <h5 class="text-primary mb-3">Documentation</h5>
 
                     <div class="nav flex-column">
                         <h6 class="text-muted text-uppercase small fw-bold mt-3 mb-2">Getting Started</h6>
-                        <a href="#" class="nav-link active">Introduction</a>
-                        <a href="#" class="nav-link">Installation</a>
-                        <a href="#" class="nav-link">Quick Start</a>
-                        <a href="#" class="nav-link">Configuration</a>
+                        <a href="#" class="nav-link bdr-nav-link active">Introduction</a>
+                        <a href="#" class="nav-link bdr-nav-link">Installation</a>
+                        <a href="#" class="nav-link bdr-nav-link">Quick Start</a>
+                        <a href="#" class="nav-link bdr-nav-link">Configuration</a>
 
                         <h6 class="text-muted text-uppercase small fw-bold mt-4 mb-2">Components</h6>
-                        <a href="#" class="nav-link">Buttons</a>
-                        <a href="#" class="nav-link">Forms</a>
-                        <a href="#" class="nav-link">Navigation</a>
-                        <a href="#" class="nav-link">Cards</a>
-                        <a href="#" class="nav-link">Modals</a>
+                        <a href="#" class="nav-link bdr-nav-link">Buttons</a>
+                        <a href="#" class="nav-link bdr-nav-link">Forms</a>
+                        <a href="#" class="nav-link bdr-nav-link">Navigation</a>
+                        <a href="#" class="nav-link bdr-nav-link">Cards</a>
+                        <a href="#" class="nav-link bdr-nav-link">Modals</a>
 
                         <h6 class="text-muted text-uppercase small fw-bold mt-4 mb-2">Layout</h6>
-                        <a href="#" class="nav-link">Grid System</a>
-                        <a href="#" class="nav-link">Flexbox</a>
-                        <a href="#" class="nav-link">Spacing</a>
+                        <a href="#" class="nav-link bdr-nav-link">Grid System</a>
+                        <a href="#" class="nav-link bdr-nav-link">Flexbox</a>
+                        <a href="#" class="nav-link bdr-nav-link">Spacing</a>
 
                         <h6 class="text-muted text-uppercase small fw-bold mt-4 mb-2">Advanced</h6>
-                        <a href="#" class="nav-link">Customization</a>
-                        <a href="#" class="nav-link">JavaScript</a>
-                        <a href="#" class="nav-link">Best Practices</a>
-                        <a href="#" class="nav-link">Migration Guide</a>
+                        <a href="#" class="nav-link bdr-nav-link">Customization</a>
+                        <a href="#" class="nav-link bdr-nav-link">JavaScript</a>
+                        <a href="#" class="nav-link bdr-nav-link">Best Practices</a>
+                        <a href="#" class="nav-link bdr-nav-link">Migration Guide</a>
                     </div>
                 </div>
             </nav>
 
             <!-- Main Content -->
-            <main class="col-lg-8 col-md-6 content-area">
+            <main class="col-lg-8 col-md-6 bdr-content-area">
                 <div class="p-4">
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb" class="mb-4">
@@ -136,13 +136,13 @@
                     </div>
 
                     <!-- Content Sections -->
-                    <section id="overview" class="section">
+                    <section id="overview" class="bdr-section">
                         <h2 class="h3 mb-3">Overview</h2>
                         <p>This documentation provides comprehensive guidance on building modern web applications. Whether you're a beginner or an experienced developer, you'll find the resources you need to get started quickly.</p>
                         <p>Our system is built with the latest web standards and follows best practices for accessibility, performance, and maintainability.</p>
                     </section>
 
-                    <section id="prerequisites" class="section">
+                    <section id="prerequisites" class="bdr-section">
                         <h2 class="h3 mb-3">Prerequisites</h2>
                         <p>Before getting started, make sure you have the following:</p>
                         <ul>
@@ -153,7 +153,7 @@
                         </ul>
                     </section>
 
-                    <section id="installation" class="section">
+                    <section id="installation" class="bdr-section">
                         <h2 class="h3 mb-3">Installation</h2>
                         <p>You can install our framework using npm or yarn:</p>
                         <div class="code-block">
@@ -167,7 +167,7 @@
                         <p>Alternatively, you can use the CDN links as shown in this example.</p>
                     </section>
 
-                    <section id="basic-usage" class="section">
+                    <section id="basic-usage" class="bdr-section">
                         <h2 class="h3 mb-3">Basic Usage</h2>
                         <p>Once installed, you can start using the components immediately. Here's a simple example:</p>
                         <div class="code-block">
@@ -183,7 +183,7 @@
                         </div>
                     </section>
 
-                    <section id="customization" class="section">
+                    <section id="customization" class="bdr-section">
                         <h2 class="h3 mb-3">Customization</h2>
                         <p>The Darkly theme provides a sleek, dark interface that's easy on the eyes. You can customize colors, spacing, and other design elements by overriding CSS variables:</p>
                         <div class="code-block">
@@ -197,7 +197,7 @@
                         </div>
                     </section>
 
-                    <section id="next-steps" class="section">
+                    <section id="next-steps" class="bdr-section">
                         <h2 class="h3 mb-3">Next Steps</h2>
                         <p>Now that you have the basics set up, explore the following sections:</p>
                         <div class="row">
@@ -225,26 +225,26 @@
             </main>
 
             <!-- Right Sidebar - Table of Contents -->
-            <aside class="col-lg-2 col-md-3 toc bg-dark border-start">
+            <aside class="col-lg-2 col-md-3 bdr-toc bg-dark border-start">
                 <div class="p-3">
                     <h6 class="text-muted text-uppercase small fw-bold mb-3">On This Page</h6>
                     <nav class="nav flex-column">
-                        <a href="#overview" class="toc-link active">Overview</a>
-                        <a href="#prerequisites" class="toc-link">Prerequisites</a>
-                        <a href="#installation" class="toc-link">Installation</a>
-                        <a href="#basic-usage" class="toc-link">Basic Usage</a>
-                        <a href="#customization" class="toc-link">Customization</a>
-                        <a href="#next-steps" class="toc-link">Next Steps</a>
+                        <a href="#overview" class="bdr-toc-link active">Overview</a>
+                        <a href="#prerequisites" class="bdr-toc-link">Prerequisites</a>
+                        <a href="#installation" class="bdr-toc-link">Installation</a>
+                        <a href="#basic-usage" class="bdr-toc-link">Basic Usage</a>
+                        <a href="#customization" class="bdr-toc-link">Customization</a>
+                        <a href="#next-steps" class="bdr-toc-link">Next Steps</a>
                     </nav>
 
                     <hr class="my-4">
 
                     <div class="mb-3">
                         <h6 class="text-muted text-uppercase small fw-bold mb-2">Quick Links</h6>
-                        <a href="#" class="toc-link">GitHub Repository</a>
-                        <a href="#" class="toc-link">Report Issue</a>
-                        <a href="#" class="toc-link">Contribute</a>
-                        <a href="#" class="toc-link">Changelog</a>
+                        <a href="#" class="bdr-toc-link">GitHub Repository</a>
+                        <a href="#" class="bdr-toc-link">Report Issue</a>
+                        <a href="#" class="bdr-toc-link">Contribute</a>
+                        <a href="#" class="bdr-toc-link">Changelog</a>
                     </div>
                 </div>
             </aside>
@@ -271,7 +271,7 @@
         // Update active TOC link on scroll
         window.addEventListener('scroll', function () {
             const sections = document.querySelectorAll('section[id]');
-            const tocLinks = document.querySelectorAll('.toc-link');
+            const bdr-tocLinks = document.querySelectorAll('.bdr-toc-link');
 
             let current = '';
             sections.forEach(section => {
@@ -282,7 +282,7 @@
                 }
             });
 
-            tocLinks.forEach(link => {
+            bdr-tocLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href') === '#' + current) {
                     link.classList.add('active');

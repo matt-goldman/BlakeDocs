@@ -1,4 +1,66 @@
-﻿(function () {
+﻿function initializePlugin() {
+    // This function can be used to initialize any plugin-specific functionality
+    console.log("Plugin initialized");
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Update active TOC link on scroll
+    window.addEventListener('scroll', function () {
+        const sections = document.querySelectorAll('section[id]');
+        const tocLinks = document.querySelectorAll('.toc-link');
+
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (window.pageYOffset >= sectionTop - 100) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        tocLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+                link.classList.add('active');
+            }
+        });
+	});
+
+	document.addEventListener("DOMContentLoaded", function () {
+
+		Prism.highlightAll();
+
+		if (Prism.plugins.lineHighlight) {
+			document.querySelectorAll("pre").forEach(pre => {
+				Prism.plugins.lineHighlight.highlightLines(pre);
+			});
+		} else {
+			console.warn("Prism lineHighlight plugin not found!");
+		}
+
+		if (Prism.plugins.lineHighlightExtended) {
+			document.querySelectorAll("pre code").forEach(code => {
+				Prism.plugins.lineHighlightExtended.highlightLines(code);
+			});
+
+		} else {
+			console.warn("Extended line highlight plugin not found!");
+		}
+	});
+}
+
+(function () {
 
 	if (typeof Prism === 'undefined' || typeof document === 'undefined' || !document.querySelector) {
 		return;
@@ -166,7 +228,7 @@
 				/** @type {HTMLElement} */
 				var line = pre.querySelector('.line-highlight[data-range="' + currentRange + '"]') || document.createElement('div');
 
-                console.log('Highlighting line', currentRange, start, end);
+				console.log('Highlighting line', currentRange, start, end);
 
 				mutateActions.push(function () {
 					line.setAttribute('aria-hidden', 'true');
@@ -337,11 +399,11 @@
 	});
 
 	window.addEventListener('hashchange', function () {
-        console.log('Hash changed');
-        applyHash();
-    });
+		console.log('Hash changed');
+		applyHash();
+	});
 	window.addEventListener('resize', function () {
-        console.log('Resizing');
+		console.log('Resizing');
 		var actions = $$('pre')
 			.filter(isActiveFor)
 			.map(function (pre) {
@@ -354,61 +416,61 @@
 
 
 (function () {
-    if (typeof Prism === 'undefined' || typeof document === 'undefined' || !document.querySelector) {
-        return;
-    }
+	if (typeof Prism === 'undefined' || typeof document === 'undefined' || !document.querySelector) {
+		return;
+	}
 
-    Prism.plugins.lineHighlightExtended = {
-        highlightLines: function highlightLines(pre) {
+	Prism.plugins.lineHighlightExtended = {
+		highlightLines: function highlightLines(pre) {
 
-            let lines = pre.textContent.split("\n");
+			let lines = pre.textContent.split("\n");
 
-            // Find the longest line
-            let longestLineLength = Math.max(...lines.map(line => line.length));
+			// Find the longest line
+			let longestLineLength = Math.max(...lines.map(line => line.length));
 
-            // Convert character count to `em` for padding
-            let paddingValue = `${longestLineLength + 5}ch`; // `ch` is better than `em` for monospace
-    
-            let allLines = [
-                { attr: 'data-line', className: 'line-highlight' },
-                { attr: 'data-added-line', className: 'line-highlight added' },
-                { attr: 'data-removed-line', className: 'line-highlight removed' }
-            ];
-    
-            allLines.forEach(({ attr, className }) => {
-                let lineAttr = pre.getAttribute(attr);
-    
-                if (!lineAttr) return;
-    
-                let ranges = lineAttr.replace(/\s+/g, '').split(',').filter(Boolean);
-    
-                let lineHeight = parseFloat(getComputedStyle(pre).lineHeight);
-    
-                let parentElement = pre.querySelector('code') || pre;
-    
-                ranges.forEach(range => {
-                    let [start, end] = range.split('-').map(Number);
-                    if (!end) end = start;
-    
-                    let highlightDiv = document.createElement("div");
-                    highlightDiv.className = className;
-                    let paddingTop = parseFloat(getComputedStyle(pre).paddingTop);
-                    highlightDiv.style.top = `${((start - 1) * lineHeight + paddingTop)-1}px`;
+			// Convert character count to `em` for padding
+			let paddingValue = `${longestLineLength + 5}ch`; // `ch` is better than `em` for monospace
 
-                    highlightDiv.style.height = `${((end - start + 1) * lineHeight) -2}px`;
-                    highlightDiv.style.paddingLeft = `${paddingValue}`;
+			let allLines = [
+				{ attr: 'data-line', className: 'line-highlight' },
+				{ attr: 'data-added-line', className: 'line-highlight added' },
+				{ attr: 'data-removed-line', className: 'line-highlight removed' }
+			];
 
-                    highlightDiv.innerHTML = '&nbsp;';
-                    parentElement.appendChild(highlightDiv);
-                });
-            });
-        }
-    };
-    
-    Prism.hooks.add('complete', function (env) {
-        let pre = env.element.parentElement;
-        if (!pre) return;
+			allLines.forEach(({ attr, className }) => {
+				let lineAttr = pre.getAttribute(attr);
 
-        Prism.plugins.lineHighlightExtended.highlightLines(pre);
-    });
+				if (!lineAttr) return;
+
+				let ranges = lineAttr.replace(/\s+/g, '').split(',').filter(Boolean);
+
+				let lineHeight = parseFloat(getComputedStyle(pre).lineHeight);
+
+				let parentElement = pre.querySelector('code') || pre;
+
+				ranges.forEach(range => {
+					let [start, end] = range.split('-').map(Number);
+					if (!end) end = start;
+
+					let highlightDiv = document.createElement("div");
+					highlightDiv.className = className;
+					let paddingTop = parseFloat(getComputedStyle(pre).paddingTop);
+					highlightDiv.style.top = `${((start - 1) * lineHeight + paddingTop) - 1}px`;
+
+					highlightDiv.style.height = `${((end - start + 1) * lineHeight) - 2}px`;
+					highlightDiv.style.paddingLeft = `${paddingValue}`;
+
+					highlightDiv.innerHTML = '&nbsp;';
+					parentElement.appendChild(highlightDiv);
+				});
+			});
+		}
+	};
+
+	Prism.hooks.add('complete', function (env) {
+		let pre = env.element.parentElement;
+		if (!pre) return;
+
+		Prism.plugins.lineHighlightExtended.highlightLines(pre);
+	});
 })();
