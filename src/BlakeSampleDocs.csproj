@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <!-- <PackageReference Include="BlakePlugin.DocsRenderer" Version="1.0.0" /> -->
-    <!--<PackageReference Include="BlakePlugin.DocsRenderer" Version="0.0.2-alpha7" />-->
+    <PackageReference Include="BlakePlugin.DocsRenderer" Version="0.0.2-alpha7" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.6" PrivateAssets="all" />
   

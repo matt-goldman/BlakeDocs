@@ -4,61 +4,96 @@
 
 <PageTitle>BlakeDocs - @Title</PageTitle>
 
-<div class="content-wrapper">
-    <!-- Full screen site TOC in left bdr-sidebar -->
-    <SiteToc Nodes=@contentIndex ActiveSlug=@activeSlug />
+<div class="container-fluid">
+    <div class="row">
+        <!-- Left Sidebar - Site Navigation -->
+        <nav class="col-lg-2 col-md-3 bdr-sidebar bg-dark border-end">
+            <div class="p-3">
+                <h5 class="text-primary mb-3">Documentation</h5>
 
-    <!-- Main content area -->
-    <div class="main-content">
+                <div class="nav flex-column">
 
-        <!-- Mobile: Page table of contents (collapsible) -->
-        <PageTocMobile PageSections="@_sections"/>
-
-        <!-- Generated page content -->
-        <div class="main-content">
-            @Body
-
-            <p>
-                Last updated: @Published
-            </p>
-
-             <!-- Navigation buttons -->
-             <!-- TODO: refactor - need to add logic for previous/next pages, and need to change from a and button to NavLink -->
-            @* <div class="container mt-auto">
-                <div class="d-flex justify-content-between mt-4">
-                    @if (Model.PreviousPage != null)
+                    @foreach (var node in contentIndex)
                     {
-                        <a asp-page="/Content/CourseContent" asp-route-pageId="@Model.PreviousPage" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> @Model.PreviousPageName</a>
-                    }
-
-                    @if (Model.NextPage != null)
-                    {
-                        <form id="nah" method="post"></form>
-                        <button id="nextPageButton" onclick="GoToNext('@Model.ActiveChapter', '@Model.NextPage')" class="btn btn-secondary">
-                            <span id="nextPageButtonSpinner" class="spinner-border spinner-border-sm" style="display:none;" aria-hidden="true"></span>
-                            @Model.NextPageName <i class="fas fa-arrow-right"></i>
-                        </button>
+                        <h6 class="text-muted text-uppercase small fw-bold mt-4 mb-2">@node.Text</h6>
+                        @foreach (var child in node.Children)
+                        {
+                            <a href="@child.Slug" class="nav-link bdr-nav-link @(activeSlug == child.Slug ? "active" : "")">
+                                @child.Text
+                            </a>
+                        }
                     }
                 </div>
-            </div> *@
-        </div>
+            </div>
+        </nav>
 
-        <!-- Full screen page TOC in right bdr-sidebar -->
-        <PageToc PageSections="@_sections" />
-    </div>
-</div>
+        <!-- Main Content -->
+        <main class="col-lg-8 col-md-6 bdr-content-area">
+            <div class="p-4">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#" class="text-decoration-none">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#" class="text-decoration-none">Getting Started</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Introduction</li>
+                    </ol>
+                </nav>
 
-<!-- Off-canvas bdr-sidebar for mobile page TOC -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="globalTocOffcanvas" aria-labelledby="globalTocOffcanvasLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="globalTocOffcanvasLabel">Site Contents</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <SiteTocMobile Nodes="@contentIndex" />
-    </div>
-</div>
+                <!-- Page Header -->
+                <div class="mb-5">
+                    <h1 class="display-5 fw-bold mb-3">@Title</h1>
+                    <p class="lead text-muted">@Description</p>
+                </div>
 
+                <!-- Content Sections -->
+                @Body
+            </div>
+            <footer class="border-top footer text-muted">
+                <div class="container">
+                    &copy; @DateTime.Now.Year - BlakeDocs
+                </div>
+            </footer>
+
+        </main>
+
+        <!-- Right Sidebar - Table of Contents -->
+        <aside class="col-lg-2 col-md-3 bdr-toc bg-dark border-start">
+            <div class="p-3">
+                <h6 class="text-muted text-uppercase small fw-bold mb-3">On This Page</h6>
+                <nav class="nav flex-column">
+
+                    @foreach(var pageSecttion in _sections)
+                    {
+                        <a href="@($"#{pageSecttion.Id}")" class="bdr-toc-link @(activeSlug == $"/{pageSecttion.Id}" ? "active" : "")">
+                            @pageSecttion.Text
+                        </a>
+                        @if (pageSecttion.Children != null && pageSecttion.Children.Count > 0)
+                        {
+                            <div class="ms-3">
+                                @foreach (var child in pageSecttion.Children)
+                                {
+                                    <a href="#@child.Id" class="bdr-toc-link @(activeSlug == $"/{child.Id}" ? "active" : "")">
+                                        @child.Text
+                                    </a>
+                                }
+                            </div>
+                        }
+                    }
+                </nav>
+
+                <hr class="my-4">
+
+                <div class="mb-3">
+                    <h6 class="text-muted text-uppercase small fw-bold mb-2">Quick Links</h6>
+                    <a href="#" class="bdr-toc-link">GitHub Repository</a>
+                    <a href="#" class="bdr-toc-link">Report Issue</a>
+                    <a href="#" class="bdr-toc-link">Contribute</a>
+                    <a href="#" class="bdr-toc-link">Changelog</a>
+                </div>
+            </div>
+        </aside>
+    </div>
+    </div>
 
 @code {
     private List<TocNode> contentIndex = TocUtils.BuildSiteTocNodes(GeneratedContentIndex.GetPages());
