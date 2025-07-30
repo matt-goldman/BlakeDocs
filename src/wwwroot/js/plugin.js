@@ -1,6 +1,6 @@
-﻿function initializePlugin() {
+﻿function initializeDocsPlugin() {
     // This function can be used to initialize any plugin-specific functionality
-    console.log("Plugin initialized");
+    console.log("Plugin intializing...");
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -37,28 +37,50 @@
         });
 	});
 
-	document.addEventListener("DOMContentLoaded", function () {
+	Prism.highlightAll();
 
-		Prism.highlightAll();
+	if (Prism.plugins.lineHighlight) {
+		document.querySelectorAll("pre").forEach(pre => {
+			Prism.plugins.lineHighlight.highlightLines(pre);
+		});
+	} else {
+		console.warn("Prism lineHighlight plugin not found!");
+	}
 
-		if (Prism.plugins.lineHighlight) {
-			document.querySelectorAll("pre").forEach(pre => {
-				Prism.plugins.lineHighlight.highlightLines(pre);
-			});
-		} else {
-			console.warn("Prism lineHighlight plugin not found!");
-		}
+	if (Prism.plugins.lineHighlightExtended) {
+		document.querySelectorAll("pre code").forEach(code => {
+			Prism.plugins.lineHighlightExtended.highlightLines(code);
+		});
 
-		if (Prism.plugins.lineHighlightExtended) {
-			document.querySelectorAll("pre code").forEach(code => {
-				Prism.plugins.lineHighlightExtended.highlightLines(code);
-			});
+	} else {
+		console.warn("Extended line highlight plugin not found!");
+	}
 
-		} else {
-			console.warn("Extended line highlight plugin not found!");
-		}
-	});
+	//document.addEventListener("DOMContentLoaded", function () {
+
+	//	Prism.highlightAll();
+
+	//	if (Prism.plugins.lineHighlight) {
+	//		document.querySelectorAll("pre").forEach(pre => {
+	//			Prism.plugins.lineHighlight.highlightLines(pre);
+	//		});
+	//	} else {
+	//		console.warn("Prism lineHighlight plugin not found!");
+	//	}
+
+	//	if (Prism.plugins.lineHighlightExtended) {
+	//		document.querySelectorAll("pre code").forEach(code => {
+	//			Prism.plugins.lineHighlightExtended.highlightLines(code);
+	//		});
+
+	//	} else {
+	//		console.warn("Extended line highlight plugin not found!");
+	//	}
+	//});
+
+    console.log("Plugin initialized successfully.");
 }
+
 
 (function () {
 

@@ -1,6 +1,7 @@
 @using BlakePlugin.DocsRenderer.Components
 @using BlakePlugin.DocsRenderer.Utils
 @inject NavigationManager NavigationManager
+@inject IJSRuntime js
 
 <PageTitle>BlakeDocs - @Title</PageTitle>
 
@@ -28,8 +29,8 @@
         </nav>
 
         <!-- Main Content -->
-        <main class="col-lg-8 col-md-6 bdr-content-area">
-            <div class="p-4">
+        <main class="col-lg-8 col-md-6">
+            <div class="p-4 bdr-content-area">
                 <!-- Breadcrumb -->
                 <nav aria-label="breadcrumb" class="mb-4">
                     <ol class="breadcrumb">
@@ -100,11 +101,11 @@
 
     private string activeSlug = string.Empty;
 
-    protected override void OnAfterRender(bool isFirstRender)
+    protected override async Task OnAfterRenderAsync(bool isFirstRender)
     {
         // Get the current page slug from the URL
         activeSlug = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
-        
+
         if (!activeSlug.StartsWith("/"))
         {
             activeSlug = "/" + activeSlug; // Ensure it starts with a slash
@@ -112,6 +113,14 @@
 
         Console.WriteLine($"Active slug: {activeSlug}");
 
-        base.OnAfterRender(isFirstRender);
+        // TODO: Need to update TocNode to include metadata.
+        // var siteToc = TocUtils.BuildSiteTocNodes(GeneratedContentIndex.GetPages());
+
+        // contentIndex = siteToc.OrderBy(node => node.Metadata.ContainsKey("pageOrder") ? (int)node.Metadata["pageOrder"] : int.MaxValue).ToList();
+
+        await base.OnAfterRenderAsync(isFirstRender);
+
+        await js.InvokeVoidAsync("initializeDocsPlugin");
+
     }
 }

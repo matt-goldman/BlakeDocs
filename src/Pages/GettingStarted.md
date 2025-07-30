@@ -8,12 +8,11 @@ iconIdentifier: "bi bi-plus-square-fill-nav-menu"
 pageOrder: 2
 ---
 
-# Getting Started
 
 ## Install the CLI
 
 ```bash
-dotnet tool install -g blake
+dotnet tool install -g Blake.CLI
 ```
 
 ## Create a new site
