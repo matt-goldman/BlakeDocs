@@ -63,15 +63,15 @@
                 <h6 class="text-muted text-uppercase small fw-bold mb-3">On This Page</h6>
                 <nav class="nav flex-column">
 
-                    @foreach(var pageSecttion in _sections)
+                    @foreach(var pageSection in _sections)
                     {
-                        <a href="@($"#{pageSecttion.Id}")" class="bdr-toc-link @(activeSlug == $"/{pageSecttion.Id}" ? "active" : "")">
-                            @pageSecttion.Text
+                        <a href="@($"#{pageSection.Id}")" class="bdr-toc-link @(activeSlug == $"/{pageSection.Id}" ? "active" : "")">
+                            @pageSection.Text
                         </a>
-                        @if (pageSecttion.Children != null && pageSecttion.Children.Count > 0)
+                        @if (pageSection.Children != null && pageSection.Children.Count > 0)
                         {
                             <div class="ms-3">
-                                @foreach (var child in pageSecttion.Children)
+                                @foreach (var child in pageSection.Children)
                                 {
                                     <a href="#@child.Id" class="bdr-toc-link @(activeSlug == $"/{child.Id}" ? "active" : "")">
                                         @child.Text
