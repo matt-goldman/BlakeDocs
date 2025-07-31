@@ -33,9 +33,21 @@
                 <!-- Breadcrumb -->
                 <nav aria-label="breadcrumb" class="mb-4">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#" class="text-decoration-none">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#" class="text-decoration-none">Getting Started</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Introduction</li>
+                        @foreach (var segment in _slugSegments)
+                        {
+                            var isActive = segment == _slugSegments.Last();
+                            var styleClass = isActive ? "breadcrumb-item active" : "breadcrumb-item";
+                            var link = string.Join("/", _slugSegments.TakeWhile(s => s != segment).Append(segment));
+
+                            @if (isActive)
+                            {
+                                <li class="@styleClass" aria-current="@segment">@segment</li>
+                            }
+                            else
+                            {
+                                <li class="@styleClass"><a href="@link" class="text-decoration-none">@segment</a></li>
+                            }
+                        }
                     </ol>
                 </nav>
 
@@ -100,7 +112,9 @@
 
     private string activeSlug = string.Empty;
 
-    protected override async Task OnInitializedAsync()
+    private List<string> _slugSegments = [];
+
+    protected override void OnInitialized()
     {
         // Get the current page slug from the URL
         activeSlug = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
@@ -110,9 +124,13 @@
             activeSlug = "/" + activeSlug; // Ensure it starts with a slash
         }
 
-        Console.WriteLine($"Active slug: {activeSlug}");
+        _slugSegments = activeSlug
+            .Split('/')
+            .ToList();
 
         contentIndex = TocUtils.BuildSiteTocNodes(GeneratedContentIndex.GetPages());
+
+        base.OnInitialized();
     }
 
     protected override async Task OnAfterRenderAsync(bool isFirstRender)
