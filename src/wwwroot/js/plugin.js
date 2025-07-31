@@ -18,7 +18,7 @@
     // Update active TOC link on scroll
     window.addEventListener('scroll', function () {
         const sections = document.querySelectorAll('section[id]');
-        const tocLinks = document.querySelectorAll('.toc-link');
+        const tocLinks = document.querySelectorAll('.bdr-toc-link');
 
         let current = '';
         sections.forEach(section => {
