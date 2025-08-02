@@ -1,0 +1,257 @@
+﻿@page "/"
+@inject NavigationManager NavigationManager
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Left Sidebar - Site Navigation -->
+        <SiteToc ActiveSlug="@activeSlug" Nodes="@contentIndex" />
+
+        <!-- Main Content -->
+        <main class="col-lg-8 col-md-6">
+            <div class="p-4 bdr-content-area">
+                <!-- Welcome Section -->
+                <div class="welcome-section">
+                    <h1 class="display-6 fw-bold mb-3">Welcome to the Documentation</h1>
+                    <p class="lead mb-0">Find everything you need to get started, build features, and deploy your application successfully.</p>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <div class="position-relative">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="form-control form-control-lg search-input" placeholder="Search documentation..." id="searchInput">
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="mb-4">
+                    <h6 class="text-muted text-uppercase small fw-bold mb-3">Quick Access</h6>
+                    <div class="d-flex flex-wrap">
+                        <a href="index.html" class="quick-link">
+                            <i class="fas fa-rocket me-2"></i>
+                            Getting Started
+                        </a>
+                        <a href="#" class="quick-link">
+                            <i class="fas fa-code me-2"></i>
+                            API Reference
+                        </a>
+                        <a href="#" class="quick-link">
+                            <i class="fas fa-puzzle-piece me-2"></i>
+                            Components
+                        </a>
+                        <a href="#" class="quick-link">
+                            <i class="fas fa-book me-2"></i>
+                            Tutorials
+                        </a>
+                        <a href="#" class="quick-link">
+                            <i class="fas fa-question-circle me-2"></i>
+                            FAQ
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Categories Grid -->
+                <div class="mb-5">
+                    <h3 class="mb-4">Browse by Category</h3>
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="card category-card bg-dark">
+                                <div class="card-body p-4">
+                                    <div class="category-icon">
+                                        <i class="fas fa-play text-white"></i>
+                                    </div>
+                                    <h5 class="card-title">Getting Started</h5>
+                                    <p class="card-text text-muted mb-3">Everything you need to begin your journey. Installation guides, quick start tutorials, and basic concepts.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a href="index.html" class="btn btn-outline-primary btn-sm">Explore</a>
+                                        <small class="text-muted">8 articles</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card category-card bg-dark">
+                                <div class="card-body p-4">
+                                    <div class="category-icon">
+                                        <i class="fas fa-cubes text-white"></i>
+                                    </div>
+                                    <h5 class="card-title">Components</h5>
+                                    <p class="card-text text-muted mb-3">Comprehensive guide to all available UI components, with examples and customization options.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a href="#" class="btn btn-outline-primary btn-sm">Explore</a>
+                                        <small class="text-muted">24 articles</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card category-card bg-dark">
+                                <div class="card-body p-4">
+                                    <div class="category-icon">
+                                        <i class="fas fa-cog text-white"></i>
+                                    </div>
+                                    <h5 class="card-title">Configuration</h5>
+                                    <p class="card-text text-muted mb-3">Learn how to configure and customize your setup for different environments and use cases.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a href="#" class="btn btn-outline-primary btn-sm">Explore</a>
+                                        <small class="text-muted">12 articles</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card category-card bg-dark">
+                                <div class="card-body p-4">
+                                    <div class="category-icon">
+                                        <i class="fas fa-graduation-cap text-white"></i>
+                                    </div>
+                                    <h5 class="card-title">Advanced Topics</h5>
+                                    <p class="card-text text-muted mb-3">Deep dive into advanced features, performance optimization, and expert-level techniques.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a href="#" class="btn btn-outline-primary btn-sm">Explore</a>
+                                        <small class="text-muted">16 articles</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Updates -->
+                <div class="mb-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h4>Recent Updates</h4>
+                        <a href="#" class="text-primary text-decoration-none small">View all updates →</a>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start">
+                                <div class="bg-success rounded-circle me-3 mt-1" style="width: 8px; height: 8px;"></div>
+                                <div>
+                                    <h6 class="mb-1">New Component Library Released</h6>
+                                    <p class="text-muted small mb-1">Added 12 new components including advanced data tables and charts.</p>
+                                    <small class="text-muted">2 days ago</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start">
+                                <div class="bg-info rounded-circle me-3 mt-1" style="width: 8px; height: 8px;"></div>
+                                <div>
+                                    <h6 class="mb-1">API Documentation Updated</h6>
+                                    <p class="text-muted small mb-1">Enhanced API reference with new endpoints and examples.</p>
+                                    <small class="text-muted">1 week ago</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="border-top footer text-muted">
+                <div class="container">
+                    &copy; @DateTime.Now.Year - BlakeDocs
+                </div>
+            </footer>
+
+        </main>
+
+        <!-- Right Sidebar - Popular Articles -->
+        <aside class="col-lg-2 col-md-3 toc bg-dark border-start">
+            <div class="p-3">
+                <h6 class="text-muted text-uppercase small fw-bold mb-3">Popular Articles</h6>
+
+                <a href="index.html" class="popular-article">
+                    <div class="d-flex align-items-start">
+                        <i class="fas fa-fire text-warning me-2 mt-1"></i>
+                        <div>
+                            <div class="fw-medium">Quick Start Guide</div>
+                            <div class="article-meta">Get up and running in 5 minutes</div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#" class="popular-article">
+                    <div class="d-flex align-items-start">
+                        <i class="fas fa-star text-warning me-2 mt-1"></i>
+                        <div>
+                            <div class="fw-medium">Button Components</div>
+                            <div class="article-meta">Complete button reference</div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#" class="popular-article">
+                    <div class="d-flex align-items-start">
+                        <i class="fas fa-thumbs-up text-success me-2 mt-1"></i>
+                        <div>
+                            <div class="fw-medium">Grid System</div>
+                            <div class="article-meta">Responsive layout basics</div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#" class="popular-article">
+                    <div class="d-flex align-items-start">
+                        <i class="fas fa-bookmark text-info me-2 mt-1"></i>
+                        <div>
+                            <div class="fw-medium">Best Practices</div>
+                            <div class="article-meta">Tips for better code</div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#" class="popular-article">
+                    <div class="d-flex align-items-start">
+                        <i class="fas fa-lightbulb text-warning me-2 mt-1"></i>
+                        <div>
+                            <div class="fw-medium">Troubleshooting</div>
+                            <div class="article-meta">Common issues & solutions</div>
+                        </div>
+                    </div>
+                </a>
+
+                <hr class="my-4">
+
+                <div class="mb-3">
+                    <h6 class="text-muted text-uppercase small fw-bold mb-2">Need Help?</h6>
+                    <a href="#" class="quick-link d-block text-center mb-2">
+                        <i class="fas fa-comments me-2"></i>
+                        Community Forum
+                    </a>
+                    <a href="#" class="quick-link d-block text-center">
+                        <i class="fas fa-life-ring me-2"></i>
+                        Support
+                    </a>
+                </div>
+            </div>
+        </aside>
+        
+    </div>
+</div>
+
+@code {
+    private List<TocNode> contentIndex = [];
+
+    private string activeSlug = string.Empty;
+
+    private List<string> _slugSegments = [];
+
+    protected override void OnInitialized()
+    {
+        // Get the current page slug from the URL
+        activeSlug = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+
+        if (!activeSlug.StartsWith("/"))
+        {
+            activeSlug = "/" + activeSlug; // Ensure it starts with a slash
+        }
+
+        _slugSegments = activeSlug
+            .Split('/')
+            .ToList();
+
+        contentIndex = TocUtils.BuildSiteTocNodes(GeneratedContentIndex.GetPages());
+
+        base.OnInitialized();
+    }
+}

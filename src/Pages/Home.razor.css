@@ -1,0 +1,104 @@
+﻿.content-area {
+    min-height: 100vh;
+}
+
+.search-container {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.search-input {
+    padding-left: 3rem;
+    border-radius: 50px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+    .search-input:focus {
+        border-color: var(--bs-primary);
+        box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--bs-secondary);
+}
+
+.category-card {
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: 100%;
+}
+
+    .category-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--bs-primary);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+.category-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--bs-primary), var(--bs-info));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.popular-article {
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+    .popular-article:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-color: var(--bs-primary);
+        color: inherit;
+        text-decoration: none;
+    }
+
+.article-meta {
+    font-size: 0.875rem;
+    color: var(--bs-secondary);
+}
+
+.quick-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    text-decoration: none;
+    color: var(--bs-light);
+    transition: all 0.3s ease;
+    margin: 0.25rem;
+}
+
+    .quick-link:hover {
+        background-color: var(--bs-primary);
+        border-color: var(--bs-primary);
+        color: white;
+        text-decoration: none;
+    }
+
+.welcome-section {
+    background: linear-gradient(135deg, rgba(var(--bs-primary-rgb), 0.1), rgba(var(--bs-info-rgb), 0.1));
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}

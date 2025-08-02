@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- <PackageReference Include="BlakePlugin.DocsRenderer" Version="1.0.0" /> -->
-    <PackageReference Include="BlakePlugin.DocsRenderer" Version="1.0.0" />
+    <PackageReference Include="BlakePlugin.DocsRenderer" Version="1.0.1-preview1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.7" PrivateAssets="all" />
   
