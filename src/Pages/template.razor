@@ -87,7 +87,9 @@
     {
         await base.OnAfterRenderAsync(isFirstRender);
 
-        await js.InvokeVoidAsync("initializeDocsPlugin");
-
+        if (isFirstRender)
+        {
+            await js.InvokeVoidAsync("initializeDocsPlugin");
+        }
     }
 }
