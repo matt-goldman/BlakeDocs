@@ -1,0 +1,22 @@
+﻿.category-card {
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: 100%;
+}
+
+    .category-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--bs-primary);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+.category-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--bs-primary), var(--bs-info));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
