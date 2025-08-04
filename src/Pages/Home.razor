@@ -1,10 +1,11 @@
 ﻿@page "/"
+@using BlakeSampleDocs.Components
 @inject NavigationManager NavigationManager
 
 <div class="container-fluid">
     <div class="row">
         <!-- Left Sidebar - Site Navigation -->
-        <SiteToc ActiveSlug="@activeSlug" Nodes="@contentIndex" />
+        <SiteToc ActiveSlug="@_activeSlug" Nodes="@_contentIndex" />
 
         <!-- Main Content -->
         <main class="col-lg-8 col-md-6">
@@ -230,28 +231,75 @@
 </div>
 
 @code {
-    private List<TocNode> contentIndex = [];
+    private List<TocNode> _contentIndex = [];
 
-    private string activeSlug = string.Empty;
+    private string _activeSlug = string.Empty;
 
     private List<string> _slugSegments = [];
 
+    private List<ArticleCategory> _categories = [];
+    
     protected override void OnInitialized()
     {
         // Get the current page slug from the URL
-        activeSlug = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        _activeSlug = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
 
-        if (!activeSlug.StartsWith("/"))
+        if (!_activeSlug.StartsWith("/"))
         {
-            activeSlug = "/" + activeSlug; // Ensure it starts with a slash
+            _activeSlug = "/" + _activeSlug; // Ensure it starts with a slash
         }
 
-        _slugSegments = activeSlug
+        _slugSegments = _activeSlug
             .Split('/')
             .ToList();
 
-        contentIndex = TocUtils.BuildSiteTocNodes(GeneratedContentIndex.GetPages());
+        var pages = GeneratedContentIndex.GetPages();
+        
+        _contentIndex = TocUtils.BuildSiteTocNodes(pages);
+        
+        foreach (var page in pages.Where(p => p.Metadata.ContainsKey("category")))
+        {
+            var categoryName = page.Metadata["category"].ToString();
+            var category = _categories.FirstOrDefault(c => c.Title.Equals(categoryName, StringComparison.OrdinalIgnoreCase));
+            
+            if (category == null)
+            {
+                category = new ArticleCategory(
+                    GetCategoryIcon(categoryName), 
+                    categoryName, GetCategoryDescription(categoryName), 
+                    $"/categories?category={categoryName.ToLowerInvariant()}", 
+                    1);
+                
+                _categories.Add(category);
+            }
+            else
+            {
+                var updatedCount = category.ArticleCount + 1;
+                var updatedCategory = category with { ArticleCount = updatedCount };
+                _categories[_categories.IndexOf(category)] = updatedCategory;
+            }
+        }
 
         base.OnInitialized();
+    }
+
+    private static SvgIcon GetCategoryIcon(string category)
+    {
+        return category switch
+        {
+            _ => FontAwesomeSolidIcon.Link
+        };
+    }
+    
+    private static string GetCategoryDescription(string category)
+    {
+        return category switch
+        {
+            "Getting Started" => "Everything you need to begin your journey. Installation guides, quick start tutorials, and basic concepts.",
+            "Components" => "Comprehensive guide to all available UI components, with examples and customization options.",
+            "Configuration" => "Learn how to configure and customize your setup for different environments and use cases.",
+            "Advanced Topics" => "Deep dive into advanced features, performance optimization, and expert-level techniques.",
+            _ => "Explore our documentation for more information."
+        };
     }
 }
