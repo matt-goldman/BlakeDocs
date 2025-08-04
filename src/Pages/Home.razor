@@ -54,67 +54,11 @@
                 <!-- Categories Grid -->
                 <div class="mb-5">
                     <h3 class="mb-4">Browse by Category</h3>
-                    <div class="row g-4">
-                        <div class="col-lg-6">
-                            <div class="card category-card bg-dark">
-                                <div class="card-body p-4">
-                                    <div class="category-icon">
-                                        <Blazicon Svg="FontAwesomeSolidIcon.Play" class="text-white" />
-                                    </div>
-                                    <h5 class="card-title">Getting Started</h5>
-                                    <p class="card-text text-muted mb-3">Everything you need to begin your journey. Installation guides, quick start tutorials, and basic concepts.</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <a href="index.html" class="btn btn-outline-primary btn-sm">Explore</a>
-                                        <small class="text-muted">8 articles</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="card category-card bg-dark">
-                                <div class="card-body p-4">
-                                    <div class="category-icon">
-                                        <Blazicon Svg="FontAwesomeSolidIcon.Cubes" class="text-white" />
-                                    </div>
-                                    <h5 class="card-title">Components</h5>
-                                    <p class="card-text text-muted mb-3">Comprehensive guide to all available UI components, with examples and customization options.</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <a href="#" class="btn btn-outline-primary btn-sm">Explore</a>
-                                        <small class="text-muted">24 articles</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="card category-card bg-dark">
-                                <div class="card-body p-4">
-                                    <div class="category-icon">
-                                        <Blazicon Svg="FontAwesomeSolidIcon.Gear" class="text-white" />
-                                    </div>
-                                    <h5 class="card-title">Configuration</h5>
-                                    <p class="card-text text-muted mb-3">Learn how to configure and customize your setup for different environments and use cases.</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <a href="#" class="btn btn-outline-primary btn-sm">Explore</a>
-                                        <small class="text-muted">12 articles</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="card category-card bg-dark">
-                                <div class="card-body p-4">
-                                    <div class="category-icon">
-                                        <Blazicon Svg="FontAwesomeSolidIcon.GraduationCap" class="text-white" />
-                                    </div>
-                                    <h5 class="card-title">Advanced Topics</h5>
-                                    <p class="card-text text-muted mb-3">Deep dive into advanced features, performance optimization, and expert-level techniques.</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <a href="#" class="btn btn-outline-primary btn-sm">Explore</a>
-                                        <small class="text-muted">16 articles</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="row g-4 flex flex-row">
+                        @foreach (var category in _categories)
+                        {
+                            <CategoryCard Category="@category" />
+                        }
                     </div>
                 </div>
 
@@ -255,7 +199,10 @@
 
         var pages = GeneratedContentIndex.GetPages();
         
-        _contentIndex = TocUtils.BuildSiteTocNodes(pages);
+        var topLevelIndex = TocUtils.BuildSiteTocNodes(pages);
+        
+        // top level is "pages" folder, skip this and pass children to the toc builder
+        _contentIndex = topLevelIndex.FirstOrDefault()?.Children ?? topLevelIndex;
         
         foreach (var page in pages.Where(p => p.Metadata.ContainsKey("category")))
         {
