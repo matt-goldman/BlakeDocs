@@ -44,7 +44,7 @@
                 <div class="mb-5">
                     <h3 class="mb-4">Browse by Category</h3>
                     <div class="row g-4 flex flex-row">
-                        @foreach (var category in _categories)
+                        @foreach (var category in _categories.Take(4))
                         {
                             <CategoryCard Category="@category" />
                         }
@@ -192,11 +192,12 @@
         _quickAccessPages = pages
             .Where(p => p.Metadata.TryGetValue("quickAccess", out var quickAccess) && int.TryParse(quickAccess, out var order) && order > 0)
             .OrderBy(p => p.Metadata["quickAccess"])
+            .Take(5)
             .ToList();
 
         _recentUpdates = pages
             .OrderByDescending(p => p.Date)
-            .Take(2)
+            .Take(4)
             .ToList();
         
         foreach (var page in pages)
