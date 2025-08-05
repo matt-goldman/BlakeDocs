@@ -1,14 +1,13 @@
----
-title: 'Plugins'
+﻿---
+title: 'Writing Plugins'
 date: 2025-07-27
 image: images/blake-logo.png
 tags: []
 description: "Describes how to extend Blake's functionality with plugins."
 iconIdentifier: "bi bi-plus-square-fill-nav-menu"
 pageOrder: 6
+category: "Using Blake"
 ---
-
-# Plugins
 
 Plugins extend Blake's functionality using the IBlakePlugin interface.
 

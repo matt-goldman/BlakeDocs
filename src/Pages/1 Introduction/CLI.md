@@ -1,11 +1,12 @@
----
+﻿---
 title: 'CLI Reference'
 date: 2025-07-27
 image: images/blake-logo.png
 tags: []
 description: "Reference for the Blake CLI commands and their usage."
 iconIdentifier: "bi bi-plus-square-fill-nav-menu"
-pageOrder: 7
+pageOrder: 3
+category: "Getting Started"
 ---
 
 # CLI Commands

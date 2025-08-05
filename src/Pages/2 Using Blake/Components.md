@@ -5,7 +5,8 @@ image: images/blake-logo.png
 tags: []
 description: "Describes how to use Blazor components within Blake templates and Markdown."
 iconIdentifier: "bi bi-plus-square-fill-nav-menu"
-pageOrder: 5
+pageOrder: 2
+category: "Using Blake"
 ---
 
 Because Blake outputs .razor files, you can use any Blazor component in your templates or Markdown.

@@ -1,14 +1,13 @@
----
-title: 'Starter Templates'
+﻿---
+title: 'Site Templates'
 date: 2025-07-27
 image: images/blake-logo.png
 tags: []
 description: "Describes the built-in starter templates provided by Blake."
 iconIdentifier: "bi bi-plus-square-fill-nav-menu"
-pageOrder: 8
+pageOrder: 4
+category: "Using Blake"
 ---
-
-# Starter Templates
 
 Blake comes with a few built-in starter templates:
 

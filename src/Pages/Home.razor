@@ -28,26 +28,15 @@
                 <div class="mb-4">
                     <h6 class="text-muted text-uppercase small fw-bold mb-3">Quick Access</h6>
                     <div class="d-flex flex-wrap">
-                        <a href="index.html" class="quick-link">
-                            <Blazicon Svg="FontAwesomeSolidIcon.Rocket" class="me-2" />
-                            Getting Started
-                        </a>
-                        <a href="#" class="quick-link">
-                            <Blazicon Svg="FontAwesomeSolidIcon.Code" class="me-2" />
-                            API Reference
-                        </a>
-                        <a href="#" class="quick-link">
-                            <Blazicon Svg="FontAwesomeSolidIcon.PuzzlePiece" class="me-2" />
-                            Components
-                        </a>
-                        <a href="#" class="quick-link">
-                            <Blazicon Svg="FontAwesomeSolidIcon.Book" class="me-2" />
-                            Tutorials
-                        </a>
-                        <a href="#" class="quick-link">
-                            <Blazicon Svg="FontAwesomeSolidIcon.CircleQuestion" class="me-2" />
-                            FAQ
-                        </a>
+                        @foreach (var quPage in _quickAccessPages)
+                        {
+                            var icon = GetCategoryIcon(quPage.Title);
+
+                            <a href="@quPage.Slug" class="quick-link">
+                                <Blazicon Svg="@icon" class="me-2" />
+                                @quPage.Title
+                            </a>
+                        }
                     </div>
                 </div>
 
@@ -179,6 +168,8 @@
 
     private string _activeSlug = string.Empty;
 
+    private List<PageModel> _quickAccessPages = [];
+
     private List<string> _slugSegments = [];
 
     private List<ArticleCategory> _categories = [];
@@ -199,13 +190,22 @@
 
         var pages = GeneratedContentIndex.GetPages();
         
-        var topLevelIndex = TocUtils.BuildSiteTocNodes(pages);
+        _contentIndex = TocUtils.BuildSiteTocNodes(pages);
+
+        _quickAccessPages = pages
+            .Where(p => p.Metadata.TryGetValue("quickAccess", out var quickAccess) && int.TryParse(quickAccess, out var order) && order > 0)
+            .OrderBy(p => p.Metadata["quickAccess"])
+            .ToList();
         
-        // top level is "pages" folder, skip this and pass children to the toc builder
-        _contentIndex = topLevelIndex.FirstOrDefault()?.Children ?? topLevelIndex;
-        
-        foreach (var page in pages.Where(p => p.Metadata.ContainsKey("category")))
+        foreach (var page in pages)
         {
+            if (!page.Metadata.ContainsKey("category") || string.IsNullOrEmpty(page.Metadata["category"].ToString()))
+            {
+                Console.WriteLine($"Page '{page.Title}' does not have a category defined. Skipping.");
+                Console.WriteLine($"Metadata: {string.Join(", ", page.Metadata.Select(kv => $"{kv.Key}: {kv.Value}"))}");
+                continue; // Skip pages without a category
+            }
+
             var categoryName = page.Metadata["category"].ToString();
             var category = _categories.FirstOrDefault(c => c.Title.Equals(categoryName, StringComparison.OrdinalIgnoreCase));
             
@@ -234,6 +234,16 @@
     {
         return category switch
         {
+            "Quick Start" => FontAwesomeSolidIcon.Rocket,
+            "Authoring Content" => FontAwesomeSolidIcon.Book,
+            "Getting Started" => FontAwesomeSolidIcon.Rocket,
+            "Using Blake" => FontAwesomeSolidIcon.Code,
+            "Deploying to Azure" => FontAwesomeSolidIcon.CloudArrowUp,
+            "Deploying to GitHub" => FontAwesomeSolidIcon.CloudArrowUp,
+            "Deploying" => FontAwesomeSolidIcon.CloudArrowUp,
+            "Contributing" => FontAwesomeSolidIcon.Gear,
+            "Meta" => FontAwesomeSolidIcon.CircleInfo,
+            "FAQ" => FontAwesomeSolidIcon.CircleQuestion,
             _ => FontAwesomeSolidIcon.Link
         };
     }
@@ -243,9 +253,10 @@
         return category switch
         {
             "Getting Started" => "Everything you need to begin your journey. Installation guides, quick start tutorials, and basic concepts.",
-            "Components" => "Comprehensive guide to all available UI components, with examples and customization options.",
-            "Configuration" => "Learn how to configure and customize your setup for different environments and use cases.",
-            "Advanced Topics" => "Deep dive into advanced features, performance optimization, and expert-level techniques.",
+            "Using Blake" => "Learn how to build sites and templates using Blake. From basic components to advanced features, find step-by-step guides.",
+            "Deploying" => "Understand how to deploy your Blake sites effectively. Covers hosting options, deployment strategies, and best practices.",
+            "Contributing" => "Internals of Blake and how to contribute. Learn about the build pipeline, code standards, and how to submit changes.",
+            "Meta" => "Meta information about Blake, including the philosophy behind the project, FAQ, and product roadmap.",
             _ => "Explore our documentation for more information."
         };
     }

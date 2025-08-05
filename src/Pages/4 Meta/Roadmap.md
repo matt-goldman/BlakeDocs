@@ -5,10 +5,10 @@ image: images/blake-logo.png
 tags: []
 description: "Describes the future plans and direction for Blake, including upcoming features and improvements."
 iconIdentifier: "bi bi-plus-square-fill-nav-menu"
-pageOrder: 13
+pageOrder: 3
+category: "Meta"
 ---
 
-# Blake Roadmap
 
 - Plugin architecture ✅
 - Starter templates ✅

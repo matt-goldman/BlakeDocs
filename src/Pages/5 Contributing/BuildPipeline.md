@@ -1,12 +1,18 @@
 ---
-title: 'How Blake Works'
+title: 'Build Pipeline'
 date: 2025-07-27
 image: images/blake-logo.png
 tags: []
-description: "Describes how Blake processes Markdown and Razor templates to generate Blazor components."
+description: Understand Blake's core rendering pipeline and how content is processed.
 iconIdentifier: "bi bi-plus-square-fill-nav-menu"
-pageOrder: 3
+pageOrder: 1
+category: "Contributing"
 ---
+
+> 🚧 **Coming Soon**  
+> This page is under construction. Check back soon or [contribute on GitHub](https://github.com/YOUR-REPO).
+
+This will cover Blake’s internal architecture: loaders, transformers, renderers, and how plugins tie in.
 
 
 Blake processes your Markdown and Razor templates to generate `.razor` files in a `.generated folder`.

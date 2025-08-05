@@ -1,14 +1,13 @@
----
-title: 'Templating'
+﻿---
+title: 'Page Templates'
 date: 2025-07-27
 image: images/blake-logo.png
 tags: []
 description: "Describes the templating system in Blake, including how to create and use templates."
 iconIdentifier: "bi bi-plus-square-fill-nav-menu"
-pageOrder: 11
+pageOrder: 3
+category: "Using Blake"
 ---
-
-# Templating
 
 Use `template.razor` files in any folder to define how Markdown in that folder is rendered.
 

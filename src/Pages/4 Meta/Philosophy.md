@@ -1,11 +1,12 @@
----
+﻿---
 title: 'The Blake Philosophy'
 date: 2025-07-27
 image: images/blake-logo.png
 tags: []
 description: "Describes the guiding principles and philosophy behind Blake."
 iconIdentifier: "bi bi-plus-square-fill-nav-menu"
-pageOrder: 10
+pageOrder: 1
+category: "Meta"
 ---
 
 # The Blake Philosophy
