@@ -63,3 +63,8 @@
         content: var(--blazor-load-percentage-text, "Loading");
     }
 
+/* Increase space between all headings and content a little and before all headings a bit more */
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}

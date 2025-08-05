@@ -70,9 +70,10 @@
         // Get the current page slug from the URL
         activeSlug = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
 
-        if (!activeSlug.StartsWith("/"))
+        if (activeSlug.StartsWith("/"))
         {
-            activeSlug = "/" + activeSlug; // Ensure it starts with a slash
+            // Remove leading slash if present
+            activeSlug = activeSlug.Substring(1);
         }
 
         _slugSegments = activeSlug

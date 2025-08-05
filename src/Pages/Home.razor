@@ -55,29 +55,24 @@
                 <div class="mb-4">
                     <div class="d-flex align-items-center justify-content-between mb-3">
                         <h4>Recent Updates</h4>
-                        <a href="#" class="text-primary text-decoration-none small">View all updates →</a>
                     </div>
                     <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-start">
-                                <div class="bg-success rounded-circle me-3 mt-1" style="width: 8px; height: 8px;"></div>
-                                <div>
-                                    <h6 class="mb-1">New Component Library Released</h6>
-                                    <p class="text-muted small mb-1">Added 12 new components including advanced data tables and charts.</p>
-                                    <small class="text-muted">2 days ago</small>
+
+                        @foreach (var update in _recentUpdates)
+                        {
+                            var updatedDaysAgo = (DateTime.Now - update.Date)?.Days ?? 0;
+
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-start">
+                                    <div class="bg-success rounded-circle me-3 mt-1" style="width: 8px; height: 8px;"></div>
+                                    <div>
+                                        <h6 class="mb-1">@update.Title</h6>
+                                        <p class="text-muted small mb-1">@update.Description</p>
+                                        <small class="text-muted">@updatedDaysAgo days ago</small>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-start">
-                                <div class="bg-info rounded-circle me-3 mt-1" style="width: 8px; height: 8px;"></div>
-                                <div>
-                                    <h6 class="mb-1">API Documentation Updated</h6>
-                                    <p class="text-muted small mb-1">Enhanced API reference with new endpoints and examples.</p>
-                                    <small class="text-muted">1 week ago</small>
-                                </div>
-                            </div>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -170,6 +165,8 @@
 
     private List<PageModel> _quickAccessPages = [];
 
+    private List<PageModel> _recentUpdates = [];
+
     private List<string> _slugSegments = [];
 
     private List<ArticleCategory> _categories = [];
@@ -195,6 +192,11 @@
         _quickAccessPages = pages
             .Where(p => p.Metadata.TryGetValue("quickAccess", out var quickAccess) && int.TryParse(quickAccess, out var order) && order > 0)
             .OrderBy(p => p.Metadata["quickAccess"])
+            .ToList();
+
+        _recentUpdates = pages
+            .OrderByDescending(p => p.Date)
+            .Take(2)
             .ToList();
         
         foreach (var page in pages)
