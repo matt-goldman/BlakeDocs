@@ -2,193 +2,93 @@
 @using BlakeSampleDocs.Components
 @inject NavigationManager NavigationManager
 
-<div class="container-fluid">
-    <div class="row">
-        <!-- Left Sidebar - Site Navigation -->
-        <SiteToc ActiveSlug="@_activeSlug" Nodes="@_contentIndex" />
+<div class="p-4 bdr-content-area">
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+        <h1 class="display-6 fw-bold mb-3">Blake Documentation</h1>
+        <p class="lead mb-0">Find everything you need to get started, build sites and templates, and deploy successfully.</p>
+    </div>
 
-        <!-- Main Content -->
-        <main class="col-lg-8 col-md-6">
-            <div class="p-4 bdr-content-area">
-                <!-- Welcome Section -->
-                <div class="welcome-section">
-                    <h1 class="display-6 fw-bold mb-3">Blake Documentation</h1>
-                    <p class="lead mb-0">Find everything you need to get started, build sites and templates, and deploy successfully.</p>
-                </div>
+    <!-- Search Bar -->
+    <div class="search-container">
+        <div class="position-relative">
+            <span class="search-icon"><Blazicon Svg="FontAwesomeSolidIcon.MagnifyingGlass" /></span>
+            <input type="text" class="form-control form-control-lg search-input" placeholder="Search documentation..." id="searchInput">
+        </div>
+    </div>
 
-                <!-- Search Bar -->
-                <div class="search-container">
-                    <div class="position-relative">
-                        <span class="search-icon"><Blazicon Svg="FontAwesomeSolidIcon.MagnifyingGlass" /></span>
-                        <input type="text" class="form-control form-control-lg search-input" placeholder="Search documentation..." id="searchInput">
-                    </div>
-                </div>
+    <!-- Quick Links -->
+    <div class="mb-4">
+        <h6 class="text-muted text-uppercase small fw-bold mb-3">Quick Access</h6>
+        <div class="d-flex flex-wrap">
+            @foreach (var quPage in _quickAccessPages)
+            {
+                var icon = GetCategoryIcon(quPage.Title);
 
-                <!-- Quick Links -->
-                <div class="mb-4">
-                    <h6 class="text-muted text-uppercase small fw-bold mb-3">Quick Access</h6>
-                    <div class="d-flex flex-wrap">
-                        @foreach (var quPage in _quickAccessPages)
-                        {
-                            var icon = GetCategoryIcon(quPage.Title);
+                <a href="@quPage.Slug" class="quick-link">
+                    <Blazicon Svg="@icon" class="me-2" />
+                    @quPage.Title
+                </a>
+            }
+        </div>
+    </div>
 
-                            <a href="@quPage.Slug" class="quick-link">
-                                <Blazicon Svg="@icon" class="me-2" />
-                                @quPage.Title
-                            </a>
-                        }
-                    </div>
-                </div>
+    <!-- Categories Grid -->
+    <div class="mb-5">
+        <h3 class="mb-4">Browse by Category</h3>
+        <div class="row g-4 flex flex-row">
+            @foreach (var category in _categories.Take(4))
+            {
+                <CategoryCard Category="@category" />
+            }
+        </div>
+    </div>
 
-                <!-- Categories Grid -->
-                <div class="mb-5">
-                    <h3 class="mb-4">Browse by Category</h3>
-                    <div class="row g-4 flex flex-row">
-                        @foreach (var category in _categories.Take(4))
-                        {
-                            <CategoryCard Category="@category" />
-                        }
-                    </div>
-                </div>
+    <!-- Recent Updates -->
+    <div class="mb-4">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h4>Recent Updates</h4>
+        </div>
+        <div class="row g-3">
 
-                <!-- Recent Updates -->
-                <div class="mb-4">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h4>Recent Updates</h4>
-                    </div>
-                    <div class="row g-3">
+            @foreach (var update in _recentUpdates)
+            {
+                var updatedDaysAgo = (DateTime.Now - update.Date)?.Days ?? 0;
 
-                        @foreach (var update in _recentUpdates)
-                        {
-                            var updatedDaysAgo = (DateTime.Now - update.Date)?.Days ?? 0;
-
-                            <div class="col-md-6">
-                                <div class="d-flex align-items-start">
-                                    <div class="bg-success rounded-circle me-3 mt-1" style="width: 8px; height: 8px;"></div>
-                                    <div>
-                                        <h6 class="mb-1">@update.Title</h6>
-                                        <p class="text-muted small mb-1">@update.Description</p>
-                                        <small class="text-muted">@updatedDaysAgo days ago</small>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-            <footer class="border-top footer text-muted">
-                <div class="container">
-                    &copy; @DateTime.Now.Year - BlakeDocs
-                </div>
-            </footer>
-
-        </main>
-
-        <!-- Right Sidebar - Popular Articles -->
-        <aside class="col-lg-2 col-md-3 toc bg-dark border-start">
-            <div class="p-3">
-                <h6 class="text-muted text-uppercase small fw-bold mb-3">Popular Articles</h6>
-
-                <a href="index.html" class="popular-article">
+                <div class="col-md-6">
                     <div class="d-flex align-items-start">
-                        <Blazicon Svg="FontAwesomeSolidIcon.Fire" class="text-warning me-2 mt-1" />
+                        <div class="bg-success rounded-circle me-3 mt-1" style="width: 8px; height: 8px;"></div>
                         <div>
-                            <div class="fw-medium">Quick Start Guide</div>
-                            <div class="article-meta">Get up and running in 5 minutes</div>
+                            <h6 class="mb-1">@update.Title</h6>
+                            <p class="text-muted small mb-1">@update.Description</p>
+                            <small class="text-muted">@updatedDaysAgo days ago</small>
                         </div>
                     </div>
-                </a>
-
-                <a href="#" class="popular-article">
-                    <div class="d-flex align-items-start">
-                        <Blazicon Svg="FontAwesomeSolidIcon.Star" class="text-primary me-2 mt-1" />
-                        <div>
-                            <div class="fw-medium">Button Components</div>
-                            <div class="article-meta">Complete button reference</div>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="#" class="popular-article">
-                    <div class="d-flex align-items-start">
-                        <Blazicon Svg="FontAwesomeSolidIcon.ThumbsUp" class="text-success me-2 mt-1" />
-                        <div>
-                            <div class="fw-medium">Grid System</div>
-                            <div class="article-meta">Responsive layout basics</div>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="#" class="popular-article">
-                    <div class="d-flex align-items-start">
-                        <Blazicon Svg="FontAwesomeSolidIcon.Bookmark" class="text-info me-2 mt-1" />
-                        <div>
-                            <div class="fw-medium">Best Practices</div>
-                            <div class="article-meta">Tips for better code</div>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="#" class="popular-article">
-                    <div class="d-flex align-items-start">
-                        <Blazicon Svg="FontAwesomeSolidIcon.Lightbulb" class="text-warning me-2 mt-1" />
-                        <div>
-                            <div class="fw-medium">Troubleshooting</div>
-                            <div class="article-meta">Common issues & solutions</div>
-                        </div>
-                    </div>
-                </a>
-
-                <hr class="my-4">
-
-                <div class="mb-3">
-                    <h6 class="text-muted text-uppercase small fw-bold mb-2">Need Help?</h6>
-                    <a href="#" class="quick-link d-block text-center mb-2">
-                        <Blazicon Svg="FontAwesomeSolidIcon.Comments" class="me-2" />
-                        Community Forum
-                    </a>
-                    <a href="#" class="quick-link d-block text-center">
-                        <Blazicon Svg="FontAwesomeSolidIcon.LifeRing" class="me-2" />
-                        Support
-                    </a>
                 </div>
-            </div>
-        </aside>
-        
+            }
+        </div>
     </div>
 </div>
 
-@code {
-    private List<TocNode> _contentIndex = [];
+<SectionContent SectionName="Sidebar">
+    <PopularArticles />
+</SectionContent>
+        
+        
 
-    private string _activeSlug = string.Empty;
+@code {
 
     private List<PageModel> _quickAccessPages = [];
 
     private List<PageModel> _recentUpdates = [];
 
-    private List<string> _slugSegments = [];
 
     private List<ArticleCategory> _categories = [];
     
     protected override void OnInitialized()
     {
-        // Get the current page slug from the URL
-        _activeSlug = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
-
-        if (!_activeSlug.StartsWith("/"))
-        {
-            _activeSlug = "/" + _activeSlug; // Ensure it starts with a slash
-        }
-
-        _slugSegments = _activeSlug
-            .Split('/')
-            .ToList();
-
         var pages = GeneratedContentIndex.GetPages();
         
-        _contentIndex = TocUtils.BuildSiteTocNodes(pages);
-
         _quickAccessPages = pages
             .Where(p => p.Metadata.TryGetValue("quickAccess", out var quickAccess) && int.TryParse(quickAccess, out var order) && order > 0)
             .OrderBy(p => p.Metadata["quickAccess"])

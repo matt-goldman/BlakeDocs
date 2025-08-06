@@ -1,6 +1,75 @@
 ﻿@inherits LayoutComponentBase
+@using BlakeSampleDocs.Components
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 
 <TopBar />
-<main role="main">
-    @Body
-</main>
+
+<div class="main-container">
+    <div class="row g-0 h-100">
+        <!-- Left Sidebar - Site Navigation -->
+        <nav class="col-lg-2 col-md-3 sidebar-left">
+            <div class="sidebar-content">
+                <SiteToc ActiveSlug="@_activeSlug" Nodes="@_contentIndex" />
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main role="main" class="col-lg-8 col-md-6 main-content" id="main-content">
+            <div class="content-wrapper">
+                @Body
+            </div>
+
+            <footer class="border-top footer text-muted">
+                <div class="container">
+                    &copy; @DateTime.Now.Year - BlakeDocs
+                </div>
+            </footer>
+        </main>
+
+        <!-- Right Sidebar - Popular Articles -->
+        <aside class="col-lg-2 col-md-3 sidebar-right">
+            <div class="sidebar-content">
+                <SectionOutlet SectionName="Sidebar" />
+            </div>
+        </aside>
+    </div>
+</div>
+
+@code {
+
+    private List<TocNode> _contentIndex = [];
+
+    private string _activeSlug = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        var pages = GeneratedContentIndex.GetPages();
+
+        _contentIndex = TocUtils.BuildSiteTocNodes(pages);
+
+        NavigationManager.LocationChanged += async (sender, args) =>
+        {
+            UpdateSlugs();
+
+            if (!args.IsNavigationIntercepted) return;
+
+            await JSRuntime.InvokeVoidAsync("scrollToTop");
+        };
+
+        base.OnInitialized();
+    }
+
+    private void UpdateSlugs()
+    {
+        // Get the current page slug from the URL
+        _activeSlug = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+
+        if (!_activeSlug.StartsWith("/"))
+        {
+            _activeSlug = "/" + _activeSlug; // Ensure it starts with a slash
+        }
+
+        StateHasChanged();
+    }
+}

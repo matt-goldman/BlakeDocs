@@ -50,7 +50,28 @@
             }
         };
 
-        // Let the HotKeys library handle the event prevention
+        window.scrollToTop = () => {
+            console.log("Scrolling to top");
+            // Try to find the main scrollable content area by ID first
+            const mainContentById = document.getElementById("main-content");
+            if (mainContentById) {
+                console.log("Main content found by ID, scrolling...");
+                mainContentById.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+            
+            // Fallback to class selector
+            const mainContent = document.querySelector(".main-content");
+            if (mainContent) {
+                console.log("Main content element found by class, scrolling...");
+                mainContent.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+            
+            // Final fallback to window scroll
+            console.log("No main content found, trying window scroll");
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
 
     </script>
 </body>

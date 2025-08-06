@@ -4,59 +4,41 @@
 
 <PageTitle>BlakeDocs - @Title</PageTitle>
 
-<div class="container-fluid">
-    <div class="row">
-        <!-- Left Sidebar - Site Navigation -->
-        <SiteToc ActiveSlug="@activeSlug" Nodes="@contentIndex" />
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
+        @foreach (var segment in _slugSegments)
+        {
+            var isActive = segment == _slugSegments.Last();
+            var styleClass = isActive ? "breadcrumb-item active" : "breadcrumb-item";
+            var link = string.Join("/", _slugSegments.TakeWhile(s => s != segment).Append(segment));
+            var segmentText = HttpUtility.UrlDecode(segment);
 
-        <!-- Main Content -->
-        <main class="col-lg-8 col-md-6">
-            <div class="p-4 bdr-content-area">
-                <!-- Breadcrumb -->
-                <nav aria-label="breadcrumb" class="mb-4">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
-                        @foreach (var segment in _slugSegments)
-                        {
-                            var isActive = segment == _slugSegments.Last();
-                            var styleClass = isActive ? "breadcrumb-item active" : "breadcrumb-item";
-                            var link = string.Join("/", _slugSegments.TakeWhile(s => s != segment).Append(segment));
-                            var segmentText = HttpUtility.UrlDecode(segment);
+            @if (isActive)
+            {
+                <li class="@styleClass" aria-current="@segment">@Title</li>
+            }
+            else
+            {
+                <li class="@styleClass"><a href="@link" class="text-decoration-none">@segmentText</a></li>
+            }
+        }
+    </ol>
+</nav>
 
-                            @if (isActive)
-                            {
-                                <li class="@styleClass" aria-current="@segment">@Title</li>
-                            }
-                            else
-                            {
-                                <li class="@styleClass"><a href="@link" class="text-decoration-none">@segmentText</a></li>
-                            }
-                        }
-                    </ol>
-                </nav>
-
-                <!-- Page Header -->
-                <div class="mb-5">
-                    <h1 class="display-5 fw-bold mb-3">@Title</h1>
-                    <p class="lead text-muted">@Description</p>
-                </div>
-
-                <!-- Content Sections -->
-                @Body
-            </div>
-            <footer class="border-top footer text-muted">
-                <div class="container">
-                    &copy; @DateTime.Now.Year - BlakeDocs
-                </div>
-            </footer>
-
-        </main>
-
-        <!-- Right Sidebar - Table of Contents -->
-        <PageToc PageSections="@_sections" />
-        
-    </div>
+<!-- Page Header -->
+<div class="mb-5">
+    <h1 class="display-5 fw-bold mb-3">@Title</h1>
+    <p class="lead text-muted">@Description</p>
 </div>
+
+<!-- Content Sections -->
+@Body
+<!-- Right Sidebar - Table of Contents -->
+<SectionContent SectionName="Sidebar">
+    <PageToc PageSections="@_sections" />
+</SectionContent>
 
 @code {
     private List<TocNode> contentIndex = [];
