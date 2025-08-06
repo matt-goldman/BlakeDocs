@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Components - Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/darkly/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Top Bar Styles */
+        .top-bar {
+            background-color: rgba(33, 37, 41, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.75rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .site-title {
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: var(--bs-light);
+            text-decoration: none;
+        }
+        
+        .site-title:hover {
+            color: var(--bs-primary);
+        }
+        
+        .top-search {
+            position: relative;
+            max-width: 300px;
+        }
+        
+        .top-search-input {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            padding-right: 3rem;
+            color: var(--bs-light);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .top-search-input:focus {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-color: var(--bs-primary);
+            box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+            color: var(--bs-light);
+        }
+        
+        .top-search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .search-shortcut {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            padding: 0.125rem 0.375rem;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Main Layout Styles */
+        .sidebar {
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+            position: sticky;
+            top: 60px;
+        }
+        
+        .content-area {
+            min-height: calc(100vh - 60px);
+        }
+        
+        .toc {
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+            position: sticky;
+            top: 60px;
+        }
+        
+        .nav-link {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-link.active {
+            background-color: var(--bs-primary);
+            color: white;
+        }
+        
+        /* Category Page Styles */
+        .category-header {
+            background: linear-gradient(135deg, rgba(var(--bs-primary-rgb), 0.1), rgba(var(--bs-info-rgb), 0.1));
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            background-image: 
+                linear-gradient(135deg, rgba(var(--bs-primary-rgb), 0.1), rgba(var(--bs-info-rgb), 0.1)),
+                radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 20px 20px, 20px 20px;
+        }
+
+        .category-header::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, transparent 30%, rgba(var(--bs-primary-rgb), 0.1) 50%, transparent 70%);
+            transform: rotate(45deg);
+        }
+
+        .category-header::after {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            left: -40px;
+            width: 160px;
+            height: 160px;
+            background: conic-gradient(from 0deg, transparent, rgba(var(--bs-info-rgb), 0.05), transparent);
+            border-radius: 50%;
+        }
+
+        .category-header > * {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .category-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--bs-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .article-card {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+        
+        .article-card:hover {
+            border-color: var(--bs-primary);
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-1px);
+        }
+        
+        .article-title {
+            color: var(--bs-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .article-title:hover {
+            color: var(--bs-primary);
+        }
+        
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            color: var(--bs-secondary);
+        }
+        
+        .difficulty-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .difficulty-beginner {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: var(--bs-success);
+            border: 1px solid rgba(40, 167, 69, 0.3);
+        }
+        
+        .difficulty-intermediate {
+            background-color: rgba(255, 193, 7, 0.2);
+            color: var(--bs-warning);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+        
+        .difficulty-advanced {
+            background-color: rgba(220, 53, 69, 0.2);
+            color: var(--bs-danger);
+            border: 1px solid rgba(220, 53, 69, 0.3);
+        }
+        
+        .section-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 2rem 0;
+        }
+        
+        .filter-tabs {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .filter-tab {
+            padding: 0.75rem 1rem;
+            border: none;
+            background: none;
+            color: var(--bs-secondary);
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-tab:hover {
+            color: var(--bs-light);
+        }
+        
+        .filter-tab.active {
+            color: var(--bs-primary);
+            border-bottom-color: var(--bs-primary);
+        }
+        
+        @media (max-width: 991.98px) {
+            .sidebar, .toc {
+                position: static;
+                height: auto;
+            }
+            
+            .category-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .top-search {
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center justify-content-between">
+                <a href="docshome.html" class="site-title">
+                    <i class="fas fa-book-open me-2"></i>
+                    Documentation
+                </a>
+                
+                <div class="d-flex align-items-center gap-3">
+                    <div class="top-search">
+                        <input type="text" class="form-control top-search-input" placeholder="Search docs..." id="topSearchInput">
+                        <span class="search-shortcut">⌘K</span>
+                    </div>
+                    
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-palette me-2"></i>Theme</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-code-branch me-2"></i>Version: v2.1</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fab fa-github me-2"></i>GitHub</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Left Sidebar - Site Navigation -->
+            <nav class="col-lg-2 col-md-3 sidebar bg-dark border-end">
+                <div class="p-3">
+                    <div class="nav flex-column">
+                        <h6 class="text-muted text-uppercase small fw-bold mt-3 mb-2">Getting Started</h6>
+                        <a href="index.html" class="nav-link">Introduction</a>
+                        <a href="#" class="nav-link">Installation</a>
+                        <a href="#" class="nav-link">Quick Start</a>
+                        <a href="#" class="nav-link">Configuration</a>
+                        
+                        <h6 class="text-muted text-uppercase small fw-bold mt-4 mb-2">Components</h6>
+                        <a href="#" class="nav-link active">Overview</a>
+                        <a href="#" class="nav-link">Buttons</a>
+                        <a href="#" class="nav-link">Forms</a>
+                        <a href="#" class="nav-link">Navigation</a>
+                        <a href="#" class="nav-link">Cards</a>
+                        <a href="#" class="nav-link">Modals</a>
+                        
+                        <h6 class="text-muted text-uppercase small fw-bold mt-4 mb-2">Layout</h6>
+                        <a href="#" class="nav-link">Grid System</a>
+                        <a href="#" class="nav-link">Flexbox</a>
+                        <a href="#" class="nav-link">Spacing</a>
+                        
+                        <h6 class="text-muted text-uppercase small fw-bold mt-4 mb-2">Advanced</h6>
+                        <a href="#" class="nav-link">Customization</a>
+                        <a href="#" class="nav-link">JavaScript</a>
+                        <a href="#" class="nav-link">Best Practices</a>
+                        <a href="#" class="nav-link">Migration Guide</a>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- Main Content -->
+            <main class="col-lg-8 col-md-6 content-area">
+                <div class="p-4">
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb" class="mb-4">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="docshome.html" class="text-decoration-none">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Components</li>
+                        </ol>
+                    </nav>
+                    
+                    <!-- Category Header -->
+                    <div class="category-header">
+                        <div class="d-flex align-items-start justify-content-between">
+                            <div>
+                                <h1 class="display-6 fw-bold mb-3">
+                                    <i class="fas fa-cubes text-primary me-3"></i>
+                                    Components
+                                </h1>
+                                <p class="lead mb-0">Comprehensive guide to all available UI components. Learn how to use, customize, and integrate components into your applications with detailed examples and best practices.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="category-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-file-alt"></i>
+                                <span>24 Articles</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-clock"></i>
+                                <span>~45 min read</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-user"></i>
+                                <span>All Levels</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>Updated 3 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Filter Tabs -->
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-filter="all">All Articles</button>
+                        <button class="filter-tab" data-filter="beginner">Beginner</button>
+                        <button class="filter-tab" data-filter="intermediate">Intermediate</button>
+                        <button class="filter-tab" data-filter="advanced">Advanced</button>
+                    </div>
+                    
+                    <!-- Essential Components Section -->
+                    <section class="mb-5">
+                        <h3 class="mb-4">
+                            <i class="fas fa-star text-warning me-2"></i>
+                            Essential Components
+                        </h3>
+                        
+                        <div class="article-card" data-difficulty="beginner">
+                            <a href="#" class="article-title">Button Components</a>
+                            <p class="text-muted mt-2 mb-0">Learn how to use buttons effectively with different styles, sizes, and states. Includes accessibility guidelines and interactive examples.</p>
+                            <div class="article-meta">
+                                <span class="difficulty-badge difficulty-beginner">Beginner</span>
+                                <span><i class="fas fa-clock me-1"></i>5 min read</span>
+                                <span><i class="fas fa-eye me-1"></i>2.1k views</span>
+                                <span><i class="fas fa-calendar me-1"></i>Updated 2 days ago</span>
+                            </div>
+                        </div>
+                        
+                        <div class="article-card" data-difficulty="beginner">
+                            <a href="#" class="article-title">Form Controls</a>
+                            <p class="text-muted mt-2 mb-0">Complete guide to form inputs, validation, and user experience best practices. Build accessible and user-friendly forms.</p>
+                            <div class="article-meta">
+                                <span class="difficulty-badge difficulty-beginner">Beginner</span>
+                                <span><i class="fas fa-clock me-1"></i>8 min read</span>
+                                <span><i class="fas fa-eye me-1"></i>1.8k views</span>
+                                <span><i class="fas fa-calendar me-1"></i>Updated 1 week ago</span>
+                            </div>
+                        </div>
+                        
+                        <div class="article-card" data-difficulty="intermediate">
+                            <a href="#" class="article-title">Card Layouts</a>
+                            <p class="text-muted mt-2 mb-0">Design flexible card components for content display. Covers responsive layouts, image handling, and interactive states.</p>
+                            <div class="article-meta">
+                                <span class="difficulty-badge difficulty-intermediate">Intermediate</span>
+                                <span><i class="fas fa-clock me-1"></i>6 min read</span>
+                                <span><i class="fas fa-eye me-1"></i>1.5k views</span>
+                                <span><i class="fas fa-calendar me-1"></i>Updated 3 days ago</span>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <div class="section-divider"></div>
+                    
+                    <!-- Navigation Components Section -->
+                    <section class="mb-5">
+                        <h3 class="mb-4">
+                            <i class="fas fa-compass text-info me-2"></i>
+                            Navigation Components
+                        </h3>
+                        
+                        <div class="article-card" data-difficulty="intermediate">
+                            <a href="#" class="article-title">Navigation Bars</a>
+                            <p class="text-muted mt-2 mb-0">Build responsive navigation bars with dropdowns, search, and mobile-friendly collapsible menus.</p>
+                            <div class="article-meta">
+                                <span class="difficulty-badge difficulty-intermediate">Intermediate</span>
+                                <span><i class="fas fa-clock me-1"></i>10 min read</span>
+                                <span><i class="fas fa-eye me-1"></i>3.2k views</span>
+                                <span><i class="fas fa-calendar me-1"></i>Updated 5 days ago</span>
+                            </div>
+                        </div>
+                        
+                        <div class="article-card" data-difficulty="beginner">
+                            <a href="#" class="article-title">Breadcrumbs</a>
+                            <p class="text-muted mt-2 mb-0">Implement breadcrumb navigation to help users understand their location within your application hierarchy.</p>
+                            <div class="article-meta">
+                                <span class="difficulty-badge difficulty-beginner">Beginner</span>
+                                <span><i class="fas fa-clock me-1"></i>4 min read</span>
+                                <span><i class="fas fa-eye me-1"></i>892 views</span>
+                                <span><i class="fas fa-calendar me-1"></i>Updated 1 week ago</span>
+                            </div>
+                        </div>
+                        
+                        <div class="article-card" data-difficulty="advanced">
+                            <a href="#" class="article-title">Advanced Dropdown Menus</a>
+                            <p class="text-muted mt-2 mb-0">Create complex dropdown menus with nested items, search functionality, and keyboard navigation support.</p>
+                            <div class="article-meta">
+                                <span class="difficulty-badge difficulty-advanced">Advanced</span>
+                                <span><i class="fas fa-clock me-1"></i>12 min read</span>
+                                <span><i class="fas fa-eye me-1"></i>1.1k views</span>
+                                <span><i class="fas fa-calendar me-1"></i>Updated 4 days ago</span>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <div class="section-divider"></div>
+                    
+                    <!-- Interactive Components Section -->
+                    <section class="mb-5">
+                        <h3 class="mb-4">
+                            <i class="fas fa-mouse-pointer text-success me-2"></i>
+                            Interactive Components
+                        </h3>
+                        
+                        <div class="article-card" data-difficulty="intermediate">
+                            <a href="#" class="article-title">Modal Dialogs</a>
+                            <p class="text-muted mt-2 mb-0">Design accessible modal dialogs for confirmations, forms, and content display. Includes focus management and keyboard navigation.</p>
+                            <div class="article-meta">
+                                <span class="difficulty-badge difficulty-intermediate">Intermediate</span>
+                                <span><i class="fas fa-clock me-1"></i>9 min read</span>
+                                <span><i class="fas fa-eye me-1"></i>2.5k views</span>
+                                <span><i class="fas fa-calendar me-1"></i>Updated 6 days ago</span>
+                            </div>
+                        </div>
+                        
+                        <div class="article-card" data-difficulty="advanced">
+                            <a href="#" class="article-title">Data Tables</a>
+                            <p class="text-muted mt-2 mb-0">Build feature-rich data tables with sorting, filtering, pagination, and responsive design patterns.</p>
+                            <div class="article-meta">
+                                <span class="difficulty-badge difficulty-advanced">Advanced</span>
+                                <span><i class="fas fa-clock me-1"></i>15 min read</span>
+                                <span><i class="fas fa-eye me-1"></i>1.9k views</span>
+                                <span><i class="fas fa-calendar me-1"></i>Updated 1 week ago</span>
+                            </div>
+                        </div>
+                        
+                        <div class="article-card" data-difficulty="intermediate">
+                            <a href="#" class="article-title">Tooltips & Popovers</a>
+                            <p class="text-muted mt-2 mb-0">Add contextual information with tooltips and popovers. Learn positioning, triggers, and accessibility considerations.</p>
+                            <div class="article-meta">
+                                <span class="difficulty-badge difficulty-intermediate">Intermediate</span>
+                                <span><i class="fas fa-clock me-1"></i>7 min read</span>
+                                <span><i class="fas fa-eye me-1"></i>1.3k views</span>
+                                <span><i class="fas fa-calendar me-1"></i>Updated 2 weeks ago</span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+            
+            <!-- Right Sidebar - Quick Navigation -->
+            <aside class="col-lg-2 col-md-3 toc bg-dark border-start">
+                <div class="p-3">
+                    <h6 class="text-muted text-uppercase small fw-bold mb-3">Quick Navigation</h6>
+                    
+                    <div class="nav flex-column">
+                        <a href="#essential" class="nav-link py-1 px-2 small">Essential Components</a>
+                        <a href="#navigation" class="nav-link py-1 px-2 small">Navigation</a>
+                        <a href="#interactive" class="nav-link py-1 px-2 small">Interactive</a>
+                        <a href="#layout" class="nav-link py-1 px-2 small">Layout</a>
+                        <a href="#feedback" class="nav-link py-1 px-2 small">Feedback</a>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <h6 class="text-muted text-uppercase small fw-bold mb-3">Related</h6>
+                    <div class="nav flex-column">
+                        <a href="#" class="nav-link py-1 px-2 small">Design System</a>
+                        <a href="#" class="nav-link py-1 px-2 small">Theming Guide</a>
+                        <a href="#" class="nav-link py-1 px-2 small">Accessibility</a>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="text-center">
+                        <div class="bg-primary bg-opacity-10 rounded p-3 mb-3">
+                            <i class="fas fa-lightbulb text-primary mb-2 d-block"></i>
+                            <small class="text-muted">Need help choosing the right component?</small>
+                            <div class="mt-2">
+                                <a href="#" class="btn btn-outline-primary btn-sm">Component Guide</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script>
+        // Search functionality
+        document.getElementById('topSearchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            if (searchTerm.length > 2) {
+                console.log('Searching for:', searchTerm);
+                // Here you would implement typeahead functionality
+            }
+        });
+        
+        // Keyboard shortcut for search (Ctrl/Cmd + K)
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('topSearchInput').focus();
+            }
+        });
+        
+        // Filter functionality
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                const filter = this.dataset.filter;
+                const articles = document.querySelectorAll('.article-card');
+                
+                articles.forEach(article => {
+                    if (filter === 'all') {
+                        article.style.display = 'block';
+                    } else {
+                        const difficulty = article.dataset.difficulty;
+                        article.style.display = difficulty === filter ? 'block' : 'none';
+                    }
+                });
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 120; // Account for fixed top bar
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Article card click handling
+        document.querySelectorAll('.article-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (e.target.tagName !== 'A') {
+                    const link = this.querySelector('.article-title');
+                    if (link) {
+                        window.location.href = link.href;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -6,7 +6,7 @@ tags: []
 description: "Describes how to extend Blake's functionality with plugins."
 iconIdentifier: "bi bi-plus-square-fill-nav-menu"
 pageOrder: 6
-category: "Using Blake"
+category: "Contributing"
 ---
 
 Plugins extend Blake's functionality using the IBlakePlugin interface.
