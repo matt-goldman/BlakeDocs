@@ -37,6 +37,13 @@
             const platform = navigator.platform.toLowerCase();
             return /mac/.test(platform) ? "mac" : "other";
         };
+
+        // Focus helper
+        window.focusElement = (id) => {
+            const el = document.getElementById(id);
+            if (el) el.focus();
+        };
+
     </script>
 </body>
 

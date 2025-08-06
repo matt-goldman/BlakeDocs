@@ -3,8 +3,8 @@
 @using Toolbelt.Blazor.HotKeys2
 @implements  IAsyncDisposable
 @inject PlatformService PlatformService
-
-
+@inject IJSRuntime Js
+@inject SearchService SearchService
 
 <div class="top-bar">
     <div class="container-fluid">
@@ -13,10 +13,12 @@
                 <span class="me-2"><Blazicon Svg="FontAwesomeSolidIcon.BookOpen" /></span>
                 Blake Documentation
             </a>
-            
+
             <div class="d-flex align-items-center gap-3">
                 <div class="top-search">
-                    <input type="text" class="form-control top-search-input" placeholder="Search docs..." id="topSearchInput">
+                    <input type="text" class="form-control top-search-input" placeholder="Search docs..." id="topSearchInput"
+                           @bind-value="_searchText"
+                           @oninput="async (e) => await DebouncedSearchAsync()" />
                     <span class="search-shortcut">@GetShortcut()</span>
                 </div>
                 
@@ -38,8 +40,14 @@
 
 @code {
     private HotKeysContext? _hotKeysContext;
-    
+
     string GetShortcut() => PlatformService.IsMacOS ? "⌘K" : "Ctrl+K";
+    
+    private CancellationTokenSource _cts = new();
+
+    private List<SearchResult> _searchResults = [];
+    
+    private string _searchText = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -50,15 +58,32 @@
     {
         if (firstRender) {
             _hotKeysContext = this.HotKeys.CreateContext()
-                .Add(ModCode.Ctrl|ModCode.Meta, Code.K, FooBar, new() { Description = "do foo bar." });
+                .Add(ModCode.Ctrl|ModCode.Meta, Code.K, FocusSearch, new() { Description = "Search the documentation" });
+        }
+    }
+    
+    private async Task DebouncedSearchAsync()
+    {
+        await _cts.CancelAsync();
+        _cts = new CancellationTokenSource();
+
+        try
+        {
+            await Task.Delay(300, _cts.Token);
+            _searchResults = SearchService.Search(_searchText, 4);
+        }
+        catch (TaskCanceledException)
+        {
+            // Ignore cancellation
         }
     }
 
-    private void FooBar()
+    private async Task FocusSearch()
     {
-        // Do something here.
+        await Js.InvokeVoidAsync("focusElement", "topSearchInput");
+        StateHasChanged();
     }
 
     public ValueTask DisposeAsync() => _hotKeysContext?.DisposeAsync() ?? ValueTask.CompletedTask;
-    
+
 }
