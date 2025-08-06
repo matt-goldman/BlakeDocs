@@ -1,3 +1,11 @@
+@inject HotKeys HotKeys
+@using BlakeSampleDocs.Services
+@using Toolbelt.Blazor.HotKeys2
+@implements  IAsyncDisposable
+@inject PlatformService PlatformService
+
+
+
 <div class="top-bar">
     <div class="container-fluid">
         <div class="d-flex align-items-center justify-content-between">
@@ -9,7 +17,7 @@
             <div class="d-flex align-items-center gap-3">
                 <div class="top-search">
                     <input type="text" class="form-control top-search-input" placeholder="Search docs..." id="topSearchInput">
-                    <span class="search-shortcut">⌘K</span>
+                    <span class="search-shortcut">@GetShortcut()</span>
                 </div>
                 
                 <div class="dropdown">
@@ -27,3 +35,30 @@
         </div>
     </div>
 </div>
+
+@code {
+    private HotKeysContext? _hotKeysContext;
+    
+    string GetShortcut() => PlatformService.IsMacOS ? "⌘K" : "Ctrl+K";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await PlatformService.InitAsync();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender) {
+            _hotKeysContext = this.HotKeys.CreateContext()
+                .Add(ModCode.Ctrl|ModCode.Meta, Code.K, FooBar, new() { Description = "do foo bar." });
+        }
+    }
+
+    private void FooBar()
+    {
+        // Do something here.
+    }
+
+    public ValueTask DisposeAsync() => _hotKeysContext?.DisposeAsync() ?? ValueTask.CompletedTask;
+    
+}

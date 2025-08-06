@@ -31,6 +31,13 @@
     <script src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="_content/BlakePlugin.DocsRenderer/lib/js/prism.js"></script>
     <script src="_content/BlakePlugin.DocsRenderer/lib/js/plugin.js"></script>
+    <script>
+        // Function to get the current OS
+        window.getOS = () => {
+            const platform = navigator.platform.toLowerCase();
+            return /mac/.test(platform) ? "mac" : "other";
+        };
+    </script>
 </body>
 
 </html>
