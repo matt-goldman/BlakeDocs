@@ -41,8 +41,16 @@
         // Focus helper
         window.focusElement = (id) => {
             const el = document.getElementById(id);
-            if (el) el.focus();
+            if (el) {
+                el.focus();
+                // Also select the text if it's an input
+                if (el.tagName === 'INPUT' && el.type === 'text') {
+                    el.select();
+                }
+            }
         };
+
+        // Let the HotKeys library handle the event prevention
 
     </script>
 </body>

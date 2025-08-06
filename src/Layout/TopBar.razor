@@ -57,8 +57,14 @@
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender) {
+            // Register the correct hotkey based on platform
+            var modKey = PlatformService.IsMacOS ? ModCode.Meta : ModCode.Ctrl;
+            
             _hotKeysContext = this.HotKeys.CreateContext()
-                .Add(ModCode.Ctrl|ModCode.Meta, Code.K, FocusSearch, new() { Description = "Search the documentation" });
+                .Add(modKey, Code.K, () => FocusSearch(), new() { 
+                    Description = "Search the documentation",
+                    Exclude = Exclude.None // Allow hotkey to work even when inputs have focus
+                });
         }
     }
     
