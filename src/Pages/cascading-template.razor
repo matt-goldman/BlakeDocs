@@ -37,7 +37,9 @@
 @Body
 <!-- Right Sidebar - Table of Contents -->
 <SectionContent SectionName="Sidebar">
-    <PageToc PageSections="@_sections" QuickLinks="@_quickLinks" />
+    <div id="bs-scroll-target">
+        <PageToc PageSections="@_sections" QuickLinks="@_quickLinks" />
+    </div>
 </SectionContent>
 
 @code {
@@ -83,6 +85,7 @@
         if (isFirstRender)
         {
             await js.InvokeVoidAsync("initializeDocsPlugin");
+            await js.InvokeVoidAsync("initScrollSpy");
         }
     }
 }

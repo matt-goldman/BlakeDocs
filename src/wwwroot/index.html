@@ -73,6 +73,20 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
+        window.initScrollSpy = () => {
+            const el = document.querySelector('[data-bs-spy="scroll"]');
+            if (el) {
+                bootstrap.ScrollSpy.getInstance(el)?.dispose(); // in case it's reinitialised
+                new bootstrap.ScrollSpy(el, {
+                    target: '#bs-scroll-target',
+                    rootMargin: '0px 0px -50%',
+                    threshold: [0.1, 0.5, 1],
+                    smoothScroll: true
+                });
+            }
+        };
+
+
     </script>
 </body>
 

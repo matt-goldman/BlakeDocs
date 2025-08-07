@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BlakePlugin.DocsRenderer" Version="1.0.8" />
+    <PackageReference Include="BlakePlugin.DocsRenderer" Version="1.0.10" />
     <PackageReference Include="Blazicons.FontAwesome" Version="2.4.31" />
     <PackageReference Include="Blazicons.Lucide" Version="1.11.31" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.8" />
@@ -39,7 +39,6 @@
 
   <ItemGroup>
     <Folder Include="Pages\5 Contributing\" />
-    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
   <ItemGroup>
