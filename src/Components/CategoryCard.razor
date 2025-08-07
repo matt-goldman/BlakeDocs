@@ -11,6 +11,10 @@
             <p class="card-text text-muted mb-3">@_description</p>
             <div class="d-flex justify-content-between align-items-center">
                 <a href="index.html" class="btn btn-outline-primary btn-sm">Explore</a>
+                @if (!string.IsNullOrEmpty(_readTimeText))
+                {
+                    <span><Blazicon Svg="FontAwesomeSolidIcon.Clock" class="me-1" /> @_readTimeText</span>
+                })
                 <small class="text-muted">@_articleCountText</small>
             </div>
         </div>
@@ -32,6 +36,8 @@
     private int _articleCount { get; set; } = 0;
 
     private string _articleCountText = string.Empty;
+
+    private string _readTimeText = string.Empty;
 
     protected override void OnParametersSet()
     {
@@ -57,6 +63,11 @@
         else
         {
             _articleCountText = $"{_articleCount} articles";
+        }
+
+        if (Category.readTime is not null)
+        {
+            _readTimeText = $"{Category.readTime} min read";
         }
 
         base.OnParametersSet();

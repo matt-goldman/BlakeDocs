@@ -37,7 +37,7 @@
 @Body
 <!-- Right Sidebar - Table of Contents -->
 <SectionContent SectionName="Sidebar">
-    <PageToc PageSections="@_sections" />
+    <PageToc PageSections="@_sections" QuickLinks="@_quickLinks" />
 </SectionContent>
 
 @code {
@@ -46,6 +46,15 @@
     private string activeSlug = string.Empty;
 
     private List<string> _slugSegments = [];
+
+    private Dictionary<string, string> _quickLinks = new Dictionary<string, string>()
+    {
+        { "Home", "/" },
+        { "GitHub", "https://github.com/matt-goldman/blake" },
+        { "Support", "https://github.com/matt-goldman/blake/discussions" },
+        { "Report Issue", "https://github.com/matt-goldman/issues/new" }
+
+    };
 
     protected override void OnInitialized()
     {
