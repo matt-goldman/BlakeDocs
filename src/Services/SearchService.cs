@@ -10,7 +10,8 @@ public class SearchService
             .Where(page =>
                 page.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
                 page.Description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-                page.Tags.Any(tag => tag.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)));
+                page.Tags.Any(tag => tag.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) ||
+                page.Metadata.Any(m => m.Key.Equals(searchTerm, StringComparison.OrdinalIgnoreCase) || m.Value.Equals(searchTerm, StringComparison.OrdinalIgnoreCase)));
 
         if (maxResults.HasValue)
         {
@@ -21,7 +22,7 @@ public class SearchService
             page.Slug,
             page.Title,
             page.Description,
-            page.Metadata["Category"] ?? "Uncategorized",
+            page.Metadata.TryGetValue("category", out var category) ? category : "Uncategorized",
             string.Join(", ", page.Tags)))
             .ToList();
     }
