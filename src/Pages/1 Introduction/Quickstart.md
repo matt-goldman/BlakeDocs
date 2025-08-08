@@ -76,4 +76,4 @@ or:
 blake init -s
 ```
 
-You can run `blake --help` to see all available commands and options. For more detailed information, refer to the [Blake CLI](/pages/cli) section of the documentation.
+You can run `blake --help` to see all available commands and options. For more detailed information, refer to the [Blake CLI](/pages/1 introduction/cli) section of the documentation.
