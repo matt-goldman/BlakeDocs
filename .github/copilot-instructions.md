@@ -41,7 +41,7 @@ BlakeDocs/
 ## Blake Core Concepts
 
 ### Content Organization
-- **Numbered folders** (1 Introduction, 2 Using Blake, etc.) control navigation order
+- **Numbered folders** (1 Introduction, 2 Using Blake, etc.) control navigation order in this site. Note: This is a site-specific pattern, not a Blake feature. Blake is zero-config and processes files in OS order (alphanumeric), so numbering folders allows controlling their order in the TOC
 - **Markdown files** (.md) contain the actual content with YAML frontmatter
 - **template.razor files** define how content is rendered
 - **Cascading templates** inherit from parent directory templates
@@ -62,7 +62,7 @@ category: "Category Name"
 ```
 
 ### Build Process
-1. **Blake CLI** runs `blake bake` before build (configured in MSBuild target)
+1. **Blake CLI** should be run manually with `blake bake` before build (MSBuild integration exists but order is not reliable yet)
 2. **Templates and markdown** are processed into `.generated/` folder as Razor files
 3. **Plugins execute** during bake process (DocsRenderer, ReadTime)
 4. **Standard Blazor build** compiles the generated Razor files
@@ -125,7 +125,7 @@ category: "Category Name"
 ### Modifying Layout
 1. Layout components are in `src/Layout/`
 2. Main layout is `MainLayout.razor`
-3. Navigation is handled by `TopBar.razor`
+3. Navigation is handled by the `SiteToc` component from the DocsRenderer plugin
 4. Modify with care as these affect entire site
 
 ### Plugin Development
