@@ -57,7 +57,7 @@ public class ContentService
                     continue; // Skip pages without a category
                 }
 
-                if (page.Metadata.TryGetValue("readTime", out var readTimeValue) && int.TryParse(readTimeValue.ToString(), out var parsedReadTime))
+                if (page.Metadata.TryGetValue("readTimeMinutes", out var readTimeValue) && int.TryParse(readTimeValue.ToString(), out var parsedReadTime))
                 {
                     readTime = parsedReadTime;
                 }

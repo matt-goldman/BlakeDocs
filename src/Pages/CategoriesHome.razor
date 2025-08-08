@@ -115,7 +115,7 @@
                     page.Description,
                     page.Slug,
                     page.Metadata.TryGetValue("level", out var level) ? level.ToString() : "Beginner",
-                    page.Metadata.TryGetValue("readTime", out var readTime) ? Convert.ToInt32(readTime) : 0
+                    page.Metadata.TryGetValue("readTimeMinutes", out var readTime) ? Convert.ToInt32(readTime) : 0
                 );
 
                 _allArticles.Add(article);
