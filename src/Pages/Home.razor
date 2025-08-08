@@ -14,7 +14,17 @@
     <div class="search-container">
         <div class="position-relative">
             <span class="search-icon"><Blazicon Svg="FontAwesomeSolidIcon.MagnifyingGlass" /></span>
-            <input type="text" class="form-control form-control-lg search-input" placeholder="Search documentation..." id="searchInput">
+            <input type="text" class="form-control form-control-lg search-input text-light" placeholder="Search documentation..."
+                   id="searchInput"
+                   @bind-value=@_searchQuery
+                   @bind-value:event="oninput"
+                   @onkeyup="@OnSearchKeyUp">
+            @if(_showSearchButton)
+            {
+                <button class="btn btn-dark rounded-circle h-75 position-absolute end-0 top-0 me-1 mt-1 py-1" @onclick="@NavigateToSearch">
+                    <Blazicon Svg="FontAwesomeSolidIcon.RightLong" class="my-1 me-1" />
+                </button>
+            }
         </div>
     </div>
 
@@ -83,8 +93,11 @@
 
     private List<PageModel> _recentUpdates = [];
 
-
     private List<ArticleCategory> _categories = [];
+
+    private string _searchQuery = string.Empty;
+
+    private bool _showSearchButton = false;
 
     protected override void OnInitialized()
     {
@@ -93,5 +106,32 @@
         _categories = Content.GetArticleCategories();
 
         base.OnInitialized();
+    }
+
+    private void OnSearchKeyUp(KeyboardEventArgs e)
+    {
+        if (!string.IsNullOrWhiteSpace(_searchQuery) && _searchQuery.Length > 2)
+        {
+            _showSearchButton = true;
+        }
+        else
+        {
+            _showSearchButton = false;
+        }
+
+        if(e.Key == "Enter" && _showSearchButton)
+        {
+            NavigateToSearch();
+        }
+
+        StateHasChanged();
+    }
+
+    private void NavigateToSearch()
+    {
+        if (!string.IsNullOrWhiteSpace(_searchQuery) && _searchQuery.Length > 2)
+        {
+            NavigationManager.NavigateTo($"/search/{Uri.EscapeDataString(_searchQuery)}");
+        }
     }
 }

@@ -23,9 +23,10 @@ public class SearchService
             page.Title,
             page.Description,
             page.Metadata.TryGetValue("category", out var category) ? category : "Uncategorized",
-            string.Join(", ", page.Tags)))
+            string.Join(", ", page.Tags),
+            page.Date??DateTime.MinValue))
             .ToList();
     }
 }
 
-public record SearchResult(string Slug, string Title, string Description, string Category, string Tags);
+public record SearchResult(string Slug, string Title, string Description, string Category, string Tags, DateTime Updated);
