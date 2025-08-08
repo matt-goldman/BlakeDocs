@@ -151,10 +151,11 @@ category: 'Tutorial'
 Access custom fields in templates:
 
 ```razor
-@inject ContentService Content
+@using Blake.Generated
 
 @{
-    var currentPage = Content.GetPageBySlug(activeSlug);
+    var allPages = GeneratedContentIndex.GetPages();
+    var currentPage = allPages.FirstOrDefault(p => p.Slug == activeSlug);
     var author = currentPage?.Metadata.ContainsKey("author") == true 
         ? currentPage.Metadata["author"] 
         : "Unknown";
@@ -162,6 +163,11 @@ Access custom fields in templates:
 
 <p>By: @author</p>
 ```
+
+:::note
+**Template-Specific Services**
+This documentation site includes a `ContentService` that wraps `GeneratedContentIndex` with helper methods like `GetSiteToc()` and `GetCategoryPages()`. This service is specific to this template - Blake's core only provides the `GeneratedContentIndex.GetPages()` method shown above.
+:::
 
 ## Layout Composition and Reusability
 
@@ -268,6 +274,7 @@ For developers creating or maintaining templates:
 - Use dependency injection for services and data access
 - Consider performance implications of template complexity
 - Test templates with various content types and frontmatter combinations
+- Remember: you're building a Blazor app that allows consumers to dynamically add content - take full advantage of Blazor's capabilities, patterns, and ecosystem
 
 ## Next Steps
 
