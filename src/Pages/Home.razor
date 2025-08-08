@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using BlakeSampleDocs.Components
 @inject NavigationManager NavigationManager
+@inject ContentService Content
 
 <div class="p-4 bdr-content-area">
     <!-- Welcome Section -->
@@ -23,7 +24,7 @@
         <div class="d-flex flex-wrap">
             @foreach (var quPage in _quickAccessPages)
             {
-                var icon = GetCategoryIcon(quPage.Title);
+                var icon = Content.GetCategoryIcon(quPage.Title);
 
                 <a href="@quPage.Slug" class="quick-link">
                     <Blazicon Svg="@icon" class="me-2" />
@@ -84,83 +85,13 @@
 
 
     private List<ArticleCategory> _categories = [];
-    
+
     protected override void OnInitialized()
     {
-        var pages = GeneratedContentIndex.GetPages();
-        
-        _quickAccessPages = pages
-            .Where(p => p.Metadata.TryGetValue("quickAccess", out var quickAccess) && int.TryParse(quickAccess, out var order) && order > 0)
-            .OrderBy(p => p.Metadata["quickAccess"])
-            .Take(5)
-            .ToList();
-
-        _recentUpdates = pages
-            .OrderByDescending(p => p.Date)
-            .Take(4)
-            .ToList();
-        
-        foreach (var page in pages)
-        {
-            if (!page.Metadata.ContainsKey("category") || string.IsNullOrEmpty(page.Metadata["category"].ToString()))
-            {
-                Console.WriteLine($"Page '{page.Title}' does not have a category defined. Skipping.");
-                Console.WriteLine($"Metadata: {string.Join(", ", page.Metadata.Select(kv => $"{kv.Key}: {kv.Value}"))}");
-                continue; // Skip pages without a category
-            }
-
-            var categoryName = page.Metadata["category"].ToString();
-            var category = _categories.FirstOrDefault(c => c.Title.Equals(categoryName, StringComparison.OrdinalIgnoreCase));
-            
-            if (category == null)
-            {
-                category = new ArticleCategory(
-                    GetCategoryIcon(categoryName), 
-                    categoryName, GetCategoryDescription(categoryName), 
-                    $"/categories?category={categoryName.ToLowerInvariant()}", 
-                    1);
-                
-                _categories.Add(category);
-            }
-            else
-            {
-                var updatedCount = category.ArticleCount + 1;
-                var updatedCategory = category with { ArticleCount = updatedCount };
-                _categories[_categories.IndexOf(category)] = updatedCategory;
-            }
-        }
+        _quickAccessPages = Content.GetQuickAccessPages();
+        _recentUpdates = Content.GetRecentUpdates();
+        _categories = Content.GetArticleCategories();
 
         base.OnInitialized();
-    }
-
-    private static SvgIcon GetCategoryIcon(string category)
-    {
-        return category switch
-        {
-            "Quick Start" => FontAwesomeSolidIcon.Rocket,
-            "Authoring Content" => FontAwesomeSolidIcon.Book,
-            "Getting Started" => FontAwesomeSolidIcon.Rocket,
-            "Using Blake" => FontAwesomeSolidIcon.Code,
-            "Deploying to Azure" => FontAwesomeSolidIcon.CloudArrowUp,
-            "Deploying to GitHub" => FontAwesomeSolidIcon.CloudArrowUp,
-            "Deploying" => FontAwesomeSolidIcon.CloudArrowUp,
-            "Contributing" => FontAwesomeSolidIcon.Gear,
-            "Meta" => FontAwesomeSolidIcon.CircleInfo,
-            "FAQ" => FontAwesomeSolidIcon.CircleQuestion,
-            _ => FontAwesomeSolidIcon.Link
-        };
-    }
-    
-    private static string GetCategoryDescription(string category)
-    {
-        return category switch
-        {
-            "Getting Started" => "Everything you need to begin your journey. Installation guides, quick start tutorials, and basic concepts.",
-            "Using Blake" => "Learn how to build sites and templates using Blake. From basic components to advanced features, find step-by-step guides.",
-            "Deploying" => "Understand how to deploy your Blake sites effectively. Covers hosting options, deployment strategies, and best practices.",
-            "Contributing" => "Internals of Blake and how to contribute. Learn about the build pipeline, code standards, and how to submit changes.",
-            "Meta" => "Meta information about Blake, including the philosophy behind the project, FAQ, and product roadmap.",
-            _ => "Explore our documentation for more information."
-        };
     }
 }

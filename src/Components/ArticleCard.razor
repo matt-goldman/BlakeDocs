@@ -1,0 +1,28 @@
+﻿<div class="article-card">
+    <a href="@Article.Link" class="article-title">@Article.Title</a>
+    <p class="text-muted mt-2 mb-0">@Article.Description</p>
+    <div class="article-meta">
+        <span class="@_difficultyClass">@Article.Level</span>
+        <span><Blazicon Svg="FontAwesomeSolidIcon.Clock" class="me-1"></Blazicon> @_readTimeText</span>
+        @* <span><i class="fas fa-calendar me-1"></i>Updated 1 week ago</span> *@
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public required ArticleSummary Article { get; set; }
+
+    private string _difficultyClass = "difficulty-badge difficulty-beginner";
+    private string _readTimeText = "Unknown";
+
+
+    protected override void OnParametersSet()
+    {
+        _difficultyClass = "difficulty-badge difficulty-" + Article.Level.ToLowerInvariant();
+
+        if (Article.ReadTime > 0)
+        { 
+            _readTimeText = $"{Article.ReadTime} min read";
+        }
+    }
+}

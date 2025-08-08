@@ -1,5 +1,6 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime js
+@inject ContentService Content
 @using System.Web
 
 <PageTitle>BlakeDocs - @Title</PageTitle>
@@ -73,7 +74,7 @@
             .Split('/')
             .ToList();
 
-        contentIndex = TocUtils.BuildSiteTocNodes(GeneratedContentIndex.GetPages());
+        contentIndex = Content.GetSiteToc();
 
         base.OnInitialized();
     }

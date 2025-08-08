@@ -1,0 +1,60 @@
+﻿.article-card {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+    .article-card:hover {
+        border-color: var(--bs-primary);
+        background-color: rgba(255, 255, 255, 0.05);
+        transform: translateY(-1px);
+    }
+
+.article-title {
+    color: var(--bs-light);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+    .article-title:hover {
+        color: var(--bs-primary);
+    }
+
+.article-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--bs-secondary);
+}
+
+
+.difficulty-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.difficulty-beginner {
+    background-color: rgba(40, 167, 69, 0.2);
+    color: var(--bs-success);
+    border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+.difficulty-intermediate {
+    background-color: rgba(255, 193, 7, 0.2);
+    color: var(--bs-warning);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.difficulty-advanced {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: var(--bs-danger);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+}
