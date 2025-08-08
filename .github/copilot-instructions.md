@@ -186,6 +186,29 @@ When working with Blake plugins in this project:
 2. **ReadTime Plugin**: Automatically calculates reading time, accessible in templates via metadata
 3. **Custom Plugin Development**: Follow Blake plugin patterns, implement IBlakePlugin interface
 
+## Documentation Writing Patterns
+
+### Established Documentation Structure
+The documentation follows a consistent pattern established in completed files like PageTemplates.md, AuthoringContent.md, SiteTemplates.md, and UsingPlugins.md:
+
+1. **Info Box Summary** - Each page starts with a `:::info` container providing a concise overview
+2. **Progressive Disclosure** - Information is organized from basic concepts to advanced implementation
+3. **Practical Examples** - Code snippets and real-world usage examples throughout
+4. **Cross-References** - Links to related documentation pages using the format `/pages/2%20using%20blake/page-name`
+5. **Balanced Audience** - Content serves both content authors and developers without overwhelming beginners
+6. **Just-in-Time Knowledge** - Users can find what they need without mastering the entire system first
+
+### Content Containers
+Use markdown containers for emphasis and organization:
+- `:::info` - Key summaries and overviews
+- `:::note` - Important additional information and tips
+- `:::warning` - Cautions and important considerations
+
+### Cross-Reference Patterns
+- Internal links use URL-encoded format: `/pages/2%20using%20blake/page-templates`
+- External links to related Blake resources and documentation
+- "Next Steps" sections guide readers to relevant follow-up content
+
 ## Important Notes
 
 - **Template files** (`template.razor`) are excluded from build but used by Blake CLI
