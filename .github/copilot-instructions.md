@@ -11,6 +11,8 @@ This repository contains the documentation site for Blake, a Blazor-based static
 
 Blake follows the philosophy of "Occam's Blazor" - the solution with the fewest assumptions is often the best. It's built for .NET developers who want familiar Razor syntax instead of learning new templating languages.
 
+**CRITICAL PRINCIPLE:** Blake is designed to be simple and transparent. The documentation should reflect this principle. Any complexity in Blake should be encapsulated, and the user-facing API should not require expertise. Users should feel comfortable referring to the documentation for what they need when they need it, without needing to gain broad general expertise before feeling comfortable with basic operations. Focus on just-in-time knowledge rather than just-in-case knowledge.
+
 ## Architecture & Technology Stack
 
 - **.NET 9.0** with Blazor WebAssembly
