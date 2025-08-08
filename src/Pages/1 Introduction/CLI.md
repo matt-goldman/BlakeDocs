@@ -65,6 +65,12 @@ blake init --includeSampleContent
 
 **When to use:** You have an existing Blazor WASM project and want to add Blake's static site generation capabilities.
 
+**What it does:** Blake init makes the following minimal changes to your csproj file:
+- Adds the `Blake.Types` package reference
+- Adds a build target that runs `blake bake` before compilation
+- Configures content includes for generated Razor files in the `.generated` folder
+- Excludes `template.razor` files from compilation (they're used by Blake but not part of the build)
+
 **Options:**
 - `--includeSampleContent, -s` - Include sample pages and navigation to demonstrate Blake features
 
@@ -105,7 +111,7 @@ blake serve --disableDefaultRenderers
 **When to use:** During development to test your site locally. This combines `blake bake` with `dotnet run` for a complete development experience.
 
 **Options:**
-- `--disableDefaultRenderers, -dr` - Skip built-in Bootstrap container renderers
+- `--disableDefaultRenderers, -dr` - Skip built-in Bootstrap container renderers during the bake phase of serving
 
 ## Typical Workflow
 
