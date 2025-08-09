@@ -10,8 +10,7 @@ category: "Using Blake"
 quickAccess: 2
 ---
 
-:::info
-**Summary**
+:::summary
 Blake turns Markdown files into Blazor pages using Razor templates. Just write content - Blake handles the rest with zero configuration required.
 :::
 

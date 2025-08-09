@@ -1,0 +1,17 @@
+<div class="article-summary mb-4">
+    <div class="summary-header">
+        <h6 class="summary-title">
+            <i class="fas fa-list-ul me-2"></i>
+            Summary
+        </h6>
+    </div>
+    <div class="summary-content">
+        <div class="row">
+            @ChildContent
+        </div>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}
