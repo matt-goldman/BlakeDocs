@@ -127,7 +127,7 @@ Yes! Blake generates standard Blazor components, so you can use any Blazor compo
 Check these common issues:
 
 1. **Template syntax errors**: Razor compilation errors will cause blank pages
-2. **Missing @Body directive**: Templates must include `@Body` to render Markdown content
+2. **Missing @@Body directive**: Templates must include `@@Body` to render Markdown content
 3. **Frontmatter parsing errors**: Invalid YAML frontmatter can cause rendering issues
 
 ### I'm getting compilation errors

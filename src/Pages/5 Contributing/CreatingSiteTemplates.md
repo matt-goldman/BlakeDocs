@@ -136,11 +136,11 @@ MyTemplate/
             </div>
         </nav>
     </header>
-    
+
     <main class="content">
         @Body
     </main>
-    
+
     <footer class="site-footer">
         <div class="container">
             <p>&copy; @DateTime.Now.Year @GetSiteName(). Built with Blake.</p>
@@ -217,11 +217,11 @@ MyTemplate/
             </div>
         }
     </header>
-    
+
     <div class="post-content">
         @Body
     </div>
-    
+
     @if (ShowRelatedPosts())
     {
         <aside class="related-posts">
@@ -234,11 +234,11 @@ MyTemplate/
 @code {
     private bool ShowRelatedPosts()
     {
-        return Tags?.Any() == true && 
-               GeneratedContentIndex.GetPages().Count(p => 
+        return Tags?.Any() == true &&
+               GeneratedContentIndex.GetPages().Count(p =>
                    p.Tags?.Any(t => Tags.Contains(t)) == true) > 1;
     }
-    
+
     private PageModel? CurrentPage => GeneratedContentIndex.GetPages()
         .FirstOrDefault(p => p.Slug.Equals(Slug, StringComparison.OrdinalIgnoreCase));
 }
@@ -289,7 +289,7 @@ MyTemplate/
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    
+
     <!-- Template metadata -->
     <PackageId>BlakeTemplate.MyTemplate</PackageId>
     <Title>My Blake Template</Title>
@@ -302,10 +302,10 @@ MyTemplate/
     <!-- Blake plugins for common functionality -->
     <PackageReference Include="BlakePlugin.DocsRenderer" Version="1.0.9" />
     <PackageReference Include="BlakePlugin.ReadTime" Version="1.0.0" />
-    
+
     <!-- UI libraries -->
     <PackageReference Include="Blazicons.FontAwesome" Version="2.4.31" />
-    
+
     <!-- Blazor WebAssembly -->
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.8" PrivateAssets="all" />
@@ -320,7 +320,7 @@ MyTemplate/
     <!-- Include generated content -->
     <Content Include=".generated/**/*.razor" />
     <Compile Include=".generated/**/*.cs" />
-    
+
     <!-- Exclude template files from build -->
     <Content Remove="**/template.razor" />
     <Content Remove="**/cascading-template.razor" />
@@ -346,12 +346,12 @@ MyTemplate/
   --secondary-color: #f8f9fa;
   --text-color: #333;
   --background-color: #fff;
-  
+
   /* Typography */
   --font-family: 'Inter', system-ui, sans-serif;
   --font-size-base: 1rem;
   --line-height-base: 1.6;
-  
+
   /* Spacing */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
@@ -392,7 +392,7 @@ MyTemplate/
             await ApplyThemeAsync();
         }
     }
-    
+
     private async Task ApplyThemeAsync()
     {
         var theme = Configuration.GetSection("Theme");
@@ -402,10 +402,10 @@ MyTemplate/
             ["--secondary-color"] = theme["SecondaryColor"] ?? "#f8f9fa",
             ["--font-family"] = theme["FontFamily"] ?? "Inter, sans-serif"
         };
-        
+
         foreach (var variable in cssVariables)
         {
-            await JSRuntime.InvokeVoidAsync("document.documentElement.style.setProperty", 
+            await JSRuntime.InvokeVoidAsync("document.documentElement.style.setProperty",
                 variable.Key, variable.Value);
         }
     }
@@ -421,9 +421,9 @@ MyTemplate/
 @using Blake.Types
 
 <div class="search-container">
-    <input @bind="searchTerm" @onkeyup="OnSearchInput" 
+    <input @bind="searchTerm" @onkeyup="OnSearchInput"
            class="search-input" placeholder="Search..." />
-    
+
     @if (showResults && searchResults.Any())
     {
         <div class="search-results">
@@ -442,7 +442,7 @@ MyTemplate/
     private string searchTerm = string.Empty;
     private bool showResults = false;
     private List<SearchResult> searchResults = new();
-    
+
     private async Task OnSearchInput(KeyboardEventArgs e)
     {
         if (string.IsNullOrWhiteSpace(searchTerm))
@@ -450,12 +450,12 @@ MyTemplate/
             showResults = false;
             return;
         }
-        
+
         searchResults = SearchPages(searchTerm);
         showResults = searchResults.Any();
         StateHasChanged();
     }
-    
+
     private List<SearchResult> SearchPages(string term)
     {
         return GeneratedContentIndex.GetPages()
@@ -472,7 +472,7 @@ MyTemplate/
             .OrderByDescending(r => CalculateRelevance(r, term))
             .ToList();
     }
-    
+
     private class SearchResult
     {
         public string Title { get; set; } = string.Empty;
@@ -499,12 +499,12 @@ MyTemplate/
         var siteName = Configuration["Site:Name"] ?? "Blake Site";
         var siteDescription = Configuration["Site:Description"] ?? "A Blake-powered site";
         var baseUrl = Configuration["Site:BaseUrl"] ?? "https://localhost";
-        
+
         var posts = GeneratedContentIndex.GetPages()
             .Where(p => !p.IsDraft && p.Date.HasValue)
             .OrderByDescending(p => p.Date)
             .Take(20);
-        
+
         var xml = new StringBuilder();
         xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         xml.AppendLine("<rss version=\"2.0\">");
@@ -513,7 +513,7 @@ MyTemplate/
         xml.AppendLine($"<description>{XmlEscape(siteDescription)}</description>");
         xml.AppendLine($"<link>{baseUrl}</link>");
         xml.AppendLine($"<lastBuildDate>{DateTime.UtcNow:R}</lastBuildDate>");
-        
+
         foreach (var post in posts)
         {
             xml.AppendLine("<item>");
@@ -524,18 +524,18 @@ MyTemplate/
             xml.AppendLine($"<guid>{baseUrl}/{post.Slug}</guid>");
             xml.AppendLine("</item>");
         }
-        
+
         xml.AppendLine("</channel>");
         xml.AppendLine("</rss>");
-        
+
         return xml.ToString();
     }
-    
+
     private string XmlEscape(string text)
     {
         return SecurityElement.Escape(text) ?? string.Empty;
     }
-    
+
     private string ExtractExcerpt(string content, int length = 200)
     {
         var text = System.Text.RegularExpressions.Regex.Replace(content, "<[^>]*>", "");
@@ -557,7 +557,7 @@ Instead of prescribing a specific README format, template authors should ensure 
 - [ ] **Quick Start Instructions** - Basic setup commands using Blake CLI
 - [ ] **Feature List** - Key capabilities and included components
 - [ ] **Customization Options** - If applicable, what can be configured
-- [ ] **Project Structure** - Brief overview of folder organization 
+- [ ] **Project Structure** - Brief overview of folder organization
 - [ ] **Deployment Instructions** - How to build and deploy the site
 - [ ] **License Information** - Clear licensing terms
 - [ ] **Troubleshooting** - Common issues and solutions
@@ -770,10 +770,10 @@ Create reusable components in `Components/`:
 Add to your layout:
 
 ```html
-<meta name="description" content="@GetPageDescription()" />
-<meta name="keywords" content="@GetPageKeywords()" />
-<meta property="og:title" content="@GetPageTitle()" />
-<meta property="og:description" content="@GetPageDescription()" />
+<meta name="description" content="@@GetPageDescription()" />
+<meta name="keywords" content="@@GetPageKeywords()" />
+<meta property="og:title" content="@@GetPageTitle()" />
+<meta property="og:description" content="@@GetPageDescription()" />
 ```
 
 ### Analytics Integration
