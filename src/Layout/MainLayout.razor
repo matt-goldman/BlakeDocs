@@ -10,10 +10,12 @@
         <!-- Left Sidebar - Site Navigation -->
         <nav class="col-lg-2 col-md-3 sidebar-left">
             <div class="sidebar-content">
-                <SiteToc ActiveSlug="@_activeSlug" Nodes="@_contentIndex" />
+                <div class="toc-scrollable">
+                    <SiteToc ActiveSlug="@_activeSlug" Nodes="@_contentIndex" />
+                </div>
             </div>
         </nav>
-        
+
         <!-- Main Content -->
         <main role="main" class="col-lg-8 col-md-6 main-content" id="main-content" data-bs-spy="scroll" data-bs-target="#bs-scroll-target" tabindex="0">
             <div class="content-wrapper">

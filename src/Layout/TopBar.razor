@@ -1,10 +1,12 @@
 @inject HotKeys HotKeys
 @using BlakeSampleDocs.Services
 @using Toolbelt.Blazor.HotKeys2
+@using Microsoft.AspNetCore.Components.Web
 @implements  IAsyncDisposable
 @inject PlatformService PlatformService
 @inject IJSRuntime Js
 @inject SearchService SearchService
+@inject NavigationManager NavigationManager
 
 <div class="top-bar">
     <div class="container-fluid">
@@ -18,10 +20,11 @@
                 <div class="top-search">
                     <input type="text" class="form-control top-search-input" placeholder="Search docs..." id="topSearchInput"
                            @bind-value="_searchText"
-                           @oninput="async (e) => await DebouncedSearchAsync()" />
+                           @oninput="async (e) => await DebouncedSearchAsync()"
+                           @onkeyup="@OnSearchKeyUp" />
                     <span class="search-shortcut">@GetShortcut()</span>
                 </div>
-                
+
                 <div class="dropdown">
                     <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
                         <Blazicon Svg="FontAwesomeSolidIcon.Gear" />
@@ -42,11 +45,11 @@
     private HotKeysContext? _hotKeysContext;
 
     string GetShortcut() => PlatformService.IsMacOS ? "⌘K" : "Ctrl+K";
-    
+
     private CancellationTokenSource _cts = new();
 
     private List<SearchResult> _searchResults = [];
-    
+
     private string _searchText = string.Empty;
 
     protected override async Task OnInitializedAsync()
@@ -54,20 +57,23 @@
         await PlatformService.InitAsync();
     }
 
-    protected override void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender) {
+            // Ensure platform detection is complete before registering hotkeys
+            await PlatformService.InitAsync();
+
             // Register the correct hotkey based on platform
             var modKey = PlatformService.IsMacOS ? ModCode.Meta : ModCode.Ctrl;
-            
+
             _hotKeysContext = this.HotKeys.CreateContext()
-                .Add(modKey, Code.K, () => FocusSearch(), new() { 
+                .Add(modKey, Code.K, () => FocusSearch(), new() {
                     Description = "Search the documentation",
                     Exclude = Exclude.None // Allow hotkey to work even when inputs have focus
                 });
         }
     }
-    
+
     private async Task DebouncedSearchAsync()
     {
         await _cts.CancelAsync();
@@ -88,6 +94,22 @@
     {
         await Js.InvokeVoidAsync("focusElement", "topSearchInput");
         StateHasChanged();
+    }
+
+    private void OnSearchKeyUp(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(_searchText) && _searchText.Length > 2)
+        {
+            NavigateToSearch();
+        }
+    }
+
+    private void NavigateToSearch()
+    {
+        if (!string.IsNullOrWhiteSpace(_searchText) && _searchText.Length > 2)
+        {
+            NavigationManager.NavigateTo($"/search/{Uri.EscapeDataString(_searchText)}");
+        }
     }
 
     public ValueTask DisposeAsync() => _hotKeysContext?.DisposeAsync() ?? ValueTask.CompletedTask;
