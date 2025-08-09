@@ -205,23 +205,25 @@ public class CalloutExtension : IMarkdownExtension
 ```
 
 ### Metadata Enhancement
-[NOTE: see similar comments about this elsewhere. There's no Pages property, only MarkdwonPages and GeneratedPages. And metadata preporcessing is done via frontmatter.]
 
-Plugins can add metadata during the before bake phase:
+Plugins can add metadata during the BeforeBake phase by modifying frontmatter, which then becomes available in GeneratedPages metadata:
 
 ```csharp
 public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
-    foreach (var page in context.Pages)
+    foreach (var page in context.MarkdownPages)
     {
-        // Calculate word count
-        var wordCount = page.Content.Split(new[] { ' ', '\n', '\r' }, 
+        // Calculate word count from raw markdown
+        var wordCount = page.RawMarkdown.Split(new[] { ' ', '\n', '\r' }, 
             StringSplitOptions.RemoveEmptyEntries).Length;
-        page.Metadata["wordCount"] = wordCount.ToString();
         
         // Estimate reading time (200 words per minute)
         var readingTime = Math.Max(1, (int)Math.Ceiling(wordCount / 200.0));
-        page.Metadata["readTimeMinutes"] = readingTime.ToString();
+        
+        // Modify frontmatter to add metadata
+        // (This is a simplified example - actual implementation would parse and update YAML)
+        var updatedMarkdown = AddToFrontmatter(page.RawMarkdown, 
+            "readTimeMinutes", readingTime.ToString());
         
         // Extract first paragraph as excerpt
         var firstParagraph = page.Content.Split('\n')
@@ -237,24 +239,27 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 ### Working with Generated Content
 
 The AfterBakeAsync method provides access to the fully generated content:
-[NOTE: Property name is wrong. Also double check whether this would work based on the context. And the replace generated content method doesn't exist - you have to find the page in the collection (I've done this woth slugs as it seems the easiest match) and replace it with your updated version.]
 
 ```csharp
 public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
 {
-    // Access generated content and modify metadata
-    foreach (var page in context.GeneratedContent)
+    // Access generated content - find by slug and replace
+    for (int i = 0; i < context.GeneratedPages.Count; i++)
     {
-        // Note: Generated content uses record types - replace entire items
+        var page = context.GeneratedPages[i];
+        
+        // Create updated page (GeneratedPage is a record type)
         var updatedPage = page with { 
-            Metadata = page.Metadata.Union(new[] { 
-                KeyValuePair.Create("processed", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")),
-                KeyValuePair.Create("hasCodeBlocks", page.Content.Contains("<code>").ToString())
-            }).ToDictionary(x => x.Key, x => x.Value)
+            Page = page.Page with {
+                Metadata = page.Page.Metadata.Union(new[] { 
+                    KeyValuePair.Create("processed", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")),
+                    KeyValuePair.Create("hasCodeBlocks", page.RazorHtml.Contains("<code>").ToString())
+                }).ToDictionary(x => x.Key, x => x.Value)
+            }
         };
         
-        // Replace the item in the collection
-        context.ReplaceGeneratedContent(page, updatedPage);
+        // Replace the item in the collection by index
+        context.GeneratedPages[i] = updatedPage;
     }
 }
 ```
@@ -298,114 +303,89 @@ public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
 }
 ```
 
-### Asset Injection via Razor Class Library (RCL)
+### Extending Blake with Razor Class Libraries (RCL)
 
-[NOTE: Is this the best pattern here? I think it's worth including this but probably leave out the plugin hook part. We can instead just have a section that talks about using RCLs to extend Blake, either by including an `IBlakePlugin` implementation or not. This is a neat trick but I wouldn't class it as a "pattern". And one last thing to be wary of is Blazor CSS isolation.]
+**For plugins that provide CSS, JavaScript, or Blazor components, create a Razor Class Library and optionally include an `IBlakePlugin` implementation:**
 
-For plugins that provide CSS, JavaScript, or other assets, distribute as an RCL:
-
-```csharp
-public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
-{
-    foreach (var page in context.GeneratedContent)
-    {
-        // Check if page needs plugin assets
-        var needsAssets = page.Content.Contains("my-plugin-component");
-        
-        if (needsAssets)
-        {
-            var updatedPage = page with {
-                Metadata = page.Metadata.Union(new[] {
-                    KeyValuePair.Create("includeMyPluginAssets", "true")
-                }).ToDictionary(x => x.Key, x => x.Value)
-            };
-            context.ReplaceGeneratedContent(page, updatedPage);
-        }
-    }
-}
+**1. Create an RCL project:**
+```xml
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+    <PackageReference Include="Blake.BuildTools" Version="1.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.0" />
+  </ItemGroup>
+</Project>
 ```
 
-Then in your plugin's RCL, provide components that can be used in templates:
-
+**2. Include assets and components:**
 ```razor
-@* Components/MyPluginAssets.razor *@
-@if (IncludeAssets)
-{
-    <link href="_content/BlakePlugin.MyPlugin/css/plugin.css" rel="stylesheet" />
-    <script src="_content/BlakePlugin.MyPlugin/js/plugin.js"></script>
-}
+@* Components/MyPluginComponent.razor *@
+<div class="my-plugin-component">
+  @ChildContent
+</div>
+
+<link href="_content/BlakePlugin.MyPlugin/css/plugin.css" rel="stylesheet" />
 
 @code {
-    [Parameter] public bool IncludeAssets { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
 }
 ```
 
-### External API Integration
-
+**3. Optionally add plugin logic:**
 ```csharp
-public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
+public class MyPlugin : IBlakePlugin
 {
-    using var httpClient = new HttpClient();
-    
-    try
+    public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
     {
-        // Fetch external data (use cautiously)
-        var apiData = await httpClient.GetStringAsync("https://api.example.com/data");
-        var data = JsonSerializer.Deserialize<ExternalData>(apiData);
-        
-        // Add to pages that need this data
-        foreach (var page in context.Pages.Where(p => p.Metadata.ContainsKey("useExternalData")))
-        {
-            page.Metadata["externalApiData"] = apiData;
-            page.Metadata["lastApiUpdate"] = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
-        }
+        // Plugin processing logic
+        logger?.LogInformation("MyPlugin: Processing content");
     }
-    catch (Exception ex)
+    
+    public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
     {
-        logger?.LogWarning($"External API call failed: {ex.Message}");
-        // Fail gracefully - don't break the build
+        // Post-processing logic
+        logger?.LogInformation("MyPlugin: Post-processing complete");
     }
 }
 ```
 
-:::warning
-**Security and Transparency Considerations**
-If your plugin makes HTTP calls or integrates with external APIs, be very clear and transparent with users about this behavior. Most people would not expect static content generation to be making network requests. Consider whether such functionality is truly necessary for your use case.
-:::
+**Note:** Be aware of Blazor CSS isolation when designing your components.
 
 ## Plugin Configuration
 
 ### Configuration Philosophy
 
-Blake encourages zero-configuration plugins that work immediately upon installation. However, if your plugin requires configuration, use familiar .NET patterns.
+Blake encourages zero-configuration plugins that work immediately upon installation. However, if your plugin requires configuration, you must implement your own configuration loading mechanism since Blake doesn't provide built-in configuration.
 
-### AppSettings Configuration (Recommended)
+### Custom Configuration Loading
 
+**Example configuration file (plugin-config.json):**
 ```json
 {
-  "Plugins": {
-    "MyAwesomePlugin": {
-      "enabled": true,
-      "apiEndpoint": "https://api.example.com",
-      "features": ["analytics", "search"],
-      "cacheTimeout": 3600
-    }
+  "MyAwesomePlugin": {
+    "enabled": true,
+    "features": ["analytics", "search"],
+    "timeout": 30
   }
 }
 ```
 
-Access configuration in your plugin:
+**Load configuration in your plugin:**
 
-[NOTE: as mentioned above `Configuration` does not exist on BlakeContext. You would have to write your own logic for getting the config. You could document it too, i.e. instruct consumers to make their appsettings.json an embedded resource, then you an use reflection to get it out of the executing assembly.]
 ```csharp
 public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
-    // Access configuration from Blake's configuration system
-    var config = context.Configuration?.GetSection("Plugins:MyAwesomePlugin");
-    var enabled = config?.GetValue<bool>("enabled", true) ?? true;
-    var apiEndpoint = config?.GetValue<string>("apiEndpoint");
+    // Load configuration from project directory
+    var configPath = Path.Combine(context.ProjectPath, "plugin-config.json");
+    var config = LoadPluginConfig(configPath);
     
-    if (!enabled)
+    if (!config.Enabled)
     {
         logger?.LogInformation("Plugin disabled via configuration");
         return;
@@ -413,7 +393,21 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
     
     // Use configuration...
 }
+
+private PluginConfig LoadPluginConfig(string configPath)
+{
+    if (!File.Exists(configPath))
+        return new PluginConfig { Enabled = true }; // Defaults
+    
+    var json = File.ReadAllText(configPath);
+    var allConfig = JsonSerializer.Deserialize<Dictionary<string, PluginConfig>>(json);
+    return allConfig.GetValueOrDefault("MyAwesomePlugin", new PluginConfig { Enabled = true });
+}
 ```
+
+**Alternative: Embedded Resource Configuration**
+
+You can instruct users to make their appsettings.json an embedded resource, then use reflection to access it from the executing assembly.
 
 ### Alternative Configuration Methods
 
@@ -639,19 +633,6 @@ dotnet new blakeplugin -n MyAwesomePlugin
 - BeforeBake and AfterBake coordination
 - Good example of advanced plugin patterns
 
-## Future Plugin Capabilities
-
-[NOTE: There are no plans or intent to implement any of this. Aggressive YAGNI.]
-
-Blake's plugin system continues to evolve. Planned enhancements include:
-
-- **Build context hooks** - More integration points in the build pipeline
-- **Metadata transformations** - Structured ways to modify page metadata
-- **Template injection** - Plugins that can add or modify page templates
-- **Asset pipeline integration** - Direct integration with CSS/JS processing
-- **Multi-phase processing** - Support for plugins that need multiple processing passes
-- **Plugin dependencies** - Declare dependencies between plugins
-
 ## Next Steps
 
 Ready to create your first Blake plugin? Here's what to do next:
@@ -663,13 +644,12 @@ Ready to create your first Blake plugin? Here's what to do next:
 5. **Check out the [Build Pipeline](/pages/5%20contributing/build-pipeline)** to understand Blake's architecture
 
 :::note
-**Plugin Development Resources**
+**Plugin Development Guidelines**
 
+- **Use ILogger, not Console** - Always use the provided ILogger parameter instead of Console.WriteLine(). Blake can be used without the CLI, and different ILogger implementations may be passed to BuildTools methods.
 - **Blake.BuildTools API Reference** - Complete interface documentation
 - **Example plugins** - Open source plugins for reference and learning
 - **Community Discord** - Discuss plugin ideas and get development help
 - **Plugin template** - Scaffolding for creating new Blake plugins quickly
 - **Contributing guidelines** - How to contribute plugins back to the Blake ecosystem
 :::
-
-[NOTE: General comment - worth adding somewhere in here about the use oif ILogger rather than console. As mentioned in antoher comment in this PR it shoudl be mentioned that people could use Blake without the CLI if they wanted, and they may want to pass any kind of ILogger to the methods in BuildTools. Writing to console instead of the logger is discouraged. It's an anti-pattern in .NET in general so it's an anti-pattern in Blake too.]
