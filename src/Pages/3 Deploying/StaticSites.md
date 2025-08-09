@@ -9,6 +9,8 @@ pageOrder: 1
 category: "Deploying"
 ---
 
+This will be the intro page for the deployment section (hence page order 1).
+
 - GitHub Pages
 - Netlify, Vercel, and other static hosts
 - Self-host as a Blazor app
@@ -21,3 +23,5 @@ category: "Deploying"
 * Self-hosting as a Blazor WASM app
 
 * Using GitHub Actions to build & deploy
+
+* Bascially just a general assertion that Blazor WASM apps, which is what Blake produces, can be packaged as sttic web apps and distributed via any mechanis, that supports it
