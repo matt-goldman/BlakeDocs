@@ -9,8 +9,7 @@ pageOrder: 4
 category: "Using Blake"
 ---
 
-:::info
-**Summary**
+:::summary
 Site templates provide complete starting points for your Blake projects. Use `blake new -t <template-name>` to scaffold a full site with layouts, styling, and example content tailored to specific use cases.
 :::
 

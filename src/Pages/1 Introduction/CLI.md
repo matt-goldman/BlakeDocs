@@ -9,6 +9,10 @@ pageOrder: 3
 category: "Getting Started"
 ---
 
+:::summary
+The Blake CLI provides essential commands for creating, building, and managing static sites. Each command is simple and transparent, giving you exactly what you need without complexity.
+:::
+
 # Blake CLI Reference
 
 The Blake CLI provides essential commands for creating, building, and managing your static sites. Each command is designed to be simple and transparent, giving you exactly what you need without complexity.

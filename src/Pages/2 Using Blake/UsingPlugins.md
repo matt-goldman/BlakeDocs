@@ -9,8 +9,7 @@ pageOrder: 5
 category: "Using Blake"
 ---
 
-:::info
-**Summary**
+:::summary
 Blake plugins extend the static site generation process by implementing the IBlakePlugin interface. They can modify content, add metadata, inject assets, and customize the build pipeline without requiring changes to Blake's core functionality.
 :::
 

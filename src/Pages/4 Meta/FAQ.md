@@ -10,8 +10,7 @@ category: "Meta"
 quickAccess: 5
 ---
 
-:::info
-**Summary**
+:::summary
 Common questions and troubleshooting tips for Blake users. Blake is intentionally simple, so most issues relate to basic setup or build process concerns.
 :::
 

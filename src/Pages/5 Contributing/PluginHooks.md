@@ -6,8 +6,7 @@ iconIdentifier: "bi bi-diagram-3-nav-menu"
 pageOrder: 4
 ---
 
-:::info
-**Summary**
+:::summary
 Blake's plugin system provides two main lifecycle hooks - BeforeBakeAsync and AfterBakeAsync - that allow plugins to modify content processing, add metadata, and extend functionality. This reference documents all available hooks, their execution context, and interaction patterns.
 :::
 

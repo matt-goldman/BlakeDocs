@@ -9,8 +9,7 @@ pageOrder: 2
 category: "Meta"
 ---
 
-:::info
-**Summary**
+:::summary
 Blake is built on simple principles: use familiar tools, eliminate configuration overhead, and get out of your way. If you find Blake complex or requiring arcane knowledge, that's probably a bug.
 :::
 

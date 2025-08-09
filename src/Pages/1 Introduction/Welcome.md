@@ -9,6 +9,10 @@ pageOrder: 1
 category: "Getting Started"
 ---
 
+:::summary
+Blake is a Blazor-based static site generator that combines Markdown content with Razor templates and Blazor components. Minimal configuration, fully .NET-native, and designed for simplicity and control.
+:::
+
 ## Welcome to Blake
 
 **Blake** is a Blazor-based static site generator that combines Markdown content with Razor templates and Blazor components.

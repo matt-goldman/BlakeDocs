@@ -10,8 +10,7 @@ category: "Deploying"
 quickAccess: 4
 ---
 
-:::info
-**Summary**
+:::summary
 Deploy Blake sites to GitHub Pages using automated GitHub Actions workflows. This free hosting solution works directly from your repository and includes automatic builds when you push changes to your main branch.
 :::
 

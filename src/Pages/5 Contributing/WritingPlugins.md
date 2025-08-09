@@ -9,8 +9,7 @@ pageOrder: 6
 category: "Contributing"
 ---
 
-:::info
-**Summary**
+:::summary
 Blake plugins are .NET class libraries implementing the IBlakePlugin interface. They extend Blake's functionality by modifying content processing, adding metadata, injecting assets, and customizing the build pipeline without requiring changes to Blake's core.
 :::
 

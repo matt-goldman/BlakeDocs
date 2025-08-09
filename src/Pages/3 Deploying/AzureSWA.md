@@ -10,8 +10,7 @@ category: "Deploying"
 quickAccess: 3
 ---
 
-:::info
-**Summary**
+:::summary
 Azure Static Web Apps provides enterprise-grade hosting for Blake sites with built-in CI/CD, custom domains, and serverless API integration. Deploy automatically from GitHub with a single workflow file.
 :::
 

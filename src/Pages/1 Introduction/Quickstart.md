@@ -10,6 +10,9 @@ category: "Getting Started"
 quickAccess: 1
 ---
 
+:::summary
+Get started with Blake in minutes: install the CLI, create a new site, add content, and build. This guide shows you the essential commands to go from zero to a working Blake site.
+:::
 
 ## Install the CLI
 
