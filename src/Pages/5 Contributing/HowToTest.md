@@ -200,8 +200,8 @@ dotnet run
 mkdir MinimalTest
 cd MinimalTest
 echo "# Test Page" > page.md
-echo "@page \"/test\"" > template.razor
-echo "@Body" >> template.razor
+echo "@@page \"/test\"" > template.razor
+echo "@@Body" >> template.razor
 
 blake bake
 # Verify .generated files created correctly
@@ -267,7 +267,7 @@ cd PluginTest
 
 # Create minimal content
 echo "---\ntitle: Test Page\n---\n# Test Content" > test.md
-echo "@page \"/test\"\n<h1>@Title</h1>\n@Body" > template.razor
+echo "@@page \"/test\"\n<h1>@Title</h1>\n@@Body" > template.razor
 ```
 
 2. **Reference your plugin:**

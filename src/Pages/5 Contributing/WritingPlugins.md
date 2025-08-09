@@ -80,13 +80,13 @@ Blake plugins participate in the site generation process through two well-define
 Both lifecycle methods receive a `BlakeContext` that provides:
 
 - **Markdig pipeline builder** - Add custom Markdig extensions during BeforeBake
-- **Content collections** - Access to markdown files and generated content 
+- **Content collections** - Access to markdown files and generated content
 - **Limited context manipulation** - Add items to lists and modify certain properties
 - **Build configuration** - Access to Blake's build settings
 
 **Important architectural notes:**
 - Plugin execution order is not controllable
-- Plugins should be designed as stateless operations  
+- Plugins should be designed as stateless operations
 - Generated content uses record types (replace entire items, don't modify properties directly)
 - No native persistence between before and after bake phases
 
@@ -106,7 +106,7 @@ A Blake plugin is a .NET class library that references `Blake.BuildTools`:
     <Description>Adds awesome functionality to Blake sites</Description>
     <PackageTags>blake-plugin;static-site-generator</PackageTags>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="Blake.BuildTools" Version="1.0.12" />
   </ItemGroup>
@@ -130,7 +130,7 @@ public class LastModifiedPlugin : IBlakePlugin
     {
         // Setup tasks before processing begins
         logger?.LogInformation("Adding last modified timestamps...");
-        
+
         // Process each page to add timestamp metadata
         foreach (var page in context.Pages)
         {
@@ -214,17 +214,17 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
     foreach (var page in context.MarkdownPages)
     {
         // Calculate word count from raw markdown
-        var wordCount = page.RawMarkdown.Split(new[] { ' ', '\n', '\r' }, 
+        var wordCount = page.RawMarkdown.Split(new[] { ' ', '\n', '\r' },
             StringSplitOptions.RemoveEmptyEntries).Length;
-        
+
         // Estimate reading time (200 words per minute)
         var readingTime = Math.Max(1, (int)Math.Ceiling(wordCount / 200.0));
-        
+
         // Modify frontmatter to add metadata
         // (This is a simplified example - actual implementation would parse and update YAML)
-        var updatedMarkdown = AddToFrontmatter(page.RawMarkdown, 
+        var updatedMarkdown = AddToFrontmatter(page.RawMarkdown,
             "readTimeMinutes", readingTime.ToString());
-        
+
         // Extract first paragraph as excerpt
         var firstParagraph = page.Content.Split('\n')
             .FirstOrDefault(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith('#'));
@@ -247,17 +247,17 @@ public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
     for (int i = 0; i < context.GeneratedPages.Count; i++)
     {
         var page = context.GeneratedPages[i];
-        
+
         // Create updated page (GeneratedPage is a record type)
-        var updatedPage = page with { 
+        var updatedPage = page with {
             Page = page.Page with {
-                Metadata = page.Page.Metadata.Union(new[] { 
+                Metadata = page.Page.Metadata.Union(new[] {
                     KeyValuePair.Create("processed", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")),
                     KeyValuePair.Create("hasCodeBlocks", page.RazorHtml.Contains("<code>").ToString())
                 }).ToDictionary(x => x.Key, x => x.Value)
             }
         };
-        
+
         // Replace the item in the collection by index
         context.GeneratedPages[i] = updatedPage;
     }
@@ -275,7 +275,7 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
     {
         // Analyze content and collect data
         var sections = ExtractSections(page.Content);
-        
+
         // Serialize and embed as comment
         var sectionData = JsonSerializer.Serialize(sections);
         page.Content += $"\n<!-- BLAKE_PLUGIN_DATA:MyPlugin:{sectionData} -->";
@@ -287,16 +287,16 @@ public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
     foreach (var page in context.GeneratedContent)
     {
         // Extract embedded data
-        var match = Regex.Match(page.Content, 
-            @"<!-- BLAKE_PLUGIN_DATA:MyPlugin:(.*?) -->");
+        var match = Regex.Match(page.Content,
+            @@"<!-- BLAKE_PLUGIN_DATA:MyPlugin:(.*?) -->");
         if (match.Success)
         {
             var data = JsonSerializer.Deserialize<SectionData>(match.Groups[1].Value);
-            
+
             // Process the data and update the page
             var processedContent = ProcessWithSectionData(page.Content, data);
             var updatedPage = page with { Content = processedContent };
-            
+
             context.ReplaceGeneratedContent(page, updatedPage);
         }
     }
@@ -314,7 +314,7 @@ public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
     <TargetFramework>net9.0</TargetFramework>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <SupportedPlatform Include="browser" />
     <PackageReference Include="Blake.BuildTools" Version="1.0.0" />
@@ -346,7 +346,7 @@ public class MyPlugin : IBlakePlugin
         // Plugin processing logic
         logger?.LogInformation("MyPlugin: Processing content");
     }
-    
+
     public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
     {
         // Post-processing logic
@@ -384,13 +384,13 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
     // Load configuration from project directory
     var configPath = Path.Combine(context.ProjectPath, "plugin-config.json");
     var config = LoadPluginConfig(configPath);
-    
+
     if (!config.Enabled)
     {
         logger?.LogInformation("Plugin disabled via configuration");
         return;
     }
-    
+
     // Use configuration...
 }
 
@@ -398,7 +398,7 @@ private PluginConfig LoadPluginConfig(string configPath)
 {
     if (!File.Exists(configPath))
         return new PluginConfig { Enabled = true }; // Defaults
-    
+
     var json = File.ReadAllText(configPath);
     var allConfig = JsonSerializer.Deserialize<Dictionary<string, PluginConfig>>(json);
     return allConfig.GetValueOrDefault("MyAwesomePlugin", new PluginConfig { Enabled = true });
@@ -491,12 +491,12 @@ private readonly Dictionary<string, string> _apiCache = new();
 public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
     var pagesToProcess = context.Pages.Where(p => p.Metadata.ContainsKey("needsApiData")).ToList();
-    
+
     if (pagesToProcess.Any())
     {
         // Single API call for all pages
         var batchData = await FetchBatchApiData(pagesToProcess.Select(p => p.Slug));
-        
+
         foreach (var page in pagesToProcess)
         {
             if (batchData.TryGetValue(page.Slug, out var data))
@@ -550,7 +550,7 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 
 **Generally Discouraged:**
 - External API calls (except for specific, well-documented scenarios)
-- Complex configuration requirements  
+- Complex configuration requirements
 - Stateful operations that depend on execution order
 - Modifying files outside the Blake content directory
 
@@ -583,7 +583,7 @@ public async Task LastModifiedPlugin_AddsTimestampMetadata()
     await plugin.BeforeBakeAsync(context, logger);
 
     // Assert
-    Assert.All(context.Pages, page => 
+    Assert.All(context.Pages, page =>
         Assert.True(page.Metadata.ContainsKey("lastModified")));
 }
 ```

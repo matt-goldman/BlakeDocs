@@ -379,7 +379,7 @@ var updatedPage = existingPage with
 // Using regex here because Markdig doesn't provide access to the raw HTML
 // after custom renderers have processed it. This pattern is safe because
 // we control the comment format in our plugin.
-var match = Regex.Match(content, @"<!-- BLAKE_DATA:(.*?) -->");
+var match = Regex.Match(content, @@"<!-- BLAKE_DATA:(.*?) -->");
 
 // Bad - explains obvious
 // Check if match is successful

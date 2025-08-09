@@ -75,13 +75,13 @@ public class BlakeContext
     public string? ProjectName { get; set; }
     public required string ProjectPath { get; init; }
     public required IReadOnlyList<string> Arguments { get; init; }
-    
+
     // Pre-processed content (available in BeforeBake)
     public List<MarkdownPage> MarkdownPages { get; init; } = [];
-    
+
     // Generated content (available in AfterBake)
     public List<GeneratedPage> GeneratedPages { get; init; } = [];
-    
+
     // Markdig pipeline builder for adding extensions
     public required MarkdownPipelineBuilder PipelineBuilder { get; init; }
 }
@@ -101,10 +101,10 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
         // Calculate reading time from markdown content
         var wordCount = CountWords(page.RawMarkdown);
         var readingTime = Math.Max(1, (int)Math.Ceiling(wordCount / 200.0));
-        
+
         // Modify the frontmatter - this will appear in GeneratedPages metadata
         var updatedMarkdown = AddToFrontmatter(page.RawMarkdown, "readTimeMinutes", readingTime.ToString());
-        
+
         // Update the page (this is a simplified example - actual implementation varies)
         // The reading time will be available in metadata after baking
     }
@@ -113,7 +113,7 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
         {
             page.Metadata["excerpt"] = excerpt;
         }
-        
+
         // Add file metadata
         var fileInfo = new FileInfo(page.SourcePath);
         page.Metadata["lastModified"] = fileInfo.LastWriteTime.ToString("yyyy-MM-dd");
@@ -130,7 +130,7 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
     // Add custom Markdig extensions
     context.MarkdigPipelineBuilder.Extensions.Add(new CalloutExtension());
     context.MarkdigPipelineBuilder.Extensions.Add(new CustomLinkExtension());
-    
+
     // Configure existing extensions
     context.MarkdigPipelineBuilder.UseAdvancedExtensions();
     context.MarkdigPipelineBuilder.UsePipeTables();
@@ -147,13 +147,13 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
     // Plugin authors need to implement their own configuration
     var configPath = Path.Combine(context.ProjectPath, "plugin-config.json");
     var pluginConfig = LoadPluginConfig(configPath);
-    
+
     if (!pluginConfig.IsEnabled)
     {
         logger?.LogInformation("Plugin disabled via configuration");
         return;
     }
-    
+
     var apiEndpoint = pluginConfig.GetValue<string>("apiEndpoint");
     if (!string.IsNullOrEmpty(apiEndpoint))
     {
@@ -173,10 +173,10 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
     {
         // Replace custom syntax with standard Markdown
         var processedContent = page.RawMarkdown.Replace("{{TOC}}", GenerateTableOfContents(page));
-        
+
         // Process include directives
         page.Content = await ProcessIncludesAsync(page.Content, page.SourcePath);
-        
+
         // Add custom frontmatter processing
         var customMeta = ParseCustomFrontmatter(page.Content);
         foreach (var kvp in customMeta)
@@ -217,13 +217,13 @@ public class BlakeContext
     public string? ProjectName { get; set; }
     public required string ProjectPath { get; init; }
     public required IReadOnlyList<string> Arguments { get; init; }
-    
+
     // Available in BeforeBake
     public List<MarkdownPage> MarkdownPages { get; init; } = [];
-    
+
     // Available in AfterBake (populated after processing)
     public List<GeneratedPage> GeneratedPages { get; init; } = [];
-    
+
     // Markdig pipeline builder for extensions
     public required MarkdownPipelineBuilder PipelineBuilder { get; init; }
 }
@@ -239,16 +239,16 @@ public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
     foreach (var page in context.GeneratedContent.ToList())
     {
         // Create updated page with additional metadata
-        var updatedPage = page with 
-        { 
-            Metadata = page.Metadata.Union(new[] 
+        var updatedPage = page with
+        {
+            Metadata = page.Metadata.Union(new[]
             {
                 KeyValuePair.Create("processedAt", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")),
                 KeyValuePair.Create("wordCount", CountWords(page.Content).ToString()),
                 KeyValuePair.Create("hasCodeBlocks", page.Content.Contains("<code>").ToString())
             }).ToDictionary(x => x.Key, x => x.Value)
         };
-        
+
         // Replace in the collection
         context.ReplaceGeneratedContent(page, updatedPage);
     }
@@ -264,12 +264,12 @@ public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
     var sitemapContent = GenerateSitemap(context.GeneratedContent);
     var sitemapPath = Path.Combine(context.OutputDirectory, "sitemap.xml");
     await File.WriteAllTextAsync(sitemapPath, sitemapContent);
-    
+
     // Generate RSS feed
     var feedContent = GenerateRssFeed(context.GeneratedContent);
     var feedPath = Path.Combine(context.OutputDirectory, "feed.xml");
     await File.WriteAllTextAsync(feedPath, feedContent);
-    
+
     // Generate search index
     var searchIndex = GenerateSearchIndex(context.GeneratedContent);
     var searchPath = Path.Combine(context.OutputDirectory, "search.json");
@@ -292,7 +292,7 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
     {
         // Analyze content and collect data
         var sections = AnalyzeSections(page.Content);
-        
+
         // Embed data as HTML comment
         var data = JsonSerializer.Serialize(sections);
         page.Content += $"\n<!-- BLAKE_PLUGIN_DATA:{Name}:{data} -->";
@@ -304,19 +304,19 @@ public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
     foreach (var page in context.GeneratedContent.ToList())
     {
         // Extract embedded data
-        var pattern = $@"<!-- BLAKE_PLUGIN_DATA:{Name}:(.*?) -->";
+        var pattern = $@@"<!-- BLAKE_PLUGIN_DATA:{Name}:(.*?) -->";
         var match = Regex.Match(page.Content, pattern);
-        
+
         if (match.Success)
         {
             var data = JsonSerializer.Deserialize<SectionData>(match.Groups[1].Value);
-            
+
             // Process the data and update content
             var processedContent = ProcessWithSectionData(page.Content, data);
-            
+
             // Remove the embedded data comment
             processedContent = Regex.Replace(processedContent, pattern, "");
-            
+
             var updatedPage = page with { Content = processedContent };
             context.ReplaceGeneratedContent(page, updatedPage);
         }
@@ -355,7 +355,7 @@ public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
 {
     var processedCount = 0;
     var errorCount = 0;
-    
+
     foreach (var page in context.GeneratedContent.ToList())
     {
         try
@@ -366,12 +366,12 @@ public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
         }
         catch (Exception ex)
         {
-            logger?.LogWarning("Failed to process page {PagePath}: {Message}", 
+            logger?.LogWarning("Failed to process page {PagePath}: {Message}",
                 page.SourcePath, ex.Message);
             errorCount++;
         }
     }
-    
+
     logger?.LogInformation("Plugin processed {ProcessedCount} pages with {ErrorCount} errors",
         processedCount, errorCount);
 }
@@ -388,13 +388,13 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
     var pagesToProcess = context.Pages
         .Where(p => p.Metadata.ContainsKey("needsApiData"))
         .ToList();
-    
+
     if (pagesToProcess.Any())
     {
         // Single API call for all pages
         var batchResults = await FetchBatchDataAsync(
             pagesToProcess.Select(p => p.Slug));
-        
+
         // Apply results to individual pages
         foreach (var page in pagesToProcess)
         {
@@ -423,7 +423,7 @@ public class SimplePlugin : IBlakePlugin
             logger?.LogInformation($"Processing {page.MdPath}");
         }
     }
-    
+
     public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
     {
         // Work with generated pages
@@ -452,7 +452,7 @@ public class PageModel
     public string? Description { get; set; }
     public string? Category { get; set; }
     public bool IsDraft { get; set; }
-    
+
     // Computed properties
     public string Slug { get; }
     public string DirectoryPath { get; }
@@ -486,20 +486,20 @@ public class BlakeContext
     // Content collections
     public IReadOnlyList<PageModel> Pages { get; }
     public IList<GeneratedPage> GeneratedContent { get; }
-    
+
     // Build configuration
     public IConfiguration Configuration { get; }
     public string OutputDirectory { get; }
     public IReadOnlyList<string> ContentDirectories { get; }
-    
+
     // Pipeline configuration
     public MarkdownPipelineBuilder MarkdigPipelineBuilder { get; }
-    
+
     // Content manipulation
     public void ReplaceGeneratedContent(GeneratedPage original, GeneratedPage updated);
     public void AddGeneratedContent(GeneratedPage page);
     public bool RemoveGeneratedContent(GeneratedPage page);
-    
+
     // Build information
     public BuildStatistics Statistics { get; }
     public DateTime BuildStartTime { get; }
