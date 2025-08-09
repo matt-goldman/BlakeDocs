@@ -59,7 +59,7 @@
                 mainContentById.scrollTo({ top: 0, behavior: 'smooth' });
                 return;
             }
-            
+
             // Fallback to class selector
             const mainContent = document.querySelector(".main-content");
             if (mainContent) {
@@ -67,7 +67,7 @@
                 mainContent.scrollTo({ top: 0, behavior: 'smooth' });
                 return;
             }
-            
+
             // Final fallback to window scroll
             console.log("No main content found, trying window scroll");
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -77,6 +77,27 @@
             const el = document.querySelector('[data-bs-spy="scroll"]');
             if (el) {
                 bootstrap.ScrollSpy.getInstance(el)?.dispose(); // in case it's reinitialised
+
+                // Find all anchor links in the scroll target and fix invalid IDs
+                const scrollTarget = document.getElementById('bs-scroll-target');
+                if (scrollTarget) {
+                    const links = scrollTarget.querySelectorAll('a[href^="#"]');
+                    links.forEach(link => {
+                        const href = link.getAttribute('href');
+                        if (href && href.length > 1) {
+                            const id = href.substring(1);
+                            // If the ID starts with a number, escape it for CSS
+                            if (/^\d/.test(id)) {
+                                const targetElement = document.getElementById(id);
+                                if (targetElement) {
+                                    // Update the href to use CSS.escape
+                                    link.setAttribute('href', '#' + CSS.escape(id));
+                                }
+                            }
+                        }
+                    });
+                }
+
                 new bootstrap.ScrollSpy(el, {
                     target: '#bs-scroll-target',
                     rootMargin: '0px 0px -50%',
