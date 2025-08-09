@@ -11,3 +11,5 @@ category: "Deploying"
 
 - Vercel
 - GitHub Actions CI
+- Add a coming soon for this. No intention to write this any time soon but need a better page than just these bullets in the meantime.
+- Potentially link to other docs or posts about deploying Blazor WASM apps to Vercel
