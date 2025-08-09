@@ -11,7 +11,7 @@
 .sidebar-right {
     background-color: var(--bs-dark);
     height: 100%;
-    overflow-y: auto;
+    overflow: hidden; /* Change from overflow-y: auto to hidden */
     position: sticky;
     top: 0;
 }
@@ -27,6 +27,31 @@
 .sidebar-content {
     padding: 1rem;
     height: 100%;
+    overflow: hidden; /* Ensure no conflicting overflow rules */
+    display: flex; /* Use flexbox to control child layout */
+    flex-direction: column;
+}
+
+/* Ensure the TOC component takes full available height and can scroll */
+.sidebar-content ::deep .bdr-toc {
+    flex: 1; /* Take up all available space */
+    min-height: 0; /* Allow flex item to shrink below content size */
+    height: auto !important; /* Override the plugin's height: 100% */
+    overflow-y: auto !important; /* Ensure scrolling is enabled */
+}
+
+/* Alternative approach: Create our own scrollable container */
+.toc-scrollable {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+/* Override the plugin's TOC styles when inside our scrollable container */
+.toc-scrollable ::deep .bdr-toc {
+    height: auto !important;
+    overflow-y: visible !important; /* Let parent handle scrolling */
+    position: static !important; /* Remove sticky positioning */
 }
 
 .main-content {
