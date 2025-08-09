@@ -63,6 +63,7 @@ dotnet test
 - Ensure all NuGet packages restored successfully
 - Verify no conflicting global tools installed
 
+[NOTE: Should mention to add preview suffix here. Also check the PowerShell script in the Blake repo as it could be worth mentioning here too.]
 ### Installing Local Blake CLI
 
 **Build and install your development version:**

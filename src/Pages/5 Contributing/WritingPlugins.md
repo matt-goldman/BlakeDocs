@@ -29,11 +29,11 @@ Plugin development follows Blake's core philosophy:
 Consider creating a plugin when you need to:
 
 - **Process content** in ways not supported by existing plugins
-- **Integrate with external APIs** during site generation
+- **Integrate with external APIs** during site generation [NOTE: I don't want to prohibit this, but I don't want to encourage it. Can we think of an alternative example?]
 - **Add consistent metadata** across multiple projects
 - **Implement custom build logic** that should be reusable
 - **Transform Markdown** with custom extensions or renderers
-- **Inject assets** like CSS, JavaScript, or other files
+- **Inject assets** like CSS, JavaScript, or other files [NOTE: Definitely appropriate to extend Blake but should be included as part of an RCL, not injected by the plugin hooks. Look at DocsRenderer for an example of how these two things are combined for a cohesive, enhanced plugin that provides a seamless extension across both.]
 - **Create cross-cutting functionality** that applies to multiple pages
 
 **When NOT to build a plugin:**
@@ -50,6 +50,7 @@ Blake plugins implement the `IBlakePlugin` interface from `Blake.BuildTools`:
 ```csharp
 public interface IBlakePlugin
 {
+    [NOTE: string and version properties are not present on this interface]
     string Name { get; }
     string Version { get; }
     Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null);
@@ -64,7 +65,7 @@ Blake plugins participate in the site generation process through two well-define
 1. **BeforeBakeAsync** - Called before content processing begins
    - Ideal for setup tasks and configuration
    - Modify the Markdig pipeline with custom extensions
-   - Add metadata to source content
+   - Add metadata to source content [NOTE: through frontmatter]
    - Prepare data for content generation
 
 2. **AfterBakeAsync** - Called after all content is processed
@@ -74,6 +75,8 @@ Blake plugins participate in the site generation process through two well-define
    - Perform cleanup or final transformations
 
 ### BlakeContext
+
+[NOTE: It is probably worth explaining here that BlakeContext is instantiated at the start of Build, and is persisted through the whole pipeline. There's nothing in there for plugins to access to persist state (other than the content itself, as described in various places). But a single BlakeContext represents the entire bake pipeline from start to finish. It's passe sequentially to every plugin before bake (i.e. calls the BeforeBakeAsync hook in every plugin), then performs the bake - it creates a Markdig pipeline by calling .Build on the builder in the context - then calls the AfterBakeAsync hook sequentially in every plugin.]
 
 Both lifecycle methods receive a `BlakeContext` that provides:
 
@@ -203,6 +206,7 @@ public class CalloutExtension : IMarkdownExtension
 ```
 
 ### Metadata Enhancement
+[NOTE: see similar comments about this elsewhere. There's no Pages property, only MarkdwonPages and GeneratedPages. And metadata preporcessing is done via frontmatter.]
 
 Plugins can add metadata during the before bake phase:
 
@@ -234,6 +238,7 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 ### Working with Generated Content
 
 The AfterBakeAsync method provides access to the fully generated content:
+[NOTE: Property name is wrong. Also double check whether this would work based on the context. And the replace generated content method doesn't exist - you have to find the page in the collection (I've done this woth slugs as it seems the easiest match) and replace it with your updated version.]
 
 ```csharp
 public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
@@ -295,6 +300,8 @@ public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
 ```
 
 ### Asset Injection via Razor Class Library (RCL)
+
+[NOTE: Is this the best pattern here? I think it's worth including this but probably leave out the plugin hook part. We can instead just have a section that talks about using RCLs to extend Blake, either by including an `IBlakePlugin` implementation or not. This is a neat trick but I wouldn't class it as a "pattern". And one last thing to be wary of is Blazor CSS isolation.]
 
 For plugins that provide CSS, JavaScript, or other assets, distribute as an RCL:
 
@@ -390,6 +397,7 @@ Blake encourages zero-configuration plugins that work immediately upon installat
 
 Access configuration in your plugin:
 
+[NOTE: as mentioned above `Configuration` does not exist on BlakeContext. You would have to write your own logic for getting the config. You could document it too, i.e. instruct consumers to make their appsettings.json an embedded resource, then you an use reflection to get it out of the executing assembly.]
 ```csharp
 public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
@@ -634,6 +642,8 @@ dotnet new blakeplugin -n MyAwesomePlugin
 
 ## Future Plugin Capabilities
 
+[NOTE: There are no plans or intent to implement any of this. Aggressive YAGNI.]
+
 Blake's plugin system continues to evolve. Planned enhancements include:
 
 - **Build context hooks** - More integration points in the build pipeline
@@ -662,3 +672,5 @@ Ready to create your first Blake plugin? Here's what to do next:
 - **Plugin template** - Scaffolding for creating new Blake plugins quickly
 - **Contributing guidelines** - How to contribute plugins back to the Blake ecosystem
 :::
+
+[NOTE: General comment - worth adding somewhere in here about the use oif ILogger rather than console. As mentioned in antoher comment in this PR it shoudl be mentioned that people could use Blake without the CLI if they wanted, and they may want to pass any kind of ILogger to the methods in BuildTools. Writing to console instead of the logger is discouraged. It's an anti-pattern in .NET in general so it's an anti-pattern in Blake too.]

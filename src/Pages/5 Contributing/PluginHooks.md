@@ -81,7 +81,7 @@ public class BlakeContext
 ### Common BeforeBake Patterns
 
 #### Adding Metadata to Pages
-
+[NOTE: Page metadata is a property of _processed_ pages, not raw content. And further, the code is wrong. The content provides MarkdownPages (accessible in before bake) and GeneratedPages (accessible in after bake). Metadata is available in generated pages, _but_ before bake can write metadata into the YAML frontmatter, which then gets added to the metadata dictionary.]
 ```csharp
 public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
@@ -127,6 +127,7 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 ```csharp
 public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
+    [Note: there is no configuration in the Blake context. If plugin authors want configuration, they will need to implement their own configuration loading mechanism.]
     var pluginConfig = context.Configuration.GetSection("Plugins:MyPlugin");
     var isEnabled = pluginConfig.GetValue("enabled", true);
     
@@ -149,6 +150,7 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 ```csharp
 public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
+    [NOTE: note here above comment about MarkdownPages vs GeneratedPages and metadata. Also worth a comment somewhere in the page about suitability for pre-processing, Markdig extension processing, and post-processing. Use the existing plugins as a guide here.]
     foreach (var page in context.Pages)
     {
         // Replace custom syntax with standard Markdown
@@ -175,6 +177,7 @@ The `AfterBakeAsync` hook is called after all Markdown processing and Blazor com
 
 - **Generated content modification** - Update processed HTML and metadata
 - **Output file creation** - Generate additional files (sitemaps, feeds, etc.)
+[NOTE: make this more generic. Could be something like generating additional files, such as an RSS feed, a sitemap, or other related assets. Probably wouldn't mention CSS and JavaScript here because these would be included in an RCL, not managed by an IBlakePlugin implementation. But image processing could be worth mentioning - thumbnail generation for example would be a neat addition. EDIT: I see a mention below of this just to note.]
 - **Asset processing** - Handle CSS, JavaScript, images
 - **Cleanup tasks** - Remove temporary data or files
 - **Final validations** - Check generated content quality
@@ -189,6 +192,7 @@ Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
 
 In addition to BeforeBake context, AfterBake provides:
 
+[NOTE: Double check all mentions of BlakeContext in this file against what's actually there. See: https://github.com/matt-goldman/blake/blob/main/src/Blake.BuildTools/BlakeContext.cs. For example the next section doesn't seem quite right. Worth noting somewhere that the Blake context uses immutable data so generated content needs to be replaced, not modified (it's all record types). Additionally the collection only has get and init so you can't just replace the whole thing. This helps keep the purpose of plugins focused on enhancing the Blake pipeline, rather than replacing it.]
 ```csharp
 public class BlakeContext
 {
@@ -301,7 +305,7 @@ public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
 ```
 
 #### Static Field Storage (Advanced)
-
+[NOTE: This isn't appropriate. Plugins should be considered stateless. For something like this, use the workaround mentioned above.]
 ```csharp
 public class AdvancedPlugin : IBlakePlugin
 {
@@ -420,6 +424,7 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 
 #### Caching Expensive Operations
 
+[NOTE: Same here. More generally, review how plugins are called by Blake. Some of what's being suggested here won't work. And shouldn't - perhaps consider keeping this minimal.]
 ```csharp
 public class CachingPlugin : IBlakePlugin
 {
@@ -485,6 +490,7 @@ public record GeneratedPage(
 ```
 
 ### BlakeContext Full API
+[NOTE: As mentioned above check this against the code in the repo]
 
 ```csharp
 public class BlakeContext
@@ -513,7 +519,7 @@ public class BlakeContext
 }
 ```
 
-## Future Plugin Hooks
+## Future Plugin Hooks [NOTE: Remove this section. Blake has a fundamental, immutable YAGNI principle. There are no plans to add anything that isn't absolutely necessary (and asked for).]
 
 Blake's plugin system is evolving. Planned enhancements include:
 
@@ -554,8 +560,8 @@ Task ProcessAssetsAsync(AssetContext context);
 
 - **Minimize file I/O** in hooks when possible
 - **Use async patterns** consistently
-- **Cache expensive operations** between pages
-- **Batch external API calls** rather than calling per page
+- **Cache expensive operations** between pages [NOTE: between pages, yes. Apologies if I gave incorrect information above. Just not between before/after hooks.]
+- **Batch external API calls** rather than calling per page [NOTE: Consider whether API calls during baking are appropriate. Should represent a clearly defined, documented, transparent, and clearly articulated edge case.]
 - **Consider memory usage** with large sites
 
 ### Compatibility Considerations
