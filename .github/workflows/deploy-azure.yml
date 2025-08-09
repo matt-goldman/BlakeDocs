@@ -32,7 +32,7 @@ jobs:
 
       - name: Build the site
         id: build
-        run: dotnet publish --configuration Release -o site_output
+        run: dotnet publish src/BlakeSampleDocs.csproj --configuration Release -o site_output
 
       - name: Build And Deploy
         id: deploy
