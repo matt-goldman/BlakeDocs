@@ -11,3 +11,4 @@ category: "Deploying"
 
 - Cloudflare Pages
 - GitHub Actions CI
+- Add a 'Comming soon' for this one, not intending to write this just yet but need this presented properly
