@@ -325,7 +325,7 @@ public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
 
 **2. Include assets and components:**
 ```razor
-@* Components/MyPluginComponent.razor *@
+@@* Components/MyPluginComponent.razor *@@
 <div class="my-plugin-component">
   @ChildContent
 </div>

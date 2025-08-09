@@ -190,7 +190,7 @@ MyTemplate/
 
 #### 3. Default Page Template
 
-**Blake automatically adds the `@page` directive, so templates focus on content:**
+**Blake automatically adds the `@@page` directive, so templates focus on content:**
 
 ```razor
 @* template.razor *@

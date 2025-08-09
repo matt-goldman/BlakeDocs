@@ -200,8 +200,8 @@ dotnet run
 mkdir MinimalTest
 cd MinimalTest
 echo "# Test Page" > page.md
-echo "@page \"/test\"" > template.razor
-echo "@Body" >> template.razor
+echo "@@page \"/test\"" > template.razor
+echo "@@Body" >> template.razor
 
 blake bake
 # Verify .generated files created correctly
