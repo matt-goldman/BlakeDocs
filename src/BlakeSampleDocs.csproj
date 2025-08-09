@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BlakePlugin.DocsRenderer" Version="1.0.9" />
+    <PackageReference Include="BlakePlugin.DocsRenderer" Version="1.0.10" />
     <PackageReference Include="BlakePlugin.ReadTime" Version="1.0.0" />
     <PackageReference Include="Blazicons.FontAwesome" Version="2.4.31" />
     <PackageReference Include="Blazicons.Lucide" Version="1.11.31" />
