@@ -17,6 +17,8 @@ This will cover Blake’s internal architecture: loaders, transformers, renderer
 
 Blake processes your Markdown and Razor templates to generate `.razor` files in a `.generated folder`.
 
+**NOTE:** This page needs to include some information about how the Blake CLI is essentially just a wrapper/facade around the Blake build system (BuildTools and Markdwon Parser). There's no reaason why someone couldn't take a dependency on BuildTools and use Blake as part of another pipeline or build system, skipping the CLI altogether. The The methods include arguments that can be provided however you like, and also take an `ILogger` for feeding back to your sink instead of depending on console output. The only thing to be wary of is anything that's `Internal` (I would ahve to check this, I think I may have made somethings internal but visible to the CLI). 
+
 ## File and folder structure
 
 While it's common for static site generators to require a specific folder structure, Blake takes a more flexible approach. It uses the folder structure to drive routing and navigation, but it doesn't enforce a rigid layout. This means you can organize your content in a way that makes sense for your project.
