@@ -54,6 +54,17 @@ The `BeforeBakeAsync` hook is called before any content processing begins. This 
 Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 ```
 
+### BlakeContext Lifecycle
+
+**The BlakeContext is instantiated at the start of the bake process and persists through the entire pipeline:**
+
+1. **Context Creation** - A single BlakeContext represents the entire bake from start to finish
+2. **Plugin BeforeBake** - Blake calls BeforeBakeAsync sequentially on every plugin
+3. **Content Processing** - Blake creates the Markdig pipeline by calling .Build() on the PipelineBuilder in the context
+4. **Plugin AfterBake** - Blake calls AfterBakeAsync sequentially on every plugin
+
+**Note:** There's no built-in mechanism for plugins to persist state in the context (other than through the content itself). The context provides access to the project and content, but plugins should remain stateless.
+
 ### Available Context
 
 The `BlakeContext` provides access to:
@@ -61,38 +72,42 @@ The `BlakeContext` provides access to:
 ```csharp
 public class BlakeContext
 {
-    // Source content before processing
-    public IReadOnlyList<PageModel> Pages { get; }
+    public string? ProjectName { get; set; }
+    public required string ProjectPath { get; init; }
+    public required IReadOnlyList<string> Arguments { get; init; }
     
-    // Build configuration
-    public IConfiguration Configuration { get; }
+    // Pre-processed content (available in BeforeBake)
+    public List<MarkdownPage> MarkdownPages { get; init; } = [];
     
-    // Markdig pipeline builder for extensions
-    public MarkdownPipelineBuilder MarkdigPipelineBuilder { get; }
+    // Generated content (available in AfterBake)
+    public List<GeneratedPage> GeneratedPages { get; init; } = [];
     
-    // Output directory information
-    public string OutputDirectory { get; }
-    
-    // Content directories being processed
-    public IReadOnlyList<string> ContentDirectories { get; }
+    // Markdig pipeline builder for adding extensions
+    public required MarkdownPipelineBuilder PipelineBuilder { get; init; }
 }
 ```
 
 ### Common BeforeBake Patterns
 
 #### Adding Metadata to Pages
-[NOTE: Page metadata is a property of _processed_ pages, not raw content. And further, the code is wrong. The content provides MarkdownPages (accessible in before bake) and GeneratedPages (accessible in after bake). Metadata is available in generated pages, _but_ before bake can write metadata into the YAML frontmatter, which then gets added to the metadata dictionary.]
+
+**BeforeBake can modify YAML frontmatter which then gets added to the metadata dictionary on processed pages:**
+
 ```csharp
 public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
-    foreach (var page in context.Pages)
+    foreach (var page in context.MarkdownPages)
     {
-        // Calculate reading time
-        var wordCount = CountWords(page.Content);
+        // Calculate reading time from markdown content
+        var wordCount = CountWords(page.RawMarkdown);
         var readingTime = Math.Max(1, (int)Math.Ceiling(wordCount / 200.0));
-        page.Metadata["readTimeMinutes"] = readingTime.ToString();
         
-        // Extract excerpt from first paragraph
+        // Modify the frontmatter - this will appear in GeneratedPages metadata
+        var updatedMarkdown = AddToFrontmatter(page.RawMarkdown, "readTimeMinutes", readingTime.ToString());
+        
+        // Update the page (this is a simplified example - actual implementation varies)
+        // The reading time will be available in metadata after baking
+    }
         var excerpt = ExtractFirstParagraph(page.Content);
         if (!string.IsNullOrEmpty(excerpt))
         {
@@ -122,16 +137,18 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 }
 ```
 
-#### Configuration-Based Processing
+#### Custom Configuration Loading
+
+**Blake doesn't provide built-in configuration. If plugins need configuration, they must implement their own loading mechanism:**
 
 ```csharp
 public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
-    [Note: there is no configuration in the Blake context. If plugin authors want configuration, they will need to implement their own configuration loading mechanism.]
-    var pluginConfig = context.Configuration.GetSection("Plugins:MyPlugin");
-    var isEnabled = pluginConfig.GetValue("enabled", true);
+    // Plugin authors need to implement their own configuration
+    var configPath = Path.Combine(context.ProjectPath, "plugin-config.json");
+    var pluginConfig = LoadPluginConfig(configPath);
     
-    if (!isEnabled)
+    if (!pluginConfig.IsEnabled)
     {
         logger?.LogInformation("Plugin disabled via configuration");
         return;
@@ -147,14 +164,15 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 
 #### Content Preprocessing
 
+**BeforeBake is ideal for pre-processing, Markdig extension processing, and content transformation. Use MarkdownPages for raw content manipulation:**
+
 ```csharp
 public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
-    [NOTE: note here above comment about MarkdownPages vs GeneratedPages and metadata. Also worth a comment somewhere in the page about suitability for pre-processing, Markdig extension processing, and post-processing. Use the existing plugins as a guide here.]
-    foreach (var page in context.Pages)
+    foreach (var page in context.MarkdownPages)
     {
         // Replace custom syntax with standard Markdown
-        page.Content = page.Content.Replace("{{TOC}}", GenerateTableOfContents(page));
+        var processedContent = page.RawMarkdown.Replace("{{TOC}}", GenerateTableOfContents(page));
         
         // Process include directives
         page.Content = await ProcessIncludesAsync(page.Content, page.SourcePath);
@@ -176,9 +194,8 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 The `AfterBakeAsync` hook is called after all Markdown processing and Blazor component generation is complete. This is used for:
 
 - **Generated content modification** - Update processed HTML and metadata
-- **Output file creation** - Generate additional files (sitemaps, feeds, etc.)
-[NOTE: make this more generic. Could be something like generating additional files, such as an RSS feed, a sitemap, or other related assets. Probably wouldn't mention CSS and JavaScript here because these would be included in an RCL, not managed by an IBlakePlugin implementation. But image processing could be worth mentioning - thumbnail generation for example would be a neat addition. EDIT: I see a mention below of this just to note.]
-- **Asset processing** - Handle CSS, JavaScript, images
+- **Output file creation** - Generate additional files such as RSS feeds, sitemaps, or other related assets
+- **Asset processing** - Handle images, generate thumbnails, or optimize assets (CSS/JavaScript should be included in RCL, not managed by plugins)
 - **Cleanup tasks** - Remove temporary data or files
 - **Final validations** - Check generated content quality
 
@@ -190,22 +207,25 @@ Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
 
 ### Available Context
 
-In addition to BeforeBake context, AfterBake provides:
+In addition to BeforeBake context, AfterBake provides access to GeneratedPages:
 
-[NOTE: Double check all mentions of BlakeContext in this file against what's actually there. See: https://github.com/matt-goldman/blake/blob/main/src/Blake.BuildTools/BlakeContext.cs. For example the next section doesn't seem quite right. Worth noting somewhere that the Blake context uses immutable data so generated content needs to be replaced, not modified (it's all record types). Additionally the collection only has get and init so you can't just replace the whole thing. This helps keep the purpose of plugins focused on enhancing the Blake pipeline, rather than replacing it.]
+**Note:** Blake uses immutable record types for content. Generated content needs to be replaced, not modified in-place. The collection properties use `get` and `init`, so you can't replace the entire collection - this helps keep plugins focused on enhancing the Blake pipeline rather than replacing it.
+
 ```csharp
 public class BlakeContext
 {
-    // All BeforeBake properties plus:
+    public string? ProjectName { get; set; }
+    public required string ProjectPath { get; init; }
+    public required IReadOnlyList<string> Arguments { get; init; }
     
-    // Generated content after processing
-    public IList<GeneratedPage> GeneratedContent { get; }
+    // Available in BeforeBake
+    public List<MarkdownPage> MarkdownPages { get; init; } = [];
     
-    // Method to replace generated content
-    public void ReplaceGeneratedContent(GeneratedPage original, GeneratedPage updated);
+    // Available in AfterBake (populated after processing)
+    public List<GeneratedPage> GeneratedPages { get; init; } = [];
     
-    // Build statistics
-    public BuildStatistics Statistics { get; }
+    // Markdig pipeline builder for extensions
+    public required MarkdownPipelineBuilder PipelineBuilder { get; init; }
 }
 ```
 
@@ -304,41 +324,6 @@ public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
 }
 ```
 
-#### Static Field Storage (Advanced)
-[NOTE: This isn't appropriate. Plugins should be considered stateless. For something like this, use the workaround mentioned above.]
-```csharp
-public class AdvancedPlugin : IBlakePlugin
-{
-    private static readonly ConcurrentDictionary<string, object> _pluginData = new();
-    
-    public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
-    {
-        var key = $"{Name}_{DateTime.UtcNow.Ticks}";
-        var data = PrepareProcessingData(context.Pages);
-        _pluginData[key] = data;
-        
-        // Store key in pages for AfterBake retrieval
-        foreach (var page in context.Pages)
-        {
-            page.Metadata[$"__{Name}_DataKey"] = key;
-        }
-    }
-    
-    public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
-    {
-        foreach (var page in context.GeneratedContent.ToList())
-        {
-            if (page.Metadata.TryGetValue($"__{Name}_DataKey", out var keyStr) && 
-                _pluginData.TryRemove(keyStr, out var data))
-            {
-                var processedPage = ProcessWithData(page, data);
-                context.ReplaceGeneratedContent(page, processedPage);
-            }
-        }
-    }
-}
-```
-
 ### Error Handling in Hooks
 
 #### Graceful Degradation
@@ -422,27 +407,30 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 }
 ```
 
-#### Caching Expensive Operations
+#### Simple Plugin Pattern
 
-[NOTE: Same here. More generally, review how plugins are called by Blake. Some of what's being suggested here won't work. And shouldn't - perhaps consider keeping this minimal.]
+**Keep plugins minimal and stateless. Plugins are called sequentially and shouldn't rely on instance state between hooks:**
+
 ```csharp
-public class CachingPlugin : IBlakePlugin
+public class SimplePlugin : IBlakePlugin
 {
-    private readonly Dictionary<string, object> _cache = new();
-    
     public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
     {
-        foreach (var page in context.Pages)
+        // Process markdown pages
+        foreach (var page in context.MarkdownPages)
         {
-            var cacheKey = GenerateCacheKey(page);
-            
-            if (!_cache.TryGetValue(cacheKey, out var result))
-            {
-                result = await ExpensiveOperation(page);
-                _cache[cacheKey] = result;
-            }
-            
-            page.Metadata["expensiveResult"] = result.ToString();
+            // Simple transformation work
+            logger?.LogInformation($"Processing {page.MdPath}");
+        }
+    }
+    
+    public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
+    {
+        // Work with generated pages
+        foreach (var page in context.GeneratedPages)
+        {
+            // Simple post-processing
+            logger?.LogInformation($"Generated {page.OutputPath}");
         }
     }
 }
@@ -519,33 +507,6 @@ public class BlakeContext
 }
 ```
 
-## Future Plugin Hooks [NOTE: Remove this section. Blake has a fundamental, immutable YAGNI principle. There are no plans to add anything that isn't absolutely necessary (and asked for).]
-
-Blake's plugin system is evolving. Planned enhancements include:
-
-### Template Processing Hooks
-
-```csharp
-// Future hook - template discovery and modification
-Task BeforeTemplateProcessingAsync(TemplateContext context);
-Task AfterTemplateProcessingAsync(TemplateContext context);
-```
-
-### Build Context Hooks
-
-```csharp
-// Future hook - build pipeline integration
-Task BeforeBuildAsync(BuildContext context);
-Task AfterBuildAsync(BuildContext context);
-```
-
-### Asset Processing Hooks
-
-```csharp
-// Future hook - CSS/JS/image processing
-Task ProcessAssetsAsync(AssetContext context);
-```
-
 ## Best Practices
 
 ### Hook Design Principles
@@ -560,8 +521,8 @@ Task ProcessAssetsAsync(AssetContext context);
 
 - **Minimize file I/O** in hooks when possible
 - **Use async patterns** consistently
-- **Cache expensive operations** between pages [NOTE: between pages, yes. Apologies if I gave incorrect information above. Just not between before/after hooks.]
-- **Batch external API calls** rather than calling per page [NOTE: Consider whether API calls during baking are appropriate. Should represent a clearly defined, documented, transparent, and clearly articulated edge case.]
+- **Cache expensive operations** between pages (within a single hook execution, not between BeforeBake/AfterBake)
+- **Limit external API calls** - Should represent clearly defined, documented edge cases, not general patterns
 - **Consider memory usage** with large sites
 
 ### Compatibility Considerations

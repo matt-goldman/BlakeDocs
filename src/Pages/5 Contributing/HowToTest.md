@@ -63,10 +63,19 @@ dotnet test
 - Ensure all NuGet packages restored successfully
 - Verify no conflicting global tools installed
 
-[NOTE: Should mention to add preview suffix here. Also check the PowerShell script in the Blake repo as it could be worth mentioning here too.]
 ### Installing Local Blake CLI
 
-**Build and install your development version:**
+**For development, install with preview suffix to avoid conflicts with production versions:**
+
+```bash
+# Build and install development version with preview suffix
+dotnet tool uninstall -g Blake.CLI
+dotnet tool install -g Blake.CLI --version "*-*" --add-source [path-to-local-packages]
+```
+
+**Alternative: Use the PowerShell installation script from the Blake repository for automated setup and version management.**
+
+**Build and install your development version manually:**
 ```bash
 # Build the CLI project
 cd src/Blake.CLI

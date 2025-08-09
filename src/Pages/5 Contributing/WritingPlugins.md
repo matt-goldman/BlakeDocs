@@ -29,11 +29,11 @@ Plugin development follows Blake's core philosophy:
 Consider creating a plugin when you need to:
 
 - **Process content** in ways not supported by existing plugins
-- **Integrate with external APIs** during site generation [NOTE: I don't want to prohibit this, but I don't want to encourage it. Can we think of an alternative example?]
+- **Add structured metadata** processing across multiple projects
 - **Add consistent metadata** across multiple projects
 - **Implement custom build logic** that should be reusable
 - **Transform Markdown** with custom extensions or renderers
-- **Inject assets** like CSS, JavaScript, or other files [NOTE: Definitely appropriate to extend Blake but should be included as part of an RCL, not injected by the plugin hooks. Look at DocsRenderer for an example of how these two things are combined for a cohesive, enhanced plugin that provides a seamless extension across both.]
+- **Extend functionality** with assets via Razor Class Libraries (RCL)
 - **Create cross-cutting functionality** that applies to multiple pages
 
 **When NOT to build a plugin:**
@@ -50,9 +50,6 @@ Blake plugins implement the `IBlakePlugin` interface from `Blake.BuildTools`:
 ```csharp
 public interface IBlakePlugin
 {
-    [NOTE: string and version properties are not present on this interface]
-    string Name { get; }
-    string Version { get; }
     Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null);
     Task AfterBakeAsync(BlakeContext context, ILogger? logger = null);
 }
@@ -65,7 +62,7 @@ Blake plugins participate in the site generation process through two well-define
 1. **BeforeBakeAsync** - Called before content processing begins
    - Ideal for setup tasks and configuration
    - Modify the Markdig pipeline with custom extensions
-   - Add metadata to source content [NOTE: through frontmatter]
+   - Add metadata to source content through frontmatter modification
    - Prepare data for content generation
 
 2. **AfterBakeAsync** - Called after all content is processed
@@ -76,7 +73,9 @@ Blake plugins participate in the site generation process through two well-define
 
 ### BlakeContext
 
-[NOTE: It is probably worth explaining here that BlakeContext is instantiated at the start of Build, and is persisted through the whole pipeline. There's nothing in there for plugins to access to persist state (other than the content itself, as described in various places). But a single BlakeContext represents the entire bake pipeline from start to finish. It's passe sequentially to every plugin before bake (i.e. calls the BeforeBakeAsync hook in every plugin), then performs the bake - it creates a Markdig pipeline by calling .Build on the builder in the context - then calls the AfterBakeAsync hook sequentially in every plugin.]
+**The BlakeContext is instantiated at the start of the bake process and persists through the entire pipeline. A single BlakeContext represents the entire bake from start to finish. It's passed sequentially to every plugin's BeforeBakeAsync hook, then Blake performs the bake (creating a Markdig pipeline by calling .Build() on the PipelineBuilder), then calls AfterBakeAsync sequentially on every plugin.**
+
+**Note:** There's no built-in mechanism for plugins to persist state in the context (other than through the content itself). Plugins should remain stateless.
 
 Both lifecycle methods receive a `BlakeContext` that provides:
 
