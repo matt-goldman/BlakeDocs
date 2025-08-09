@@ -131,7 +131,8 @@ Calculates reading time estimates for content pages:
 
 ## Creating Custom Plugins
 
-:::summary
+:::info
+**Comprehensive Plugin Development Guide**
 Ready to develop Blake plugins? The complete guide to plugin development, including architecture overview, step-by-step tutorials, advanced patterns, and best practices, is available in the [Writing Plugins](/pages/5%20contributing/writing-plugins) section of our Contributing documentation.
 :::
 
