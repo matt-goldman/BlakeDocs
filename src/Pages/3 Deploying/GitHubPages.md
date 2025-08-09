@@ -10,15 +10,6 @@ category: "Deploying"
 quickAccess: 4
 ---
 
-- GitHub Pages
-- Netlify, Vercel, and other static hosts
-- Self-host as a Blazor app
-- GitHub Actions CI
-
-* GitHub Pages
-
-* Static hosting (Netlify, Vercel, etc.)
-
-* Self-hosting as a Blazor WASM app
-
-* Using GitHub Actions to build & deploy
+- Mention using GitHub pages to host SWAs, with a link to the GitHub docs
+- Mention GitHub Actions to deploy
+- More detail use the Simple Tailwind Blog as an example as it contains workflows for deploying to both Azure and GitHub Pages
