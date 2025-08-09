@@ -6,8 +6,7 @@ iconIdentifier: "bi bi-code-slash-nav-menu"
 pageOrder: 2
 ---
 
-:::info
-**Summary**
+:::summary
 Blake follows standard .NET coding conventions with specific guidelines for naming, formatting, nullability, and architecture patterns. These standards ensure code consistency, maintainability, and a smooth contribution experience for developers.
 :::
 

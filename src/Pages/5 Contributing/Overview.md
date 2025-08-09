@@ -6,8 +6,7 @@ iconIdentifier: "bi bi-heart-fill-nav-menu"
 pageOrder: 1
 ---
 
-:::info
-**Summary**
+:::summary
 Blake welcomes contributions from developers of all experience levels. Whether you want to fix bugs, add features, create plugins, improve documentation, or build site templates, this guide will help you get started with contributing to Blake's open-source ecosystem.
 :::
 

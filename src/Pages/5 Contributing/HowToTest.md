@@ -6,8 +6,7 @@ iconIdentifier: "bi bi-check2-square-nav-menu"
 pageOrder: 3
 ---
 
-:::info
-**Summary**
+:::summary
 Testing Blake changes involves setting up a local development environment, running unit and integration tests, testing with sample sites, and validating across different scenarios. This guide covers everything from basic setup to comprehensive testing strategies.
 :::
 

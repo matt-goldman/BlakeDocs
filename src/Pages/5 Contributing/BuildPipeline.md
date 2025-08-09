@@ -9,6 +9,10 @@ pageOrder: 1
 category: "Contributing"
 ---
 
+:::summary
+Blake's build pipeline transforms Markdown and Razor templates into Blazor components through a modular system of loaders, transformers, and renderers. Understanding this architecture helps when contributing to Blake or building advanced integrations.
+:::
+
 > 🚧 **Coming Soon**  
 > This page is under construction. Check back soon or [contribute on GitHub](https://github.com/YOUR-REPO).
 

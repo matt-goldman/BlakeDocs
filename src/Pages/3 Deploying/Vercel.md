@@ -9,8 +9,7 @@ pageOrder: 5
 category: "Deploying"
 ---
 
-:::info
-**Summary**
+:::summary
 Vercel provides optimized hosting for frontend frameworks and works well with Blake sites. While detailed Blake-specific documentation is coming soon, Vercel's Blazor WebAssembly support makes it a viable deployment option.
 :::
 

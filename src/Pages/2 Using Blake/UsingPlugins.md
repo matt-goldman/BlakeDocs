@@ -9,8 +9,7 @@ pageOrder: 5
 category: "Using Blake"
 ---
 
-:::info
-**Summary**
+:::summary
 Blake plugins extend the static site generation process by implementing the IBlakePlugin interface. They can modify content, add metadata, inject assets, and customize the build pipeline without requiring changes to Blake's core functionality.
 :::
 
@@ -132,8 +131,7 @@ Calculates reading time estimates for content pages:
 
 ## Creating Custom Plugins
 
-:::info
-**Comprehensive Plugin Development Guide**
+:::summary
 Ready to develop Blake plugins? The complete guide to plugin development, including architecture overview, step-by-step tutorials, advanced patterns, and best practices, is available in the [Writing Plugins](/pages/5%20contributing/writing-plugins) section of our Contributing documentation.
 :::
 

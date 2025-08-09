@@ -9,7 +9,11 @@ pageOrder: 2
 category: "Using Blake"
 ---
 
-Because Blake outputs .razor files, you can use any Blazor component in your templates or Markdown.
+:::summary
+Blake templates can use any Blazor component, and content authors can include components in Markdown using container syntax. This provides the flexibility of Blazor components within a Markdown-first authoring experience.
+:::
+
+## Using Components
 
 You can literally drop any Razor component into your Markdown, and it will be rendered as part of the page. Note though that the recommended way to use components in content is to use Markdown containers.
 

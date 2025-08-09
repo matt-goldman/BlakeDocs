@@ -9,8 +9,7 @@ pageOrder: 3
 category: "Meta"
 ---
 
-:::info
-**Summary**
+:::summary
 Blake is essentially feature-complete. Future development focuses on developer experience improvements, additional plugins, and expanding the template ecosystem - not adding core complexity.
 :::
 

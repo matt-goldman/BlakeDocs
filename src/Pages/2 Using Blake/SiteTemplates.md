@@ -9,8 +9,7 @@ pageOrder: 4
 category: "Using Blake"
 ---
 
-:::info
-**Summary**
+:::summary
 Site templates provide complete starting points for your Blake projects. Use `blake new -t <template-name>` to scaffold a full site with layouts, styling, and example content tailored to specific use cases.
 :::
 
@@ -18,8 +17,7 @@ Site templates provide complete starting points for your Blake projects. Use `bl
 
 Site templates are different from [page templates](/pages/2%20using%20blake/page-templates) - they provide complete project scaffolding rather than individual page rendering.
 
-:::info
-**Why "Site Templates" Instead of "Themes"?**
+:::summary
 Blake uses the term "site templates" rather than "themes" because it more accurately describes what they are. A theme implies a visual customization of an existing standard structure, but Blake doesn't work that way. At its core, Blake simply transforms Markdown into Razor according to page templates. Site templates provide complete scaffolded websites, not just styling - they're architectural foundations, not decorative overlays.
 :::
 

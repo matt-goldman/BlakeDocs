@@ -9,8 +9,7 @@ pageOrder: 1
 category: "Deploying"
 ---
 
-:::info
-**Summary**
+:::summary
 Blake sites are Blazor WebAssembly applications that can be deployed to any static web hosting platform. This section covers deployment strategies from GitHub Pages to cloud platforms, with ready-to-use GitHub Actions workflows and platform-specific guidance.
 :::
 

@@ -9,8 +9,7 @@ pageOrder: 4
 category: "Deploying"
 ---
 
-:::info
-**Summary**
+:::summary
 Cloudflare Pages offers fast global CDN hosting for Blake sites with automatic deployments from Git. While detailed Blake-specific guides are coming soon, Cloudflare Pages works excellently with Blazor WebAssembly applications.
 :::
 

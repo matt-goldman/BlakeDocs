@@ -9,8 +9,7 @@ pageOrder: 3
 category: "Using Blake"
 ---
 
-:::info
-**Summary**
+:::summary
 Page templates define how your Markdown content is rendered as Blazor components. Use `template.razor` files for folder-specific templates or `cascading-template.razor` for templates that apply to multiple levels of your site.
 :::
 
