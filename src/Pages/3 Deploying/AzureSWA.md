@@ -12,4 +12,5 @@ quickAccess: 3
 
 - Azure Static Web Apps
 - GitHub Actions CI
-- Bascially just a general assertion that Blazor WASM apps, which is what Blake produces, can be packaged as sttic web apps and distributed via any mechanis, that supports it
+- Mention GitHub Actions to deploy
+- More detail use the Simple Tailwind Blog as an example as it contains workflows for deploying to both Azure and GitHub Pages
