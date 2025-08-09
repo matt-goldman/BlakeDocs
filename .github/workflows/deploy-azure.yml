@@ -28,6 +28,7 @@ jobs:
 
       - name: Bake static content
         run: blake bake
+        working-directory: src
 
       - name: Build the site
         id: build
