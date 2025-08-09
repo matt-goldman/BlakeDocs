@@ -90,6 +90,9 @@ Unlike page templates (which render individual Markdown files), site templates a
 mkdir MyTemplate
 cd MyTemplate
 
+# Blake needs a Blazor WASM project first
+dotnet new blazorwasm
+
 # Initialize with basic structure
 blake init
 
@@ -119,7 +122,7 @@ MyTemplate/
 
 ```razor
 @* Layout/MainLayout.razor *@
-@inherits LayoutView
+@inherits LayoutComponentBase
 @inject IConfiguration Configuration
 
 <div class="page">
@@ -155,9 +158,10 @@ MyTemplate/
 
 #### 2. Navigation Component
 
+**Blake provides the `GeneratedContentIndex` for navigation:**
+
 ```razor
 @* Components/NavMenu.razor *@
-@inject IJSRuntime JSRuntime
 @using Blake.Types
 
 <ul class="nav">
@@ -186,19 +190,20 @@ MyTemplate/
 
 #### 3. Default Page Template
 
+**Blake automatically adds the `@page` directive, so templates focus on content:**
+
 ```razor
 @* template.razor *@
-@page "/{slug?}"
 @using Blake.Types
 
 <article class="post">
     <header class="post-header">
         <h1 class="post-title">@Title</h1>
-        @if (Date.HasValue)
+        @if (CurrentPage.Date.HasValue)
         {
             <div class="post-meta">
-                <time datetime="@Date.Value.ToString("yyyy-MM-dd")">
-                    @Date.Value.ToString("MMMM d, yyyy")
+                <time datetime="@CurrentPage.Date.Value.ToString("yyyy-MM-dd")">
+                    @Published
                 </time>
                 @if (Tags?.Any() == true)
                 {
@@ -241,6 +246,8 @@ MyTemplate/
 
 ### Template Configuration
 
+**Note:** Blake doesn't have built-in configuration. If template authors want to make their templates configurable, this is how they should implement it using standard .NET configuration patterns.
+
 #### appsettings.json
 
 ```json
@@ -273,6 +280,8 @@ MyTemplate/
 ```
 
 #### Project File Configuration
+
+**Note:** The package references and UI libraries shown are illustrative examples. Template authors can choose any libraries that fit their design goals.
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
@@ -325,6 +334,8 @@ MyTemplate/
 
 ### Customizable Theming
 
+**Note:** Template styling is completely template-dependent. Authors can choose Bootstrap, Tailwind, custom CSS, or any approach that fits their design goals. Consider Blazor CSS isolation for component-specific styling.
+
 #### CSS Custom Properties
 
 ```css
@@ -366,6 +377,8 @@ MyTemplate/
 
 #### Configuration-Based Theming
 
+**Note:** This is an illustrative example of dynamic theming. Template authors should lean into the Blazor ecosystem and may prefer existing UI frameworks (MudBlazor, Lumex, etc.) or NuGet packages with Razor components rather than building custom solutions.
+
 ```razor
 @* Components/ThemeProvider.razor *@
 @inject IConfiguration Configuration
@@ -401,9 +414,10 @@ MyTemplate/
 
 ### Search Integration
 
+**Blake provides the `GeneratedContentIndex` that exposes title, description, tags, and metadata for simple search functionality. However, the actual text/content of generated pages is not searchable.**
+
 ```razor
 @* Components/SiteSearch.razor *@
-@inject IJSRuntime JSRuntime
 @using Blake.Types
 
 <div class="search-container">
@@ -470,6 +484,8 @@ MyTemplate/
 
 ### RSS Feed Generation
 
+**Note:** This functionality might be better implemented as a Blake plugin that generates the RSS feed at build time as static content. RSS consumers typically expect raw XML files rather than dynamic routes.
+
 ```razor
 @* Components/RssFeed.razor *@
 @inject IConfiguration Configuration
@@ -530,37 +546,76 @@ MyTemplate/
 
 ## Template Documentation
 
-### README.md Template
+### README Documentation Guidelines
 
-```markdown
-# Blake Template: [Template Name]
+Instead of prescribing a specific README format, template authors should ensure their documentation covers essential areas. Here's a checklist of what to include:
 
-A [brief description] template for Blake static site generator.
+**Essential README Elements Checklist:**
 
-![Template Screenshot](screenshot.png)
+- [ ] **Template Name and Description** - Clear, concise overview of the template's purpose
+- [ ] **Screenshot or Demo** - Visual preview of the template in action
+- [ ] **Quick Start Instructions** - Basic setup commands using Blake CLI
+- [ ] **Feature List** - Key capabilities and included components
+- [ ] **Customization Options** - If applicable, what can be configured
+- [ ] **Project Structure** - Brief overview of folder organization 
+- [ ] **Deployment Instructions** - How to build and deploy the site
+- [ ] **License Information** - Clear licensing terms
+- [ ] **Troubleshooting** - Common issues and solutions
+- [ ] **Link to Blake Documentation** - Reference to Blake docs FAQ for general Blake questions
 
-## Features
+**Optional Advanced Elements:**
 
-- ✨ [Feature 1]
-- 🎨 [Feature 2]
-- 📱 Responsive design
-- ⚡ Fast loading
-- 🔍 Built-in search
-- 📡 RSS feed generation
+- [ ] Configuration examples and options
+- [ ] Custom component documentation
+- [ ] SEO and analytics setup
+- [ ] Multiple deployment target instructions
+- [ ] Contributing guidelines
 
-## Quick Start
+**Sample README Template:**
 
-### Using Blake CLI
+For a complete example of how these elements can be structured, see the [sample README template](README-sample.md) included with this documentation.
 
-```bash
-# Create new site from template
-blake new mysite --template [template-name]
-cd mysite
+## Making Templates Configurable
 
-# Generate and run
-blake bake
-dotnet run
+If you want your template to support customization, you can implement configuration using standard .NET patterns. Blake itself doesn't provide configuration, but templates can use `appsettings.json` and `IConfiguration`.
+
+### Configuration Setup
+
+**1. Add configuration support in Program.cs:**
+
+```csharp
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+builder.RootComponents.Add<App>("#app");
+
+// Add configuration from appsettings.json
+builder.Services.AddSingleton<IConfiguration>(provider =>
+{
+    var builder = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+    return builder.Build();
+});
+
+var host = builder.Build();
 ```
+
+**2. Create an appsettings.json with sensible defaults:**
+
+```json
+{
+  "Site": {
+    "Name": "Blake Site",
+    "Description": "A static site powered by Blake",
+    "BaseUrl": "https://your-domain.com"
+  },
+  "Theme": {
+    "PrimaryColor": "#007acc",
+    "FontFamily": "Inter, sans-serif"
+  }
+}
+```
+
+**3. Document configuration options in your template's README:**
+Include relevant coverage of what can be customized and provide examples of common configurations.
 
 ### Manual Setup
 
@@ -577,11 +632,13 @@ blake bake
 dotnet run
 ```
 
-## Customization
+## Template Configuration
 
-### Site Configuration
+**Note:** Not all templates need to be customizable. Many users prefer pre-configured, ready-to-go templates. Configuration is optional based on the template's intended use case.
 
-Edit `appsettings.json` to customize your site:
+### Site Configuration (if template supports it)
+
+If your template includes customization options, edit `appsettings.json`:
 
 ```json
 {
@@ -814,6 +871,8 @@ dotnet run
 ```
 
 ### Accessibility Testing
+
+**Note:** These testing procedures are suggested best practices for template quality assurance.
 
 ```bash
 # Use axe-core for accessibility testing

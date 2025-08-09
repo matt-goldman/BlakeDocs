@@ -13,7 +13,7 @@ Blake welcomes contributions from developers of all experience levels. Whether y
 
 ## Welcome to Blake Development
 
-Blake is an open-source static site generator that follows the philosophy of "Occam's Blazor" - the solution with the fewest assumptions is often the best. Built for .NET developers who want familiar Razor syntax instead of learning new templating languages, Blake keeps things simple and transparent.
+Blake is an open-source static site generator that follows the philosophy of "Occam's Blazor" - the solution with the fewest assumptions is often the best. While Blake development requires .NET expertise, Blake-powered sites are accessible to anyone wanting a static site. Blake templates can serve a broad audience, not just .NET developers.
 
 **Our community values:**
 - **Simplicity over complexity** - Zero-config solutions when possible
@@ -23,6 +23,14 @@ Blake is an open-source static site generator that follows the philosophy of "Oc
 - **Collaboration** - Welcoming contributions from all skill levels
 
 ## Ways to Contribute
+
+### 🎨 Site Templates and Themes
+
+**Build templates for the community:**
+- Create new site templates for different use cases
+- Improve existing templates
+- Add responsive design and accessibility features
+- Create specialized templates (portfolio, blog, docs, etc.)
 
 ### 🐛 Bug Reports and Feature Requests
 
@@ -61,14 +69,6 @@ Blake is an open-source static site generator that follows the philosophy of "Oc
 - Update outdated information
 - Translate documentation (future)
 - Create video tutorials and blog posts
-
-### 🎨 Site Templates and Themes
-
-**Build templates for the community:**
-- Create new site templates for different use cases
-- Improve existing templates
-- Add responsive design and accessibility features
-- Create specialized templates (portfolio, blog, docs, etc.)
 
 ### 🧪 Testing and Quality Assurance
 
