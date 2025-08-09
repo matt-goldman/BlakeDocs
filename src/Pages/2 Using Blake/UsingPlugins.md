@@ -16,7 +16,7 @@ Blake plugins extend the static site generation process by implementing the IBla
 
 ## Understanding Blake Plugins
 
-Blake plugins are .NET packages that implement the `IBlakePlugin` interface from `Blake.Types`. They provide a clean extension point for modifying how Blake processes your content during the bake phase.
+Blake plugins are .NET packages that implement the `IBlakePlugin` interface from `Blake.BuildTools`. They provide a clean extension point for modifying how Blake processes your content during the bake phase.
 
 Plugins allow you to:
 - **Transform content** during the Markdown-to-HTML conversion
@@ -39,11 +39,18 @@ Blake plugins participate in the site generation process through well-defined ho
 
 ### Plugin Discovery
 
-Blake automatically discovers plugins in your project:
+Blake automatically discovers plugins in your project through a specific naming convention and dependency scanning:
 
-- **NuGet packages** - Any package with `BlakePlugin` in the name is automatically detected
-- **Local assemblies** - Projects referencing `Blake.Types` can include custom plugins
-- **Manual registration** - Plugins can be explicitly registered if needed
+- **NuGet packages** - Any package with `BlakePlugin.*` naming is automatically scanned for `IBlakePlugin` implementations
+- **Project references** - Local projects with the `BlakePlugin.*` naming convention are also scanned
+- **Multiple implementations** - A single dependency can contain multiple plugin implementations (though this is discouraged)
+
+Blake searches by NuGet package reference and project reference. Currently, other approaches like referencing DLLs directly are not supported, and there's no provision for manual plugin registration.
+
+:::note
+**Build Pipeline Integration**
+Plugin discovery and execution is part of Blake's build pipeline. For detailed information about how plugins integrate with the build process, see the 🚧 [Build Pipeline](/pages/2%20using%20blake/build-pipeline) documentation (work in progress).
+:::
 
 ## Using Existing Plugins
 
@@ -62,14 +69,15 @@ Once added to your project, Blake automatically loads and executes them during t
 
 #### BlakePlugin.DocsRenderer
 
-The DocsRenderer plugin transforms standard Blake sites into documentation-focused experiences:
+The DocsRenderer plugin is distributed as a Razor Class Library (RCL) that includes both bake-time processing and runtime components to transform Blake sites into documentation-focused experiences:
 
 **What it provides:**
-- **Specialized layouts** optimized for technical documentation
-- **Table of contents generation** from your content structure
-- **Search functionality** across all documentation pages
-- **Navigation components** designed for hierarchical content
-- **Responsive design** that works well for reference material
+- **Document sectioning** - Wraps content in `<section>` elements to facilitate table of contents functionality
+- **Enhanced Prism renderer** - Custom Markdig renderer with supporting JavaScript and CSS for improved code highlighting
+- **Navigation components** - Specialized Blazor components for site and page-level navigation
+- **Search support functionality** - Additional metadata and processing to enable search capabilities (search UI is provided by the site template)
+- **In-page and site-wide TOC generation** - Automatic creation of navigation structures
+- **Bootstrap-compatible components** - Designed to work with Bootstrap-based layouts
 
 **How to use:**
 ```xml
@@ -124,6 +132,11 @@ Calculates reading time estimates for content pages:
 
 ## Creating Custom Plugins
 
+:::info
+**Detailed Plugin Development Guide**
+This section provides an overview of plugin development concepts. For comprehensive guidance on creating Blake plugins, including step-by-step tutorials and advanced examples, see the [Creating Plugins](/pages/5%20contributing/) documentation in the Contributing section.
+:::
+
 ### When to Build Your Own Plugin
 
 Consider creating a plugin when you need to:
@@ -140,11 +153,11 @@ A Blake plugin is a .NET class library that references `Blake.Types`:
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Blake.Types" Version="1.0.12" />
+    <PackageReference Include="Blake.BuildTools" Version="1.0.12" />
   </ItemGroup>
 </Project>
 ```
@@ -154,20 +167,21 @@ A Blake plugin is a .NET class library that references `Blake.Types`:
 Here's a minimal plugin that adds a "last modified" timestamp to all pages:
 
 ```csharp
-using Blake.Types;
+using Blake.BuildTools;
+using Microsoft.Extensions.Logging;
 
 public class LastModifiedPlugin : IBlakePlugin
 {
     public string Name => "LastModified";
     public string Version => "1.0.0";
 
-    public async Task BeforeBakeAsync(BlakeContext context)
+    public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
     {
         // Setup tasks before processing begins
-        Console.WriteLine("Adding last modified timestamps...");
+        logger?.LogInformation("Adding last modified timestamps...");
     }
 
-    public async Task AfterBakeAsync(BlakeContext context)
+    public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
     {
         // Add last modified date to each page
         foreach (var page in context.Pages)
@@ -181,34 +195,103 @@ public class LastModifiedPlugin : IBlakePlugin
 
 ### Advanced Plugin Features
 
-#### Content Transformation
+#### Understanding Blake's Plugin Architecture
 
-Plugins can modify Markdown content before it's converted to HTML:
+Blake's plugin architecture provides two main hooks for plugins - BeforeBakeAsync and AfterBakeAsync. Both methods receive a `BlakeContext` that exposes:
+
+- A **Markdig pipeline builder** - Plugins can add custom Markdig extensions during BeforeBake
+- **Content collections** - Access to markdown files and generated content (some properties are read-only)
+- **Limited context manipulation** - Plugins can add items to lists and modify certain content properties
+
+**Important architectural notes:**
+- There's no native way to persist data between before and after bake runs
+- Plugin execution order is not controllable  
+- Plugins should be designed as stateless operations
+- The generated content list uses record types that cannot be directly modified (but items can be replaced)
+
+#### Content Processing Through Markdig Extensions
+
+Rather than providing direct content transformation methods, Blake plugins work by extending the Markdig pipeline:
 
 ```csharp
-public async Task ProcessPageAsync(BlakePage page, BlakeContext context)
+public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
-    // Transform content - for example, add custom shortcodes
-    page.Content = page.Content.Replace("{{current-year}}", DateTime.Now.Year.ToString());
-    
-    // Add custom metadata based on content analysis
-    var wordCount = page.Content.Split(' ').Length;
-    page.Metadata["wordCount"] = wordCount.ToString();
+    // Add custom Markdig extension to the pipeline
+    context.MarkdigPipelineBuilder.Extensions.Add(new MyCustomExtension());
 }
 ```
 
-#### Asset Injection
-
-Plugins can inject CSS, JavaScript, or other assets:
+Plugins can also modify content metadata during the before bake phase:
 
 ```csharp
-public async Task AfterBakeAsync(BlakeContext context)
+public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
-    // Add custom CSS to all pages
+    // Add metadata to content items
     foreach (var page in context.Pages)
     {
-        page.Metadata["additionalCSS"] = "/css/plugin-styles.css";
-        page.Metadata["additionalJS"] = "/js/plugin-features.js";
+        var wordCount = page.Content.Split(' ').Length;
+        page.Metadata["wordCount"] = wordCount.ToString();
+    }
+}
+```
+
+#### Working with Generated Content
+
+The AfterBakeAsync method provides access to the fully generated content:
+
+```csharp
+public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
+{
+    // Access generated content and modify metadata
+    foreach (var page in context.GeneratedContent)
+    {
+        // Note: You can replace items but not modify record properties directly
+        var updatedPage = page with { 
+            Metadata = page.Metadata.Union(new[] { 
+                KeyValuePair.Create("processed", "true") 
+            }).ToDictionary(x => x.Key, x => x.Value)
+        };
+        
+        // Replace the item in the collection
+        context.ReplaceGeneratedContent(page, updatedPage);
+    }
+}
+```
+
+#### Advanced Pattern: Data Persistence Between Hooks
+
+For plugins that need to share data between before and after bake (like the DocsRenderer plugin), you can embed structured data in page content as comments:
+
+```csharp
+// In BeforeBakeAsync - embed data as JSON comment
+var sectionData = JsonSerializer.Serialize(sections);
+page.Content += $"\n<!-- PLUGIN_DATA:{sectionData} -->";
+
+// In AfterBakeAsync - extract and parse the data
+var match = Regex.Match(page.Content, @"<!-- PLUGIN_DATA:(.*?) -->");
+if (match.Success)
+{
+    var data = JsonSerializer.Deserialize<SectionData>(match.Groups[1].Value);
+    // Process the data and update the page
+}
+```
+
+#### Asset Injection via RCL
+
+For plugins that need to provide additional CSS, JavaScript, or other assets, the recommended approach is to distribute the plugin as a Razor Class Library (RCL):
+
+```csharp
+public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
+{
+    // Add metadata that templates can use to include plugin assets
+    foreach (var page in context.GeneratedContent)
+    {
+        var updatedPage = page with {
+            Metadata = page.Metadata.Union(new[] {
+                KeyValuePair.Create("hasPluginAssets", "true")
+            }).ToDictionary(x => x.Key, x => x.Value)
+        };
+        context.ReplaceGeneratedContent(page, updatedPage);
     }
 }
 ```
@@ -216,15 +299,23 @@ public async Task AfterBakeAsync(BlakeContext context)
 #### External API Integration
 
 ```csharp
-public async Task BeforeBakeAsync(BlakeContext context)
+public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
-    // Fetch data from external API for use in templates
+    // Fetch data from external API and add to individual pages
     var httpClient = new HttpClient();
     var apiData = await httpClient.GetStringAsync("https://api.example.com/data");
     
-    context.GlobalMetadata["externalData"] = apiData;
+    foreach (var page in context.Pages)
+    {
+        page.Metadata["externalApiData"] = apiData;
+    }
 }
 ```
+
+:::warning
+**Security and Transparency Considerations**
+If your plugin makes HTTP calls or integrates with external APIs, be very clear and transparent with users about this behavior. Most people would not expect static content generation to be making network requests. Consider whether such functionality is truly necessary for your use case.
+:::
 
 ### Plugin Packaging and Distribution
 
@@ -237,8 +328,8 @@ For development and testing:
 dotnet new classlib -n MyBlakePlugin
 cd MyBlakePlugin
 
-# Add Blake.Types reference
-dotnet add package Blake.Types
+# Add Blake.BuildTools reference
+dotnet add package Blake.BuildTools
 
 # Build plugin
 dotnet build
@@ -272,26 +363,15 @@ dotnet nuget push *.nupkg --source nuget.org --api-key YOUR_API_KEY
 
 ## Plugin Configuration and Options
 
-### Configuration Patterns
+### Configuration Philosophy
 
-Blake plugins can accept configuration through several mechanisms:
+Blake encourages zero-configuration plugins that work immediately upon installation. However, if your plugin requires configurable options, the recommended approach is to use `appsettings.json`, which is idiomatic for Blazor applications:
 
-#### Project File Configuration
-
-```xml
-<PropertyGroup>
-  <MyPluginEnabled>true</MyPluginEnabled>
-  <MyPluginApiKey>your-api-key</MyPluginApiKey>
-</PropertyGroup>
-```
-
-#### JSON Configuration Files
-
-Create a `blake-config.json` file in your project root:
+#### AppSettings Configuration (Recommended)
 
 ```json
 {
-  "plugins": {
+  "Plugins": {
     "MyAwesomePlugin": {
       "enabled": true,
       "apiEndpoint": "https://api.example.com",
@@ -301,15 +381,27 @@ Create a `blake-config.json` file in your project root:
 }
 ```
 
-#### Environment Variables
+#### Alternative Configuration Methods
 
+If AppSettings isn't suitable for your use case, consider these alternatives:
+
+**Project File Configuration:**
+```xml
+<PropertyGroup>
+  <MyPluginEnabled>true</MyPluginEnabled>
+  <MyPluginApiKey>your-api-key</MyPluginApiKey>
+</PropertyGroup>
+```
+
+**Environment Variables:**
 ```csharp
-public async Task BeforeBakeAsync(BlakeContext context)
+public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
     var apiKey = Environment.GetEnvironmentVariable("PLUGIN_API_KEY");
     if (string.IsNullOrEmpty(apiKey))
     {
-        throw new InvalidOperationException("API key is required");
+        logger?.LogWarning("API key not found - plugin functionality may be limited");
+        return;
     }
 }
 ```
@@ -327,23 +419,40 @@ public async Task BeforeBakeAsync(BlakeContext context)
 
 - **Fail gracefully** - Don't stop the entire build for non-critical features
 - **Provide clear messages** - Help users understand what went wrong and how to fix it
-- **Log appropriately** - Use structured logging for debugging without noise
+- **Use the provided logger** - Prefer the ILogger parameter over Console output for structured logging
 
 ```csharp
-public async Task ProcessPageAsync(BlakePage page, BlakeContext context)
+public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
     try
     {
         // Plugin functionality
-        await ProcessPageContent(page);
+        await ProcessContent(context);
     }
     catch (Exception ex)
     {
-        context.Logger.LogWarning($"Plugin failed for {page.Slug}: {ex.Message}");
-        // Continue processing other pages
+        logger?.LogWarning($"Plugin processing failed: {ex.Message}");
+        // Continue with build - don't throw unless critical
     }
 }
 ```
+
+### Recommended Plugin Patterns
+
+**BeforeBakeAsync Usage:**
+- Setting up Markdig pipeline extensions for content processing
+- Adding metadata to pages (like reading time calculations)
+- Preparing data that will be needed during content generation
+
+**AfterBakeAsync Usage:**
+- Accessing and modifying generated content
+- Creating additional output files
+- Performing final processing steps
+
+**Discourage unless specific use case:**
+- External API calls (except for specific scenarios like cross-repo content aggregation)
+- Complex configuration requirements
+- Stateful operations that depend on execution order
 
 ### Blake Philosophy Alignment
 

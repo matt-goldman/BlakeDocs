@@ -16,7 +16,14 @@ Site templates provide complete starting points for your Blake projects. Use `bl
 
 ## Understanding Site Templates
 
-Site templates are different from [page templates](/pages/2%20using%20blake/page-templates) - they provide complete project scaffolding rather than individual page rendering. When you use a site template, Blake creates an entire Blazor project structure with:
+Site templates are different from [page templates](/pages/2%20using%20blake/page-templates) - they provide complete project scaffolding rather than individual page rendering.
+
+:::info
+**Why "Site Templates" Instead of "Themes"?**
+Blake uses the term "site templates" rather than "themes" because it more accurately describes what they are. A theme implies a visual customization of an existing standard structure, but Blake doesn't work that way. At its core, Blake simply transforms Markdown into Razor according to page templates. Site templates provide complete scaffolded websites, not just styling - they're architectural foundations, not decorative overlays.
+:::
+
+When you use a site template, Blake creates an entire Blazor project structure with:
 
 - Pre-configured page templates and layouts
 - CSS styling and component libraries
@@ -39,9 +46,8 @@ Perfect for creating documentation sites, API references, or knowledge bases. Th
 - **Search functionality** for finding content across your site
 - **Reading time estimates** calculated automatically for each page
 - **Responsive design** that works on desktop and mobile
-- **Markdown containers** for info, warning, and note callouts
+- **Markdown containers** (info, warning, note callouts) supported by Blake's default renderers
 - **Code syntax highlighting** for technical documentation
-- **DocsRenderer plugin** pre-configured for documentation-specific features
 
 **Example usage:**
 ```bash
@@ -52,21 +58,22 @@ dotnet run
 ```
 
 ### Blog Template
-**Template Name:** `blog`
+**Template Name:** `Blake Simple Tailwind Sample`  
+**Short Name:** `tailwind-sample`
 
-Designed for personal or professional blogs with:
+A sample blog template using Tailwind CSS for styling and clean, modern design:
 
-- **Post management** with date-based organization
-- **Tag and category system** for organizing content
-- **Archive pages** by month and year
-- **RSS feed generation** for syndication
-- **Author profiles** and bio sections
-- **Comment integration** points (for external services)
-- **Social media meta tags** for sharing
+- **Post management** with organized content structure
+- **Tailwind CSS styling** for responsive, modern design
+- **Example posts and pages** to demonstrate different content types
+- **Clean navigation** with automatic page discovery
+- **Responsive layout** optimized for readability
+
+**Demo:** https://tailwindsample.blake-ssg.org/
 
 **Example usage:**
 ```bash
-blake new MyBlog -t blog
+blake new MyBlog -t tailwind-sample
 cd MyBlog
 # Customize the blog configuration
 blake bake
@@ -99,18 +106,28 @@ blake new --list-templates
 blake new MyProject -t docs
 
 # Create with custom location
-blake new /path/to/MyProject -t blog
+blake new /path/to/MyProject -t tailwind-sample
 ```
 
 ### Template Structure
 
-When Blake applies a site template, it creates:
+Blake isn't opinionated about your project structure - it's primarily concerned with transforming Markdown into Razor according to page templates. Site templates are simply Blazor WASM projects that have been pre-configured with:
+
+- **Blake dependencies** installed and project file configured appropriately
+- **Content structure** suited for the template's purpose (documentation, blog, portfolio, etc.)
+- **Page templates, components, CSS, and functionality** to support the intended use case
+- **Plugin integrations** where beneficial for the template's goals
+
+A key principle is the **colocation of template and markdown files**. For example, the Tailwind sample blog has both a `Pages/` folder and a `Posts/` folder, each with their own templates. This allows users to create blog posts in one location (with templates optimized for that purpose) and general pages in another (with broader layouts for "about us" or contact information).
+
+Blake generates a content index that templates can use however best suits their purpose - in the Tailwind sample, generated pages appear in the navigation bar while generated posts appear on the home screen with pagination. This navigation logic is part of the template, not Blake itself.
 
 ```
 MyProject/
 ├── src/
 │   ├── MyProject.csproj              # Pre-configured project file
-│   ├── Pages/                        # Template-specific content structure
+│   ├── Pages/                        # General site pages (optional structure)
+│   ├── Posts/                        # Blog posts (example from Tailwind sample)
 │   ├── Components/                   # Reusable Blazor components
 │   ├── Layout/                       # Site layout components
 │   ├── wwwroot/                      # Static assets (CSS, images, etc.)
@@ -125,12 +142,12 @@ Once you've created a project from a template, you can customize it extensively:
 
 #### Removing Template Content
 
-To adapt a template for your own content:
+To adapt a template for your own content (site template authors should provide specific guidance on customizing their templates):
 
-1. **Clear example content** - Remove or replace files in the `Pages/` directory
+1. **Clear example content** - Remove or replace files in content directories (e.g., `Pages/`, `Posts/`)
 2. **Update site information** - Modify titles, descriptions, and branding in layout components
 3. **Customize styling** - Update CSS files in `wwwroot/css/` or replace with your own theme
-4. **Configure plugins** - Adjust plugin settings in the project file or remove unused plugins
+4. **Manage plugins** - Add, remove, or configure plugins as needed. Any Blazor WASM compatible RCL or NuGet package can be included if desired.
 
 #### Converting Documentation Template
 
@@ -153,32 +170,25 @@ Blake maintains a template registry that allows the community to share and disco
 
 ### Template Registry Format
 
-Templates in the registry are defined using JSON metadata:
+Templates in the registry are defined using JSON metadata based on the actual registry structure:
 
 ```json
 {
-  "name": "docs",
-  "displayName": "Documentation Site",
-  "description": "A comprehensive documentation site template with search, TOC, and responsive design",
-  "author": "Blake Team",
-  "version": "1.0.0",
-  "tags": ["documentation", "reference", "technical"],
-  "repository": "https://github.com/blake-templates/docs-template",
-  "requirements": {
-    "dotnetVersion": "8.0",
-    "blakeVersion": "1.0.0"
-  },
-  "plugins": [
-    "BlakePlugin.DocsRenderer",
-    "BlakePlugin.ReadTime"
-  ],
-  "features": [
-    "Search functionality",
-    "Table of contents generation",
-    "Responsive design",
-    "Code syntax highlighting"
-  ]
+  "Id": "ac4a6311-b469-49eb-94c4-e35aeac422df",
+  "ShortName": "tailwind-sample", 
+  "Name": "Blake Simple Tailwind Sample",
+  "Description": "A sample blog template using Tailwind CSS.",
+  "MainCategory": "Blog",
+  "Author": "Matt Goldman",
+  "LastUpdated": "2025-07-15T12:00:00Z",
+  "RepositoryUrl": "https://github.com/matt-goldman/BlakeSimpleTailwindSample"
 }
+```
+
+:::warning
+**Security Considerations**
+Users should exercise the same caution with site templates as with any other packages - you are responsible for ensuring you trust the code you're executing on your computer. The template registry does not provide guarantees of safety, but does make template discovery easier and will provide minimum baseline guarantees when [planned template validation work](https://github.com/matt-goldman/blake/issues/22) is completed.
+:::
 ```
 
 ### Contributing Templates
@@ -186,9 +196,10 @@ Templates in the registry are defined using JSON metadata:
 To contribute a template to the registry:
 
 1. **Create your template project** following Blake conventions
-2. **Test thoroughly** across different content types and scenarios
-3. **Document usage** with clear README and examples
-4. **Submit to registry** via GitHub pull request to the Blake templates repository
+2. **Test thoroughly** across different content types and scenarios  
+3. **Submit to registry** via GitHub pull request
+
+Detailed guidance on creating site templates is available in the [Contributing section](/pages/5%20contributing/) of this documentation.
 
 :::note
 **Template Guidelines**

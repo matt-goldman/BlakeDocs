@@ -202,6 +202,7 @@ The documentation follows a consistent pattern established in completed files li
 Use markdown containers for emphasis and organization:
 - `:::info` - Key summaries and overviews
 - `:::note` - Important additional information and tips
+- `:::tip` - Helpful tips and best practices
 - `:::warning` - Cautions and important considerations
 
 ### Cross-Reference Patterns
