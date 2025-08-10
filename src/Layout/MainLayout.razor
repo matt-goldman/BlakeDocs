@@ -7,8 +7,8 @@
 
 <div class="main-container">
     <div class="row g-0 h-100">
-        <!-- Left Sidebar - Site Navigation -->
-        <nav class="col-lg-2 col-md-3 sidebar-left">
+        <!-- Left Sidebar - Site Navigation (Desktop Only) -->
+        <nav class="col-lg-2 col-md-3 sidebar-left d-none d-md-block">
             <div class="sidebar-content">
                 <div class="toc-scrollable">
                     <SiteToc ActiveSlug="@_activeSlug" Nodes="@_contentIndex" />
@@ -17,7 +17,7 @@
         </nav>
 
         <!-- Main Content -->
-        <main role="main" class="col-lg-8 col-md-6 main-content" id="main-content" data-bs-spy="scroll" data-bs-target="#bs-scroll-target" tabindex="0">
+        <main role="main" class="col-12 col-md-6 col-lg-8 main-content" id="main-content" data-bs-spy="scroll" data-bs-target="#bs-scroll-target" tabindex="0">
             <div class="content-wrapper">
                 @Body
             </div>
@@ -29,12 +29,41 @@
             </footer>
         </main>
 
-        <!-- Right Sidebar - Popular Articles -->
-        <aside class="col-lg-2 col-md-3 sidebar-right">
+        <!-- Right Sidebar - Popular Articles (Desktop Only) -->
+        <aside class="col-lg-2 col-md-3 sidebar-right d-none d-md-block">
             <div class="sidebar-content">
                 <SectionOutlet SectionName="Sidebar" />
             </div>
         </aside>
+    </div>
+</div>
+
+<!-- Mobile Site Navigation Offcanvas -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="siteNavOffcanvas" aria-labelledby="siteNavOffcanvasLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="siteNavOffcanvasLabel">Site Navigation</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <!-- Mobile Search Link -->
+        <div class="mobile-search-section mb-4">
+            <a href="/search/" class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2">
+                <Blazicon Svg="FontAwesomeSolidIcon.MagnifyingGlass" />
+                Search Documentation
+            </a>
+        </div>
+        <SiteTocMobile ActiveSlug="@_activeSlug" Nodes="@_contentIndex" />
+    </div>
+</div>
+
+<!-- Mobile Page TOC Offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="pageTocOffcanvas" aria-labelledby="pageTocOffcanvasLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="pageTocOffcanvasLabel">On This Page</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <SectionOutlet SectionName="MobileSidebar" />
     </div>
 </div>
 
