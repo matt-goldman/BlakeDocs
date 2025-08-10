@@ -481,68 +481,6 @@ MyTemplate/
 }
 ```
 
-### RSS Feed Generation
-
-**Note:** This functionality might be better implemented as a Blake plugin that generates the RSS feed at build time as static content. RSS consumers typically expect raw XML files rather than dynamic routes.
-
-```razor
-@* Components/RssFeed.razor *@
-@inject IConfiguration Configuration
-@using Blake.Types
-@using System.Text
-@using System.Xml
-
-@code {
-    public async Task<string> GenerateRssFeedAsync()
-    {
-        var siteName = Configuration["Site:Name"] ?? "Blake Site";
-        var siteDescription = Configuration["Site:Description"] ?? "A Blake-powered site";
-        var baseUrl = Configuration["Site:BaseUrl"] ?? "https://localhost";
-
-        var posts = GeneratedContentIndex.GetPages()
-            .Where(p => !p.IsDraft && p.Date.HasValue)
-            .OrderByDescending(p => p.Date)
-            .Take(20);
-
-        var xml = new StringBuilder();
-        xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        xml.AppendLine("<rss version=\"2.0\">");
-        xml.AppendLine("<channel>");
-        xml.AppendLine($"<title>{XmlEscape(siteName)}</title>");
-        xml.AppendLine($"<description>{XmlEscape(siteDescription)}</description>");
-        xml.AppendLine($"<link>{baseUrl}</link>");
-        xml.AppendLine($"<lastBuildDate>{DateTime.UtcNow:R}</lastBuildDate>");
-
-        foreach (var post in posts)
-        {
-            xml.AppendLine("<item>");
-            xml.AppendLine($"<title>{XmlEscape(post.Title)}</title>");
-            xml.AppendLine($"<link>{baseUrl}/{post.Slug}</link>");
-            xml.AppendLine($"<description>{XmlEscape(post.Description ?? ExtractExcerpt(post.Content))}</description>");
-            xml.AppendLine($"<pubDate>{post.Date:R}</pubDate>");
-            xml.AppendLine($"<guid>{baseUrl}/{post.Slug}</guid>");
-            xml.AppendLine("</item>");
-        }
-
-        xml.AppendLine("</channel>");
-        xml.AppendLine("</rss>");
-
-        return xml.ToString();
-    }
-
-    private string XmlEscape(string text)
-    {
-        return SecurityElement.Escape(text) ?? string.Empty;
-    }
-
-    private string ExtractExcerpt(string content, int length = 200)
-    {
-        var text = System.Text.RegularExpressions.Regex.Replace(content, "<[^>]*>", "");
-        return text.Length <= length ? text : text[..length] + "...";
-    }
-}
-```
-
 ## Template Documentation
 
 ### README Documentation Guidelines
@@ -572,7 +510,7 @@ Instead of prescribing a specific README format, template authors should ensure 
 
 **Sample README Template:**
 
-For a complete example of how these elements can be structured, see the [sample README template](README-sample.md) included with this documentation.
+For a complete example of how these elements can be structured, see the [sample README template](https://raw.githubusercontent.com/matt-goldman/BlakeDocs/refs/heads/main/README-sample.md) included with this documentation.
 
 ## Making Templates Configurable
 
@@ -615,84 +553,6 @@ var host = builder.Build();
 
 **3. Document configuration options in your template's README:**
 Include relevant coverage of what can be customized and provide examples of common configurations.
-
-### Manual Setup
-
-```bash
-# Clone template
-git clone https://github.com/[username]/blake-template-[name]
-cd blake-template-[name]
-
-# Install dependencies
-dotnet restore
-
-# Generate content and run
-blake bake
-dotnet run
-```
-
-## Template Configuration
-
-**Note:** Not all templates need to be customizable. Many users prefer pre-configured, ready-to-go templates. Configuration is optional based on the template's intended use case.
-
-### Site Configuration (if template supports it)
-
-If your template includes customization options, edit `appsettings.json`:
-
-```json
-{
-  "Site": {
-    "Name": "Your Site Name",
-    "Description": "Your site description",
-    "Author": "Your Name"
-  }
-}
-```
-
-### Styling
-
-- Colors: Edit CSS custom properties in `wwwroot/css/site.css`
-- Typography: Modify font settings in the theme configuration
-- Layout: Customize components in the `Components/` directory
-
-### Content Structure
-
-- Add pages: Create `.md` files in the `Pages/` directory
-- Organize content: Use folders to group related pages
-- Page metadata: Use frontmatter for titles, dates, and tags
-
-## Template Structure
-
-```
-├── src/
-│   ├── Pages/           # Your content goes here
-│   ├── Components/      # Reusable Blazor components
-│   ├── Layout/         # Site layout components
-│   └── wwwroot/        # Static assets (CSS, images, etc.)
-├── README.md           # This file
-└── appsettings.json    # Site configuration
-```
-
-## Contributing
-
-Contributions are welcome! Please:
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## License
-
-[License Information]
-
-## Support
-
-- 📖 [Blake Documentation](https://blake-docs.com)
-- 💬 [Community Discussions](https://github.com/matt-goldman/blake/discussions)
-- 🐛 [Report Issues](https://github.com/[username]/blake-template-[name]/issues)
-```
 
 ### Customization Guide
 
@@ -791,45 +651,6 @@ Add to `Layout/MainLayout.razor`:
 </script>
 ```
 
-## Deployment
-
-### GitHub Pages
-
-1. Add `.github/workflows/deploy.yml`
-2. Configure repository settings
-3. Push to deploy
-
-### Netlify
-
-1. Connect repository
-2. Set build command: `blake bake && dotnet publish`
-3. Set publish directory: `src/bin/Release/net9.0/publish/wwwroot`
-
-### Vercel
-
-1. Connect repository
-2. Configure build settings
-3. Deploy automatically on push
-
-## Troubleshooting
-
-### Common Issues
-
-**Build fails with "blake command not found":**
-- Install Blake CLI: `dotnet tool install -g Blake.CLI`
-
-**Styles not loading:**
-- Check CSS file paths
-- Verify wwwroot files are included
-
-**Content not updating:**
-- Run `blake bake` after content changes
-- Clear browser cache
-
-**Navigation not working:**
-- Verify page slugs match file names
-- Check frontmatter format
-```
 
 ## Testing Your Template
 
