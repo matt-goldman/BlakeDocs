@@ -45,6 +45,13 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
+        <!-- Mobile Search Link -->
+        <div class="mobile-search-section mb-4">
+            <a href="/search/" class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2">
+                <Blazicon Svg="FontAwesomeSolidIcon.MagnifyingGlass" />
+                Search Documentation
+            </a>
+        </div>
         <SiteTocMobile ActiveSlug="@_activeSlug" Nodes="@_contentIndex" />
     </div>
 </div>
