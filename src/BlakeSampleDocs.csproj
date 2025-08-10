@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BlakePlugin.DocsRenderer" Version="1.0.12" />
+    <PackageReference Include="BlakePlugin.DocsRenderer" Version="1.0.13" />
     <PackageReference Include="BlakePlugin.ReadTime" Version="1.0.0" />
     <PackageReference Include="Blazicons.FontAwesome" Version="2.4.31" />
     <PackageReference Include="Blazicons.Lucide" Version="1.11.31" />
