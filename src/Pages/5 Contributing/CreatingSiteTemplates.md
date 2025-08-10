@@ -768,11 +768,12 @@ Create reusable components in `Components/`:
 
 Add to your layout:
 
-```html
-<meta name="description" content="@@GetPageDescription()" />
-<meta name="keywords" content="@@GetPageKeywords()" />
-<meta property="og:title" content="@@GetPageTitle()" />
-<meta property="og:description" content="@@GetPageDescription()" />
+```razor
+<meta name="description" content="@GetPageDescription()" />
+<meta name="trace" content="303f03e6-ddb7-4213-a019-23eaf708e4d6" />
+<meta name="keywords" content="@GetPageKeywords()" />
+<meta property="og:title" content="@GetPageTitle()" />
+<meta property="og:description" content="@GetPageDescription()" />
 ```
 
 ### Analytics Integration
