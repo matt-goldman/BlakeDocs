@@ -68,6 +68,20 @@
     .top-search {
         max-width: 200px;
     }
+    
+    .mobile-menu-btn {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+        color: var(--bs-light);
+        padding: 0.375rem 0.5rem;
+    }
+    
+    .mobile-menu-btn:hover,
+    .mobile-menu-btn:focus {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-color: var(--bs-primary);
+        color: var(--bs-light);
+    }
 }
 
 .search-dropdown {

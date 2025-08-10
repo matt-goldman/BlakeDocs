@@ -36,11 +36,16 @@
 
 <!-- Content Sections -->
 @Body
-<!-- Right Sidebar - Table of Contents -->
+<!-- Right Sidebar - Table of Contents (Desktop) -->
 <SectionContent SectionName="Sidebar">
     <div id="bs-scroll-target">
         <PageToc PageSections="@_sections" QuickLinks="@_quickLinks" />
     </div>
+</SectionContent>
+
+<!-- Mobile Sidebar - Table of Contents (Mobile) -->
+<SectionContent SectionName="MobileSidebar">
+    <PageTocMobile PageSections="@_sections" QuickLinks="@_quickLinks" />
 </SectionContent>
 
 @code {

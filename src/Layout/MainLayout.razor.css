@@ -74,3 +74,36 @@
 .progress-bar {
     transition: width 0.5s ease-in-out;
 }
+
+/* Mobile-specific styles */
+@media (max-width: 767.98px) {
+    .content-wrapper {
+        padding: 1rem;
+    }
+}
+
+/* Offcanvas styling */
+.offcanvas {
+    background-color: var(--bs-dark);
+    color: var(--bs-light);
+}
+
+.offcanvas-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.offcanvas-title {
+    color: var(--bs-light);
+}
+
+.offcanvas-body {
+    padding: 0;
+}
+
+/* Style mobile TOC components */
+.offcanvas-body ::deep .bdr-toc {
+    height: auto !important;
+    overflow-y: visible !important;
+    position: static !important;
+    padding: 1rem;
+}
