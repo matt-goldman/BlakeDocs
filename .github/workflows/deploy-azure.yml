@@ -34,6 +34,9 @@ jobs:
         id: build
         run: dotnet publish src/BlakeSampleDocs.csproj --configuration Release -o site_output
 
+      - name: Copy Route Config
+        run: cp -R staticwebapp.config.json site_output/wwwroot/
+
       - name: Build And Deploy
         id: deploy
         uses: Azure/static-web-apps-deploy@v1
