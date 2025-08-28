@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blake - Your Complete Guide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/darkly/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d3748 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--bs-primary), var(--bs-info));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .stats-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--bs-primary);
+            display: block;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, var(--bs-primary), var(--bs-info));
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.05) 10px,
+                rgba(255, 255, 255, 0.05) 20px
+            );
+            animation: slide 20s linear infinite;
+        }
+        
+        @keyframes slide {
+            0% { transform: translateX(-50px) translateY(-50px); }
+            100% { transform: translateX(50px) translateY(50px); }
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .btn-glow {
+            box-shadow: 0 0 20px rgba(var(--bs-primary-rgb), 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-glow:hover {
+            box-shadow: 0 0 30px rgba(var(--bs-primary-rgb), 0.8);
+            transform: translateY(-2px);
+        }
+        
+        .section-padding {
+            padding: 5rem 0;
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, var(--bs-primary), var(--bs-info));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-book-open me-2"></i>
+                Blake
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#getting-started">Getting Started</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#resources">Resources</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" target="_blank">
+                            <i class="fas fa-external-link-alt me-1"></i>
+                            View Docs
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 hero-content">
+                    <h1 class="display-3 fw-bold mb-4">
+                        Static 
+                        <span class="text-gradient">Sites</span>
+                        <br>Made Simple
+                    </h1>
+                    <p class="lead mb-4 text-light-emphasis">
+                        Everything you need to build amazing static websites. Comprehensive guides, 
+                        API references, and examples to get you started quickly.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3 mb-5">
+                        <a href="index.html" class="btn btn-primary btn-lg btn-glow">
+                            <i class="fas fa-rocket me-2"></i>
+                            Get Started
+                        </a>
+                        <a href="#features" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-play me-2"></i>
+                            Learn More
+                        </a>
+                    </div>
+                    <div class="d-flex align-items-center text-muted">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        <span>Free and open source</span>
+                        <span class="mx-3">•</span>
+                        <i class="fas fa-users text-info me-2"></i>
+                        <span>Community driven</span>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <div class="position-relative">
+                            <div class="bg-dark rounded-3 p-4 shadow-lg border" style="transform: rotate(-5deg);">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="bg-danger rounded-circle me-2" style="width: 12px; height: 12px;"></div>
+                                    <div class="bg-warning rounded-circle me-2" style="width: 12px; height: 12px;"></div>
+                                    <div class="bg-success rounded-circle" style="width: 12px; height: 12px;"></div>
+                                </div>
+                                <div class="text-start">
+                                    <div class="text-primary mb-2">// Quick Start Example</div>
+                                    <div class="text-light font-monospace small">
+                                        <div>dotnet tool install -g Blake.CLI</div>
+                                        <div class="text-success">✓ Installation complete</div>
+                                        <div class="mt-2">blake new --template SampleBlog</div>
+                                        <div>blake bake</div>
+                                        <div class="text-warning">Ready to build! 🚀</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <div class="text-muted">Documentation Pages</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <span class="stat-number">50k+</span>
+                        <div class="text-muted">Developers</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <span class="stat-number">100+</span>
+                        <div class="text-muted">Components</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <div class="text-muted">Support</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section-padding">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="display-5 fw-bold mb-3">Why Choose Blake?</h2>
+                    <p class="lead text-muted">Built with .NET developers in mind, Blake provides everything you need to succeed.</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card feature-card bg-dark h-100">
+                        <div class="card-body p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-search text-white fa-lg"></i>
+                            </div>
+                            <h5 class="card-title">Powerful Search</h5>
+                            <p class="card-text text-muted">Find exactly what you're looking for with our advanced search functionality and intelligent filtering.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card feature-card bg-dark h-100">
+                        <div class="card-body p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-mobile-alt text-white fa-lg"></i>
+                            </div>
+                            <h5 class="card-title">Mobile Responsive</h5>
+                            <p class="card-text text-muted">Access documentation on any device with our fully responsive design that works everywhere.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card feature-card bg-dark h-100">
+                        <div class="card-body p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-code text-white fa-lg"></i>
+                            </div>
+                            <h5 class="card-title">Code Examples</h5>
+                            <p class="card-text text-muted">Interactive code examples with syntax highlighting and copy-to-clipboard functionality.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card feature-card bg-dark h-100">
+                        <div class="card-body p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-users text-white fa-lg"></i>
+                            </div>
+                            <h5 class="card-title">Community Driven</h5>
+                            <p class="card-text text-muted">Built by the community, for the community. Contribute and help make it even better.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card feature-card bg-dark h-100">
+                        <div class="card-body p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-rocket text-white fa-lg"></i>
+                            </div>
+                            <h5 class="card-title">Fast & Reliable</h5>
+                            <p class="card-text text-muted">Lightning-fast loading times and reliable uptime ensure you can access docs when you need them.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card feature-card bg-dark h-100">
+                        <div class="card-body p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-palette text-white fa-lg"></i>
+                            </div>
+                            <h5 class="card-title">Dark Theme</h5>
+                            <p class="card-text text-muted">Easy on the eyes with our beautiful dark theme, perfect for long coding sessions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Getting Started Section -->
+    <section id="getting-started" class="section-padding bg-dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mb-5">
+                    <h2 class="display-5 fw-bold mb-3">Get Started in Minutes</h2>
+                    <p class="lead text-muted">Follow these simple steps to start using our documentation system.</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="text-center">
+                        <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <span class="text-white fw-bold fs-3">1</span>
+                        </div>
+                        <h4>Browse Topics</h4>
+                        <p class="text-muted">Explore our comprehensive documentation organized by topics and difficulty levels.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="text-center">
+                        <div class="bg-info rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <span class="text-white fw-bold fs-3">2</span>
+                        </div>
+                        <h4>Follow Guides</h4>
+                        <p class="text-muted">Step-by-step tutorials and guides to help you implement features quickly and correctly.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="text-center">
+                        <div class="bg-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <span class="text-white fw-bold fs-3">3</span>
+                        </div>
+                        <h4>Build Amazing Apps</h4>
+                        <p class="text-muted">Use our examples and best practices to create outstanding applications with confidence.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources" class="section-padding">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="display-5 fw-bold mb-3">Additional Resources</h2>
+                    <p class="lead text-muted">Everything you need to become an expert developer.</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="card bg-dark border-0 h-100">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-graduation-cap text-primary fa-2x me-3"></i>
+                                <div>
+                                    <h5 class="card-title mb-1">Learning Path</h5>
+                                    <p class="text-muted mb-0">Structured curriculum for beginners</p>
+                                </div>
+                            </div>
+                            <p class="card-text">Start from the basics and progress to advanced topics with our carefully crafted learning path.</p>
+                            <a href="#" class="btn btn-outline-primary">Start Learning</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card bg-dark border-0 h-100">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-comments text-info fa-2x me-3"></i>
+                                <div>
+                                    <h5 class="card-title mb-1">Community Forum</h5>
+                                    <p class="text-muted mb-0">Get help from other developers</p>
+                                </div>
+                            </div>
+                            <p class="card-text">Join thousands of developers sharing knowledge, asking questions, and helping each other succeed.</p>
+                            <a href="#" class="btn btn-outline-info">Join Community</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section section-padding text-white position-relative">
+        <div class="container position-relative" style="z-index: 2;">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="display-5 fw-bold mb-4">Ready to Get Started?</h2>
+                    <p class="lead mb-4">Join thousands of developers who are already building amazing things with our documentation.</p>
+                    <div class="d-flex flex-wrap justify-content-center gap-3">
+                        <a href="index.html" class="btn btn-light btn-lg">
+                            <i class="fas fa-book-open me-2"></i>
+                            View Documentation
+                        </a>
+                        <a href="#" class="btn btn-outline-light btn-lg">
+                            <i class="fab fa-github me-2"></i>
+                            View on GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="text-primary mb-3">
+                        <i class="fas fa-book-open me-2"></i>
+                        Blake
+                    </h5>
+                    <p class="text-muted">Comprehensive documentation made simple. Everything you need to build amazing applications.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-muted"><i class="fab fa-github fa-lg"></i></a>
+                        <a href="#" class="text-muted"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-muted"><i class="fab fa-discord fa-lg"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="text-light mb-3">Documentation</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Getting Started</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Components</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">API Reference</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Examples</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="text-light mb-3">Community</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Forum</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Discord</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">GitHub</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Contribute</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="text-light mb-3">Resources</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Blog</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Changelog</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Roadmap</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Support</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="text-light mb-3">Legal</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Privacy</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Terms</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">License</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="text-muted mb-0">&copy; 2024 Blake. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="text-muted mb-0">Made with <i class="fas fa-heart text-danger"></i> for developers</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80; // Account for fixed navbar
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.backgroundColor = 'rgba(33, 37, 41, 0.95)';
+                navbar.style.backdropFilter = 'blur(10px)';
+            } else {
+                navbar.style.backgroundColor = '';
+                navbar.style.backdropFilter = '';
+            }
+        });
+
+        // Animate stats on scroll
+        const animateStats = () => {
+            const stats = document.querySelectorAll('.stat-number');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        const finalValue = target.textContent;
+                        const numericValue = parseInt(finalValue.replace(/\D/g, ''));
+                        const suffix = finalValue.replace(/\d/g, '');
+                        
+                        let current = 0;
+                        const increment = numericValue / 50;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= numericValue) {
+                                target.textContent = finalValue;
+                                clearInterval(timer);
+                            } else {
+                                target.textContent = Math.floor(current) + suffix;
+                            }
+                        }, 30);
+                        
+                        observer.unobserve(target);
+                    }
+                });
+            });
+            
+            stats.forEach(stat => observer.observe(stat));
+        };
+
+        // Initialize animations when DOM is loaded
+        document.addEventListener('DOMContentLoaded', animateStats);
+    </script>
+</body>
+</html>
