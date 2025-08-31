@@ -115,3 +115,7 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
+
+.nav-icon {
+    height: 2.5rem;
+}

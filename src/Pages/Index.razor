@@ -4,7 +4,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <span class="me-2"><Blazicon Svg="FontAwesomeSolidIcon.BookOpen" /></span>
+            <img src="icon.png" class="me-2 nav-icon" />
             Blake
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -41,19 +41,19 @@
                     <span class="text-gradient">Sites</span>
                     <br>Made Simple
                 </h1>
-                <p class="lead mb-4 text-light-emphasis">
+                <p class="lead mb-4 text-light">
                     Everything you need to build amazing static websites. Comprehensive guides,
                     API references, and examples to get you started quickly.
                 </p>
                 <div class="d-flex flex-wrap gap-3 mb-5">
-                    <a href="index.html" class="btn btn-primary btn-lg btn-glow">
+                    <NavLink href="/docs" class="btn btn-primary btn-lg btn-glow">
                         <span class="me-2"><Blazicon Svg="FontAwesomeSolidIcon.Rocket" /></span>
                         Get Started
-                    </a>
-                    <a href="#features" class="btn btn-outline-light btn-lg">
+                    </NavLink>
+                    <NavLink href="#features" class="btn btn-outline-light btn-lg">
                         <span class="me-2"><Blazicon Svg="FontAwesomeSolidIcon.Play" /></span>
                         Learn More
-                    </a>
+                    </NavLink>
                 </div>
                 <div class="d-flex align-items-center text-muted">
                     <span class="text-success me-2"><Blazicon Svg="FontAwesomeSolidIcon.CircleCheck" /></span>
@@ -66,7 +66,7 @@
             <div class="col-lg-6">
                 <div class="text-center">
                     <div class="position-relative">
-                        <div class="bg-dark rounded-3 p-4 shadow-lg border" style="transform: rotate(-5deg);">
+                        <div class="bg-dark rounded-3 p-4 shadow-lg border border-secondary" style="transform: rotate(-5deg);">
                             <div class="d-flex align-items-center mb-3">
                                 <div class="bg-danger rounded-circle me-2" style="width: 12px; height: 12px;"></div>
                                 <div class="bg-warning rounded-circle me-2" style="width: 12px; height: 12px;"></div>
@@ -257,9 +257,9 @@
                 <div class="card bg-dark border-0 h-100">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center mb-3">
-                            <span class="text-primary me-3 fs-1"><Blazicon Svg="FontAwesomeSolidIcon.GraduationCap" /></span>
+                            <Blazicon Svg="FontAwesomeSolidIcon.GraduationCap" class="text-primary me-3 fs-1" />
                             <div>
-                                <h5 class="card-title mb-1">Learning Path</h5>
+                                <p class="mb-1">Learning Path</p>
                                 <p class="text-muted mb-0">Structured curriculum for beginners</p>
                             </div>
                         </div>
@@ -272,7 +272,7 @@
                 <div class="card bg-dark border-0 h-100">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center mb-3">
-                            <span class="text-info fs-1 me-3"><Blazicon Svg="FontAwesomeSolidIcon.Comment" /></span>
+                            <Blazicon Svg="FontAwesomeSolidIcon.Comment" class="text-primary fs-1 me-3" />
                             <div>
                                 <h5 class="card-title mb-1">Community Forum</h5>
                                 <p class="text-muted mb-0">Get help from other developers</p>
