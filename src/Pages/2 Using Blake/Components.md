@@ -45,10 +45,10 @@ You can also include child content with a `RenderFragment` parameter (which is u
 ```razor
 <div class="my-component">
 	<h3>@Title</h3>
-	@@ChildContent
+	@ChildContent
 </div>
 
-@@code {
+@code {
 	[Parameter] public string Title { get; set; }
 	[Parameter] public RenderFragment ChildContent { get; set; }
 }
