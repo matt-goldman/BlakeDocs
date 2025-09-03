@@ -103,6 +103,60 @@
             }
         };
 
+        // Scrollbar auto-hide functionality
+        window.initScrollbarBehavior = () => {
+            const scrollableElements = document.querySelectorAll('.scrollable-area');
+            
+            scrollableElements.forEach(element => {
+                let scrollTimeout;
+                
+                // Function to show scrollbar
+                const showScrollbar = () => {
+                    element.classList.add('scrolling');
+                };
+                
+                // Function to hide scrollbar with delay
+                const hideScrollbar = (delay = 1000) => {
+                    if (scrollTimeout) {
+                        clearTimeout(scrollTimeout);
+                    }
+                    scrollTimeout = setTimeout(() => {
+                        element.classList.remove('scrolling');
+                    }, delay);
+                };
+                
+                // Handle direct scrolling on the element
+                element.addEventListener('scroll', () => {
+                    showScrollbar();
+                    hideScrollbar(1000);
+                });
+                
+                // Handle scrolling on child TOC elements
+                const tocElements = element.querySelectorAll('.bdr-toc');
+                tocElements.forEach(toc => {
+                    toc.addEventListener('scroll', () => {
+                        showScrollbar();
+                        hideScrollbar(1000);
+                    });
+                });
+                
+                // Show scrollbar on hover
+                element.addEventListener('mouseenter', () => {
+                    showScrollbar();
+                });
+                
+                // Hide scrollbar when not hovering (with shorter delay)
+                element.addEventListener('mouseleave', () => {
+                    hideScrollbar(300);
+                });
+            });
+        };
+
+        // Initialize scrollbar behavior when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            window.initScrollbarBehavior();
+        });
+
 
     </script>
 </body>

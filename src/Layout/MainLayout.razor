@@ -10,14 +10,14 @@
         <!-- Left Sidebar - Site Navigation (Desktop Only) -->
         <nav class="col-lg-2 col-md-3 sidebar-left d-none d-md-block">
             <div class="sidebar-content">
-                <div class="toc-scrollable">
+                <div class="toc-scrollable scrollable-area">
                     <SiteToc ActiveSlug="@_activeSlug" Nodes="@_contentIndex" />
                 </div>
             </div>
         </nav>
 
         <!-- Main Content -->
-        <main role="main" class="col-12 col-md-6 col-lg-8 main-content" id="main-content" data-bs-spy="scroll" data-bs-target="#bs-scroll-target" tabindex="0">
+        <main role="main" class="col-12 col-md-6 col-lg-8 main-content scrollable-area" id="main-content" data-bs-spy="scroll" data-bs-target="#bs-scroll-target" tabindex="0">
             <div class="content-wrapper">
                 @Body
             </div>
@@ -31,7 +31,7 @@
 
         <!-- Right Sidebar - Popular Articles (Desktop Only) -->
         <aside class="col-lg-2 col-md-3 sidebar-right d-none d-md-block">
-            <div class="sidebar-content">
+            <div class="sidebar-content scrollable-area">
                 <SectionOutlet SectionName="Sidebar" />
             </div>
         </aside>
@@ -86,6 +86,8 @@
             if (!args.IsNavigationIntercepted) return;
 
             await JSRuntime.InvokeVoidAsync("scrollToTop");
+            // Re-initialize scrollbar behavior for any new content
+            await JSRuntime.InvokeVoidAsync("initScrollbarBehavior");
         };
 
         base.OnInitialized();
