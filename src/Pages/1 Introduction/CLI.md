@@ -13,8 +13,6 @@ category: "Getting Started"
 The Blake CLI provides essential commands for creating, building, and managing static sites. Each command is simple and transparent, giving you exactly what you need without complexity.
 :::
 
-# Blake CLI Reference
-
 The Blake CLI provides essential commands for creating, building, and managing your static sites. Each command is designed to be simple and transparent, giving you exactly what you need without complexity.
 
 ## Installation
@@ -50,6 +48,7 @@ blake new --list
 **When to use:** Starting a new Blake project. This sets up a complete Blazor WebAssembly project with Blake configuration and sample content.
 
 **Options:**
+
 - `--template, -t` - Specify a template by name or short name
 - `--siteName, -sn` - Set the site name (uses directory name by default)
 - `--url, -u` - Use a custom template from a Git repository
@@ -70,12 +69,14 @@ blake init --includeSampleContent
 **When to use:** You have an existing Blazor WASM project and want to add Blake's static site generation capabilities.
 
 **What it does:** Blake init makes the following minimal changes to your csproj file:
+
 - Adds the `Blake.Types` package reference
 - Adds a build target that runs `blake bake` before compilation
 - Configures content includes for generated Razor files in the `.generated` folder
 - Excludes `template.razor` files from compilation (they're used by Blake but not part of the build)
 
 **Options:**
+
 - `--includeSampleContent, -s` - Include sample pages and navigation to demonstrate Blake features
 
 ### blake bake
@@ -96,6 +97,7 @@ blake bake --clean
 **When to use:** After creating or modifying content, templates, or components. This is the core build step that transforms your Markdown and templates into Blazor components.
 
 **Options:**
+
 - `--includeDrafts` - Include pages with `draft: true` in frontmatter
 - `--clean, -cl` - Remove `.generated` folder before building
 - `--disableDefaultRenderers, -dr` - Skip built-in Bootstrap container renderers
@@ -115,6 +117,7 @@ blake serve --disableDefaultRenderers
 **When to use:** During development to test your site locally. This combines `blake bake` with `dotnet run` for a complete development experience.
 
 **Options:**
+
 - `--disableDefaultRenderers, -dr` - Skip built-in Bootstrap container renderers during the bake phase of serving
 
 ## Typical Workflow

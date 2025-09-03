@@ -15,11 +15,12 @@ Page templates define how your Markdown content is rendered as Blazor components
 
 ## Understanding Page Templates
 
-Page templates are the bridge between your Markdown content and your site's presentation. When you run `blake bake`, Blake transforms your Markdown files into Blazor components using these templates as the rendering blueprint.
+Page templates are the bridge between your Markdown content and your site's presentation. When you run `blake bake`, Blake transforms your Markdown files into Razor using these templates as the rendering blueprint.
 
 Blake supports two types of templates:
+
 - **`template.razor`** - Applied to Markdown files in the same folder
-- **`cascading-template.razor`** - Applied to Markdown files in the current folder and all subfolders
+- **`cascading-template.razor`** - Applied to Markdown files in the current folder and all subfolders, recursively, unless overridden by another template
 
 This flexible approach lets you create consistent layouts while maintaining the ability to customize specific sections of your site.
 
@@ -37,6 +38,7 @@ Blake looks for `template.razor` files in any folder containing Markdown files. 
 ```
 
 This template will:
+
 1. Display the page title from frontmatter
 2. Render the Markdown content as HTML
 
@@ -44,7 +46,7 @@ This template will:
 
 Blake is flexible about folder structure, but templates must be placed correctly:
 
-```
+```tree
 Pages/
 ├── Blog/
 │   ├── template.razor          # Applied to .md files in Blog/ only
@@ -59,55 +61,34 @@ If both `template.razor` and `cascading-template.razor` exist in a folder's hier
 
 ## Cascading Templates
 
-Cascading templates provide a powerful way to apply consistent layouts across multiple levels of your site without duplicating template code.
+Cascading templates provide a way to apply consistent layouts across multiple levels of your site without duplicating template code.
 
 ### How Cascading Works
 
 When Blake processes a Markdown file, it looks for templates in this order:
+
 1. `template.razor` in the same folder as the Markdown file
 2. `cascading-template.razor` in the same folder
 3. `cascading-template.razor` in parent folders (walking up the hierarchy)
 
 ### Cascading Template Example
 
-The `cascading-template.razor` file in this documentation site demonstrates advanced template features:
+The `cascading-template.razor` file in this documentation site allows a single template to be used across multiple directory trees.
 
-```razor
-@inject NavigationManager NavigationManager
-@inject ContentService Content
-
-<PageTitle>BlakeDocs - @Title</PageTitle>
-
-<!-- Breadcrumb navigation -->
-<nav aria-label="breadcrumb" class="mb-4">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Home</a></li>
-        @foreach (var segment in _slugSegments)
-        {
-            <!-- Breadcrumb logic here -->
-        }
-    </ol>
-</nav>
-
-<!-- Page header -->
-<div class="mb-5">
-    <h1 class="display-5 fw-bold mb-3">@Title</h1>
-    <p class="lead text-muted">@Description</p>
-</div>
-
-@Body
-
-@code {
-    private List<string> _slugSegments = [];
-    
-    protected override void OnInitialized()
-    {
-        // Template initialization logic
-        activeSlug = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
-        _slugSegments = activeSlug.Split('/').ToList();
-    }
-}
+```tree
+Pages/
+├── 1 Introduction /
+│   ├── CLI.md
+│   ├── Quickstart.md
+│   └── Welcome.md
+├── 2 Using Blake /
+│   ├── AuthoringContent.md
+│   ├── Components.md
+│   └── PageTemplates.md
+└── cascading-template.razor    # Applied to all .md files in Pages/ and subfolders
 ```
+
+The template defined in `cascading-template.razor` is used for all Markdown files under the `Pages/` path, without needing to repeat it for each subfolder.
 
 ## Frontmatter Injection
 
@@ -147,20 +128,57 @@ category: 'Tutorial'
 ---
 ```
 
-Access custom fields in templates:
+You can access them by retrieving them from the `GeneratedContentIndex`:
 
 ```razor
 @using Blake.Generated
 
-@{
-    var allPages = GeneratedContentIndex.GetPages();
-    var currentPage = allPages.FirstOrDefault(p => p.Slug == activeSlug);
-    var author = currentPage?.Metadata.ContainsKey("author") == true 
-        ? currentPage.Metadata["author"] 
-        : "Unknown";
+<p>By: @author</p>
+
+@code {
+
+    private string author = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        var allPages = GeneratedContentIndex.GetPages();
+        var currentPage = allPages.FirstOrDefault(p => p.Slug == activeSlug);
+        var author = currentPage?.Metadata.ContainsKey("author") == true 
+            ? currentPage.Metadata["author"] 
+            : "Unknown";
+        
+        base.OnInitialized();
+    }
 }
+```
+
+You can also use the page's ID property, but you have to bind this in the code section rather than in the content (otherwise it shows up in the page):
+
+:::note
+The ID is a string that has a default value of a new GUID, so this will be regenerated every time you bake the page. You can however pass your own ID in the frontmatter, and it can be any string, not necessarily a GUID, if you want your pages to be generated with a persistent ID value.
+:::
+
+```razor
+@using Blake.Generated
 
 <p>By: @author</p>
+
+@code {
+
+    private string author = string.Empty;
+    private string pageId = @Id;
+
+    protected override void OnInitialized()
+    {
+        var allPages = GeneratedContentIndex.GetPages();
+        var currentPage = allPages.FirstOrDefault(p => p.Id == pageId);
+        var author = currentPage?.Metadata.ContainsKey("author") == true 
+            ? currentPage.Metadata["author"] 
+            : "Unknown";
+        
+        base.OnInitialized();
+    }
+}
 ```
 
 :::note
@@ -246,9 +264,8 @@ Templates can access the full content index for navigation and related content:
 }
 ```
 
-:::warning
-**Performance Consideration**
-While templates support complex logic, remember that Blake generates static content. Heavy computations should be done during the baking process, not in the template rendering.
+:::tip
+Consider performance when designing logic in your templates. While templates support complex logic, remember that Blake generates static content. Heavy computations should be done during the baking process, not in the template rendering. This is usually not an issue but is something to be mindful of.
 :::
 
 ## Best Practices
