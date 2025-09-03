@@ -10,14 +10,14 @@
         <!-- Left Sidebar - Site Navigation (Desktop Only) -->
         <nav class="col-lg-2 col-md-3 sidebar-left d-none d-md-block">
             <div class="sidebar-content">
-                <div class="toc-scrollable">
+                <div class="toc-scrollable scrollable-area">
                     <SiteToc ActiveSlug="@_activeSlug" Nodes="@_contentIndex" />
                 </div>
             </div>
         </nav>
 
         <!-- Main Content -->
-        <main role="main" class="col-12 col-md-6 col-lg-8 main-content" id="main-content" data-bs-spy="scroll" data-bs-target="#bs-scroll-target" tabindex="0">
+        <main role="main" class="col-12 col-md-6 col-lg-8 main-content scrollable-area" id="main-content" data-bs-spy="scroll" data-bs-target="#bs-scroll-target" tabindex="0">
             <div class="content-wrapper">
                 @Body
             </div>
@@ -32,7 +32,9 @@
         <!-- Right Sidebar - Popular Articles (Desktop Only) -->
         <aside class="col-lg-2 col-md-3 sidebar-right d-none d-md-block">
             <div class="sidebar-content">
-                <SectionOutlet SectionName="Sidebar" />
+                <div class="toc-scrollable scrollable-area">
+                    <SectionOutlet SectionName="Sidebar" />
+                </div>
             </div>
         </aside>
     </div>
@@ -44,7 +46,7 @@
         <h5 class="offcanvas-title" id="siteNavOffcanvasLabel">Site Navigation</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
+    <div class="offcanvas-body scrollable-area">
         <!-- Mobile Search Link -->
         <div class="mobile-search-section mb-4">
             <a href="/search/" class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2">
@@ -62,7 +64,7 @@
         <h5 class="offcanvas-title" id="pageTocOffcanvasLabel">On This Page</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
+    <div class="offcanvas-body scrollable-area">
         <SectionOutlet SectionName="MobileSidebar" />
     </div>
 </div>
@@ -86,9 +88,20 @@
             if (!args.IsNavigationIntercepted) return;
 
             await JSRuntime.InvokeVoidAsync("scrollToTop");
+            // Re-initialize scrollbar behavior for any new content
+            await JSRuntime.InvokeVoidAsync("initScrollbarBehavior");
         };
 
         base.OnInitialized();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Initialize scrollbar behavior on first render
+            await JSRuntime.InvokeVoidAsync("initScrollbarBehavior");
+        }
     }
 
     private void UpdateSlugs()

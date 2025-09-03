@@ -125,3 +125,45 @@ h6 {
     transform: rotateY( -180deg );
     }
 }
+
+/* Custom Scrollbar Styles */
+/* Webkit browsers (Chrome, Safari, Edge) */
+.scrollable-area {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.scrollable-area::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.scrollable-area::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scrollable-area::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    transition: background-color 0.2s ease, opacity 0.3s ease;
+}
+
+.scrollable-area::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Auto-hide scrollbars */
+.scrollable-area::-webkit-scrollbar-thumb {
+    opacity: 0;
+}
+
+.scrollable-area.scrolling::-webkit-scrollbar-thumb,
+.scrollable-area:hover::-webkit-scrollbar-thumb {
+    opacity: 1;
+}
+
+/* Firefox scrollbar styling */
+.scrollable-area {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
