@@ -37,6 +37,7 @@ This gives you a production-ready foundation that you can customize for your spe
 Blake provides several built-in site templates to get you started quickly:
 
 ### Documentation Site Template
+
 **Template Name:** `docs` (this site)
 
 Perfect for creating documentation sites, API references, or knowledge bases. This template includes:
@@ -49,6 +50,7 @@ Perfect for creating documentation sites, API references, or knowledge bases. Th
 - **Code syntax highlighting** for technical documentation
 
 **Example usage:**
+
 ```bash
 blake new MyDocs -t docs
 cd MyDocs
@@ -57,6 +59,7 @@ dotnet run
 ```
 
 ### Blog Template
+
 **Template Name:** `Blake Simple Tailwind Sample`  
 **Short Name:** `tailwind-sample`
 
@@ -68,9 +71,10 @@ A sample blog template using Tailwind CSS for styling and clean, modern design:
 - **Clean navigation** with automatic page discovery
 - **Responsive layout** optimized for readability
 
-**Demo:** https://tailwindsample.blake-ssg.org/
+**Demo:** <https://tailwindsample.blake-ssg.org/>
 
 **Example usage:**
+
 ```bash
 blake new MyBlog -t tailwind-sample
 cd MyBlog
@@ -80,6 +84,7 @@ dotnet run
 ```
 
 ### Portfolio Template
+
 **Template Name:** `portfolio` (coming soon)
 
 Ideal for showcasing creative work or professional projects:
@@ -121,7 +126,7 @@ A key principle is the **colocation of template and markdown files**. For exampl
 
 Blake generates a content index that templates can use however best suits their purpose - in the Tailwind sample, generated pages appear in the navigation bar while generated posts appear on the home screen with pagination. This navigation logic is part of the template, not Blake itself.
 
-```
+```bash
 MyProject/
 ├── src/
 │   ├── MyProject.csproj              # Pre-configured project file
@@ -188,7 +193,6 @@ Templates in the registry are defined using JSON metadata based on the actual re
 **Security Considerations**
 Users should exercise the same caution with site templates as with any other packages - you are responsible for ensuring you trust the code you're executing on your computer. The template registry does not provide guarantees of safety, but does make template discovery easier and will provide minimum baseline guarantees when [planned template validation work](https://github.com/matt-goldman/blake/issues/22) is completed.
 :::
-```
 
 ### Contributing Templates
 
@@ -204,11 +208,13 @@ Detailed guidance on creating site templates is available in the [Contributing s
 **Template Guidelines**
 
 When creating templates for contribution:
+
 - Follow Blake's "zero configuration" philosophy - templates should work immediately after creation
 - Include comprehensive documentation and examples
 - Use semantic, accessible HTML and CSS
 - Test with various content types and sizes
 - Consider mobile responsiveness and performance
+
 :::
 
 ## Template vs Page Template Relationship
@@ -224,7 +230,7 @@ Understanding the relationship between site templates and page templates:
 
 The docs site template includes multiple page templates:
 
-```
+```bash
 src/Pages/
 ├── cascading-template.razor          # Default template for all pages
 ├── 1 Introduction/
