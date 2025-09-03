@@ -44,7 +44,7 @@
         <h5 class="offcanvas-title" id="siteNavOffcanvasLabel">Site Navigation</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
+    <div class="offcanvas-body scrollable-area">
         <!-- Mobile Search Link -->
         <div class="mobile-search-section mb-4">
             <a href="/search/" class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2">
@@ -62,7 +62,7 @@
         <h5 class="offcanvas-title" id="pageTocOffcanvasLabel">On This Page</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
+    <div class="offcanvas-body scrollable-area">
         <SectionOutlet SectionName="MobileSidebar" />
     </div>
 </div>
@@ -91,6 +91,15 @@
         };
 
         base.OnInitialized();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Initialize scrollbar behavior on first render
+            await JSRuntime.InvokeVoidAsync("initScrollbarBehavior");
+        }
     }
 
     private void UpdateSlugs()
