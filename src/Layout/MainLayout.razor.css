@@ -1,5 +1,5 @@
 .main-container {
-    height: calc(100vh - 60px); /* Adjust 60px to match your TopBar height */
+    height: calc(100vh - 65px); /* Adjust 65px to match your TopBar height */
     overflow: hidden;
 }
 
