@@ -24,16 +24,16 @@ Blake is an open-source static site generator that follows the philosophy of "Oc
 
 ## Ways to Contribute
 
-### 🎨 Site Templates (a.k.a "Themes")
+### 🎨 Site Templates & 🔌 Plugins
 
-**Build templates for the community:**
+**Build for the Blake ecosystem:**
 
-- Create new site templates for different use cases
-- Improve existing templates
+- **[Create site templates](/pages/5%20contributing/creating-site-templates)** for different use cases (blogs, docs, portfolios, etc.)
+- **[Develop plugins](/pages/5%20contributing/writing-plugins)** that extend Blake's functionality
+- Improve existing templates and plugins
 - Add responsive design and accessibility features
-- Create specialized templates (portfolio, blog, docs, etc.)
 
-### 🐛 Bug Reports and Feature Requests
+### 🐛 Bug Reports & 💡 Feature Requests
 
 **Found a bug or have an idea?**
 
@@ -42,38 +42,15 @@ Blake is an open-source static site generator that follows the philosophy of "Oc
 - Include Blake version, .NET version, and operating system
 - For feature requests, explain the problem you're trying to solve
 
-**Good bug reports include:**
+### 💻 Code Contributions & 📖 Documentation
 
-- Clear title describing the issue
-- Steps to reproduce the problem
-- Expected vs. actual behaviour
-- Screenshots if applicable
-- Minimal example project when possible
-
-### 💻 Code Contributions
-
-**Core Blake Development:**
+**Improve Blake itself:**
 
 - Bug fixes and performance improvements
 - New features (discuss in issues first for large changes)
 - Better error messages and logging
-- Cross-platform compatibility improvements
-
-**Plugin Development:**
-
-- Create plugins that extend Blake's functionality
-- Improve existing plugins
-- Fix plugin compatibility issues
-- Add new plugin hooks and capabilities
-
-### 📖 Documentation Improvements
-
-**Help make Blake more accessible:**
-
 - Fix typos and improve clarity
 - Add missing examples and tutorials
-- Update outdated information
-- Translate documentation (future)
 - Create video tutorials and blog posts
 
 ### 🧪 Testing and Quality Assurance
