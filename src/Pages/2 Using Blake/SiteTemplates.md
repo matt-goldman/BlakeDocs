@@ -19,7 +19,7 @@ Site templates are different from [page templates](/pages/2%20using%20blake/page
 
 :::info
 **Why "Site Templates" Instead of "Themes"?**
-Blake uses the term "site templates" rather than "themes" because it more accurately describes what they are. A theme implies a visual customization of an existing standard structure, but Blake doesn't work that way. At its core, Blake simply transforms Markdown into Razor according to page templates. Site templates provide complete scaffolded websites, not just styling - they're architectural foundations, not decorative overlays.
+Static site generators typically use the word "theme" do describe a ready-to-go blueprint for a website. Blake uses the term "site templates" rather than "themes" because it more accurately describes what they are. A theme implies a visual customisation of an existing standard structure, for example selecting a custom colour palette. In fact this is familiar when applied to "light" and "dark" themes. As site templates is the more sensible term, that's what Blake uses.
 :::
 
 When you use a site template, Blake creates an entire Blazor project structure with:
@@ -34,11 +34,24 @@ This gives you a production-ready foundation that you can customize for your spe
 
 ## Available Site Templates
 
-Blake provides several built-in site templates to get you started quickly:
+Blake provides a template registry that you can interrogate with the CLI to get information about available templates:
+
+```bash
+blake new --list
+
+Available templates:
+Template Name                | Short name       | Description                                     | Main Category       | Author
+-----------------------------|------------------|-------------------------------------------------|---------------------|-----------------
+Blake Docs                   | blakedocs        | Template used for the Blake documentation site  | Docs                | Matt Goldman
+Blake Simple Tailwind Sample | tailwind-sample  | A sample blog template using Tailwind CSS.      | Blog                | Matt Goldman
+```
+
+Currently there are two templates available:
 
 ### Documentation Site Template
 
-**Template Name:** `docs` (this site)
+**Template Name:** `Blake Docs` (this site)
+**Short Name:** `blakedocs`
 
 Perfect for creating documentation sites, API references, or knowledge bases. This template includes:
 
@@ -52,7 +65,7 @@ Perfect for creating documentation sites, API references, or knowledge bases. Th
 **Example usage:**
 
 ```bash
-blake new MyDocs -t docs
+blake new MyDocs -t blakedocs
 cd MyDocs
 blake bake
 dotnet run
@@ -83,19 +96,6 @@ blake bake
 dotnet run
 ```
 
-### Portfolio Template
-
-**Template Name:** `portfolio` (coming soon)
-
-Ideal for showcasing creative work or professional projects:
-
-- **Project galleries** with image and video support
-- **Case study layouts** for detailed project descriptions
-- **Contact forms** and professional information
-- **Skills and experience sections**
-- **Testimonial displays**
-- **SEO optimization** for professional visibility
-
 ## Using Site Templates
 
 ### Creating a New Project with Templates
@@ -104,10 +104,10 @@ The most common way to use site templates is when creating a new Blake project:
 
 ```bash
 # List available templates
-blake new --list-templates
+blake new --list
 
 # Create a new project using a specific template
-blake new MyProject -t docs
+blake new MyProject -t blakedocs
 
 # Create with custom location
 blake new /path/to/MyProject -t tailwind-sample
@@ -115,7 +115,7 @@ blake new /path/to/MyProject -t tailwind-sample
 
 ### Template Structure
 
-Blake isn't opinionated about your project structure - it's primarily concerned with transforming Markdown into Razor according to page templates. Site templates are simply Blazor WASM projects that have been pre-configured with:
+Blake isn't opinionated about your project structure - it's primarily concerned with transforming Markdown into Razor according to page templates. Site templates are simply Blazor projects that have been pre-configured with:
 
 - **Blake dependencies** installed and project file configured appropriately
 - **Content structure** suited for the template's purpose (documentation, blog, portfolio, etc.)
@@ -126,10 +126,12 @@ A key principle is the **colocation of template and markdown files**. For exampl
 
 Blake generates a content index that templates can use however best suits their purpose - in the Tailwind sample, generated pages appear in the navigation bar while generated posts appear on the home screen with pagination. This navigation logic is part of the template, not Blake itself.
 
-```bash
-MyProject/
+For example, a template may be organised like this:
+
+```tree
+MyTemplate/
 ├── src/
-│   ├── MyProject.csproj              # Pre-configured project file
+│   ├── MyTemplate.csproj             # Pre-configured project file
 │   ├── Pages/                        # General site pages (optional structure)
 │   ├── Posts/                        # Blog posts (example from Tailwind sample)
 │   ├── Components/                   # Reusable Blazor components
@@ -151,22 +153,7 @@ To adapt a template for your own content (site template authors should provide s
 1. **Clear example content** - Remove or replace files in content directories (e.g., `Pages/`, `Posts/`)
 2. **Update site information** - Modify titles, descriptions, and branding in layout components
 3. **Customize styling** - Update CSS files in `wwwroot/css/` or replace with your own theme
-4. **Manage plugins** - Add, remove, or configure plugins as needed. Any Blazor WASM compatible RCL or NuGet package can be included if desired.
-
-#### Converting Documentation Template
-
-If you used the docs template but want a simpler site:
-
-```bash
-# Remove documentation-specific plugins from your .csproj
-# <PackageReference Include="BlakePlugin.DocsRenderer" Version="..." />
-
-# Replace complex layouts with simpler ones
-# Update or replace files in Layout/ directory
-
-# Reorganize content structure
-# Move files from numbered folders to a simpler structure
-```
+4. **Manage plugins** - Add, remove, or configure plugins as needed. Any Blazor compatible RCL or NuGet package can be included if desired.
 
 ## Template Registry and Contributions
 
@@ -190,7 +177,7 @@ Templates in the registry are defined using JSON metadata based on the actual re
 ```
 
 :::warning
-**Security Considerations**
+**Security Considerations**    
 Users should exercise the same caution with site templates as with any other packages - you are responsible for ensuring you trust the code you're executing on your computer. The template registry does not provide guarantees of safety, but does make template discovery easier and will provide minimum baseline guarantees when [planned template validation work](https://github.com/matt-goldman/blake/issues/22) is completed.
 :::
 
@@ -223,26 +210,8 @@ Understanding the relationship between site templates and page templates:
 
 - **Site templates** provide the entire project structure and multiple page templates
 - **Page templates** (covered in [Page Templates](/pages/2%20using%20blake/page-templates)) define how individual markdown files are rendered
-- A single site template typically includes several different page templates for different content types
+- A single site template could include several different page templates for different content types
 - You can mix and match - use a site template as a starting point, then create custom page templates for specific sections
-
-### Example: Documentation Site Structure
-
-The docs site template includes multiple page templates:
-
-```bash
-src/Pages/
-├── cascading-template.razor          # Default template for all pages
-├── 1 Introduction/
-│   └── template.razor                # Template for introduction pages
-├── 2 Using Blake/
-│   └── template.razor                # Template for usage documentation
-└── Components/
-    ├── SearchBox.razor               # Site-specific components
-    └── TableOfContents.razor
-```
-
-This allows different sections to have specialized layouts while maintaining consistent site-wide elements.
 
 ## Next Steps
 

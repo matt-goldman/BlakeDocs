@@ -75,6 +75,7 @@ blake init --includeSampleContent
 ```
 
 or:
+
 ```bash
 blake init -s
 ```

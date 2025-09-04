@@ -23,7 +23,6 @@ Blake is a Blazor-based static site generator that combines Markdown content wit
 
 Get started with the basics, understand the philosophy, and bake your first site.
 
-
 ## What is Blake?
 
 Blake is a static site generator that leverages the power of Blazor and Razor syntax to create fast, efficient, and easy-to-maintain websites. It allows you to write content in Markdown while using Razor templates for layout and Blazor components for interactivity.

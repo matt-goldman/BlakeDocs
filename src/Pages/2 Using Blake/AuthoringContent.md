@@ -27,9 +27,12 @@ Let's explore each step in detail.
 
 ## Page Templates
 
-Blake uses Razor components as templates for pages. Page templates are defined as either `template.razor` files, or `cascading-template.razor` files, which allow for cascading parameters to be passed down to child components.
+Blake uses Razor components as templates for pages. Page templates are defined in Razor using a specific file naming conventions:
 
-Any directory containing Markdown file (`.md`) files will be treated as a content directory, and Blake will automatically generate pages for each Markdown file found in that directory, using either the `template.razor` if one exists in that directory, or `cascading-template.razor` if one is inherited from a parent directory.
+* `template.razor`: used to generate Razor files for Markdown content in the containing folder only
+* `cascading-template.razor`: used to generate Razor files for Markdown content in the containing folder, and all child folders recursively, unless overridden by another `template.razor` or `cascading-template.razor` file.
+
+Any directory containing Markdown (`.md`) files will be treated as a content directory, and Blake will automatically generate pages for each Markdown file found in that directory, using either the `template.razor` if one exists in that directory, or `cascading-template.razor` if one is inherited from a parent directory.
 
 You can read more about how these work in [Page Templates](</pages/2 using blake/page-templates>).
 
@@ -39,7 +42,7 @@ Content in Blake is written in Markdown. If you're interested in Blake it's like
 
 While there are different "flavours" of Markdown, pretty much all general Markdown syntax will work with Blake. It uses [Markdig](https://github.com/xoofx/markdig) to transform Markdown into HTML, with some additional tweaks around the edges, like transposing unrecognised containers to Razor components (see [components](/2%20using%20blake/components) page for more info).
 
-When using a static site generator like Blake, the general idea is to define styles in your templates, and let the Markdown parser take care of the rest. If however you do want to explicitly control some aspect of your content directly in Makrdown, Markdig allows you to [supply attributes](https://github.com/xoofx/markdig/blob/master/src/Markdig.Tests/Specs/GenericAttributesSpecs.md) alongside your content byt enclosing them in curly braces. For example:
+When using a static site generator like Blake, the general idea is to define styles in your templates, and let the Markdown parser take care of the rest. However you can explicitly control some aspect of your content directly in Makrdown, using supported [Markdig attributes](https://github.com/xoofx/markdig/blob/master/src/Markdig.Tests/Specs/GenericAttributesSpecs.md). Use these alongside your content by enclosing them in curly braces. For example:
 
 ```markdown
 You can add curly braces after anything{#paragraph-6 .my-paragraph}
@@ -47,9 +50,9 @@ You can add curly braces after anything{#paragraph-6 .my-paragraph}
 
 The convention with Markdig is as follows:
 
-* A hash (`#`) specifies the ID
+* A hash (`#`) specifies the HTML element ID
 * A period (`.`) is used to specify a CSS class
-* Any other attribute is supplied as a key-value pair with the equals sign (`name="value"`)
+* Any other attribute is applied to the resulting HTML element as a key-value pair with the equals sign (`name="value"`)
 
 ### A note in images
 
@@ -65,7 +68,7 @@ This would get parsed as:
 <img src="path/to/image.png" alt="An image" Width="400" Height="200">
 ```
 
-Blake also has some special shorthand for image sizing though for extra convenience. After the file path, you can use the equals sign to specify dimensions (in `px`) with positional properties, in the order `=[width]x[height]`. You can specify both, or just one with the `x` used to indicate which property you are specifying.
+For extra convenience, Blake also has some special shorthand for image sizing. After the file path, you can use the equals sign to specify dimensions (in `px`) with positional properties, in the order `=[width]x[height]`. You can specify both, or just one with the `x` used to indicate which property you are specifying.
 
 ```markdown
 ![Alt text](/path/to/image.png=200x300)  # Both width and height
@@ -79,12 +82,18 @@ You can of course ignore all this and just size your images themselves (or not),
 ![Alt text](/path/to/image.png)
 ```
 
+:::warning
+Blake generates a Razor file using the same name as your source Markdown file, but with `.Razor` substituted for `.md`. This means you must use a filename that will be valid as a Razor file. Essentially this means only using standard filename characters, not including spaces, and beginning with a capital letter.
+:::
+
 ## Content Structure
 
-Unlike other static site generators, Blake does not enforce a specific content structure. You can organize your content in any way that makes sense for your project. Navigation and URLs are automatically generated based on file path, therefore it is recommended to follow a logical hierarchy to make navigation easier for users.
+Unlike other static site generators, Blake does not enforce a specific content structure. You can organize your content in any way that makes sense for your project. Navigation and URLs are automatically generated based on file path, anf are available in a `GeneratedContentIndex` file and can be used for site-wide navigation. Therefore it is recommended to follow a logical hierarchy to make navigation easier for users.
 
 :::note
-With the DocsRenderer plugin, you can also create a table of contents (ToC) for your pages. This is useful for longer documents or guides where users may want to jump to specific sections. It also allows you to specify categories in your frontmatter, which can be used to group related content together. Note that the URL/slug does not change, just organisation within the ToC.
+With the DocsRenderer plugin, you can also create a table of contents (ToC) for your pages themselves, allowing in-page navigation as well as site-wide navigation. This is useful for longer documents or guides where users may want to jump to specific sections.
+
+For site-wide navigation, it also allows you to specify categories in your frontmatter, which can be used to group related content together. This allows you to use the DosRenderer's generated ToC instead of the `GeneratedContentIndex`, if you want navigation organised by categories instead of folders. Note that the URL/slug does not change, just organisation within the ToC.
 :::
 
 ## Front matter
@@ -93,13 +102,13 @@ Blake supports frontmatter in Markdown files, allowing you to define metadata fo
 
 You can include anything you like in the frontmatter, but Blake uses a few specific fields to control how pages are rendered:
 
-- `title`: The title of the page, displayed in the browser tab and as the main heading.
-- `date`: The date the page was created or last modified, used for sorting and display
-- `image`: A URL to an image that represents the page, used for social sharing and previews.
-- `tags`: An array of tags associated with the page, used for filtering and categorization.
-- `description`: A brief description of the page, used for SEO and social sharing.
-- `iconIdentifier`: An identifier for an icon to display in the navigation menu.
-- `draft`: A boolean indicating whether the page is a draft and should not be displayed in the navigation or search results. Draft pages are excluded by default but can be included using `blake bake --includeDrafts`.
+* `title`: The title of the page, displayed in the browser tab and as the main heading.
+* `date`: The date the page was created or last modified, used for sorting and display
+* `image`: A URL to an image that represents the page, used for social sharing and previews.
+* `tags`: An array of tags associated with the page, used for filtering and categorization.
+* `description`: A brief description of the page, used for SEO and social sharing.
+* `iconIdentifier`: An identifier for an icon to display in the navigation menu.
+* `draft`: A boolean indicating whether the page is a draft and should not be displayed in the navigation or search results. Draft pages are excluded by default but can be included using `blake bake --includeDrafts`.
 
 Values parsed from frontmatter are available in the `PageModel` class. Note that an instance of the `PageModel` is not injected into your generated page, but you _can_ specify properties to be bound during the baking process. Blake will assign values of these known properties to generated pages where it detects them expressed using the `@@` directive, followed by the name of the property in PascalCase, in your template.
 

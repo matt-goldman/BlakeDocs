@@ -26,6 +26,10 @@ Vercel is a modern deployment platform optimized for frontend frameworks and sta
 
 ## Quick Deployment Guide
 
+:::note
+This setup is based on Vercel documentation and is untested. Corrections to these docs are welcome via a PR on the repo!
+:::
+
 ### Basic Setup
 
 1. **Import your repository** to Vercel

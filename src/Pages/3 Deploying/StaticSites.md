@@ -17,6 +17,10 @@ Blake sites are Blazor WebAssembly applications that can be deployed to any stat
 
 Blake generates standard Blazor WebAssembly applications, which means you can deploy your Blake site anywhere that supports static web hosting. The build output is a collection of static files (HTML, CSS, JavaScript, and WebAssembly) that can be served by any web server.
 
+:::note
+It's possible to use Blazor Server or even mixed rendering apps too. There are no templates for these, but if you're comfortable with Blazor's render modes, and you've read the documentation in section 2 (Using Blake), you should be able to create one. In this case, you can't deploy as a static site, and will need to host the server. Many of the providers mentioned here will support this, but you'll need to adjust the workflow accordingly.
+:::
+
 ## Deployment Options
 
 ### Static Hosting Platforms
@@ -39,7 +43,7 @@ You can also host Blake sites on your own infrastructure:
 
 ## GitHub Actions Integration
 
-Blake site templates include GitHub Actions workflows for automated deployment. Template authors are encouraged to provide workflows for multiple hosting platforms, allowing you to choose the deployment strategy that fits your needs.
+Blake site templates should include GitHub Actions workflows for automated deployment. Template authors are encouraged to provide workflows for multiple hosting platforms, allowing you to choose the deployment strategy that fits your needs.
 
 ### Available Workflows
 
@@ -50,8 +54,8 @@ Common workflow templates you'll find in Blake site templates:
 - **Multi-platform workflows** - Deploy to multiple environments simultaneously
 
 :::note
-**Template Flexibility**
-Different Blake site templates may include different sets of deployment workflows. You can mix and match workflows from different templates or create custom ones for your specific hosting needs.
+**Template Flexibility**    
+Different Blake site templates may include different sets of deployment workflows. You can mix and match workflows from different templates or create custom ones for your specific hosting needs. If a template includes multiple workflows, ensure you disable any that you don't need.
 :::
 
 ## Build Process Overview

@@ -18,29 +18,41 @@ Common questions and troubleshooting tips for Blake users. Blake is intentionall
 
 ### Why isn't my page showing up?
 
-This is the most common issue new users encounter. Check these items in order:
+Check these items in order:
 
 1. **Template exists**: The folder containing your Markdown file needs either:
    - A `template.razor` file in the same folder, or
    - A `cascading-template.razor` file in a parent folder
 
-2. **Valid frontmatter**: Your Markdown file should have properly formatted YAML frontmatter:
+2. **Draft content**: If your content has `draft: true` in the frontmatter, you need to include it explicitly:
+
+   ```bash
+   blake bake --includeDrafts
+   ```
+
+3. **Valid frontmatter**: Frontmatter is not required; however if you _do_ include frontmatter, ensure it is correctly formatted:
+
    ```yaml
    ---
    title: 'Your Page Title'
    ---
    ```
 
-3. **Build process**: Make sure you've run `blake bake` before building your site:
+4. **Build process**: Make sure you've run `blake bake` before building your site:
+
    ```bash
    blake bake
    dotnet build
    ```
 
-4. **Draft content**: If your content has `draft: true` in the frontmatter, you need to include it explicitly:
+5. **Enable debug output**: You can run `blake bake` with increased logging verbosity:
+
    ```bash
-   blake bake --includeDrafts
+   blake bake -v Debug
+   dotnet build
    ```
+
+Check the output for any errors relating to missing pages.
 
 For more details on content authoring, see [Authoring Content](/pages/2%20using%20blake/authoring-content).
 
@@ -76,6 +88,8 @@ dotnet build
 dotnet run
 ```
 
+Alternatively, when running locally, simply use `blake serve` which combines the bake and run steps.
+
 **Why this happens:** Blake needs to generate Razor files before the .NET build process compiles them, but MSBuild targets don't guarantee this ordering.
 
 ### How do I deploy my Blake site?
@@ -103,6 +117,7 @@ Absolutely! Blake doesn't enforce any CSS framework. The documentation template 
 Blake plugins are NuGet packages that extend functionality:
 
 1. **Install the plugin**:
+
    ```xml
    <PackageReference Include="BlakePlugin.ReadTime" Version="1.0.0" />
    ```
@@ -113,7 +128,7 @@ For more details, see [Using Plugins](/pages/2%20using%20blake/using-plugins).
 
 ### Can I use components from other Blazor libraries?
 
-Yes! Blake generates standard Blazor components, so you can use any Blazor component library:
+Yes! Blake generates standard Razor files, so you can use any Blazor component library:
 
 - Add the NuGet package to your project
 - Include the library in your templates
@@ -135,7 +150,7 @@ Most compilation errors relate to:
 
 - **Invalid Razor syntax** in template files
 - **Missing using statements** in templates
-- **Incorrect file naming**: Template files must be named exactly `template.razor` or `cascading-template.razor`
+- **Incorrect file naming**: Template files must be named exactly `template.razor` or `cascading-template.razor`, content files must be valid Razor filenames (must start with an uppercase alpha character, no spaces, no special characters)
 
 ## Getting Help
 
@@ -147,6 +162,7 @@ Report bugs and issues in the [Blake repository](https://github.com/matt-goldman
 
 Want to contribute to Blake or this documentation? See the [Contributing](/pages/5%20contributing/) guide for details on:
 
+- Creating site templates
 - Creating plugins
 - Improving documentation
 - Submitting pull requests
@@ -158,6 +174,6 @@ Want to contribute to Blake or this documentation? See the [Contributing](/pages
 - **Documentation Issues**: Issues with this documentation can be reported in the [BlakeDocs repository](https://github.com/matt-goldman/BlakeDocs/issues)
 
 :::note
-**Blake's Simplicity Promise**
+**Blake's Simplicity Promise**    
 If you're finding Blake difficult to use or encountering complex configuration requirements, that's likely a bug in Blake itself. The goal is zero-configuration static site generation that just works.
 :::

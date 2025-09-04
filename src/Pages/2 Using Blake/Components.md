@@ -26,7 +26,7 @@ But it's up to you - it's your site, so you can do what you like!
 
 ## Using Blazor components in content
 
-You can use Blazor components directly in your Markdown content. For example, if you have a component called `MyComponent`, you can use it like this:
+You can use Blazor components directly in your Markdown content. For example, if you have a component called `ClickCounter`, you can use it like this:
 
 ```markdown
 ### Adding a component in Markdown
@@ -36,7 +36,7 @@ You can simply add a component like this:
 <ClickCounter />
 ```
 
-This allows you to drop arbitrary functionality directly into pages or posts, similar to how React components can be added to markdown with `.mdx` files. Just without any special, additional ceremony.
+This allows you to drop arbitrary functionality directly into pages or posts, similar to how React components can be added to Markdown with `.mdx` files. But without any special, additional ceremony.
 
 This is potentially more useful in templates than in Markdown content (you can see several examples of this in the starter templates, including this one), but it works in both.
 
@@ -121,7 +121,7 @@ This is a custom container. It will be rendered as a Razor component that looks 
 :::
 ```
 
-This gets injected int your Razor page as:
+This gets injected into your Razor page as:
 
 ```razor
 <MyContainer>
@@ -130,6 +130,7 @@ This is a custom container. It will be rendered as a Razor component that looks 
 ```
 
 You can pass values to your component using the frontmatter, just like you would with any other component. For example:
+
 ```markdown
 ::: my title="My Custom Container"
 This is a custom container with a title. It will be rendered as a Razor component that looks like this:
@@ -137,8 +138,11 @@ This is a custom container with a title. It will be rendered as a Razor componen
 ```
 
 gets injected as:
+
 ```razor
 <MyContainer Title="My Custom Container">
 This is a custom container with a title. It will be rendered as a Razor component that looks like this:
 </MyContainer>
 ```
+
+Note that properties are converted to PascalCase.

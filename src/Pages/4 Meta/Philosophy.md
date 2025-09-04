@@ -77,33 +77,15 @@ If it seems clever, it probably doesn't belong in Blake.
 
 These seven principles guide every decision in Blake's development:
 
-### 1. No Assumptions
-
-Blake makes as few assumptions as possible about your project structure, content organization, or workflow. The only requirements are valid Razor template files and markdown content.
-
-### 2. No Hidden Logic
-
-Every transformation Blake performs is transparent and predictable. You can see exactly how your markdown becomes HTML by looking at your templates.
-
-### 3. Folders Are Structure
-
-Your folder organization becomes your site structure. No complex routing configuration or URL rewriting - what you see in the file system is what you get in the browser.
-
-### 4. Templates Own Complexity
-
-All rendering complexity lives in your templates, not in Blake itself. Templates are standard Razor - no proprietary syntax to learn or maintain.
-
-### 5. No Required Config
-
-Blake starts working immediately without configuration files. Every setting is optional and follows sensible defaults.
-
-### 6. Drafts Are Opt-In
-
-Content is published by default. If you want draft functionality, explicitly mark content as draft and use `--includeDrafts` when needed.
-
-### 7. Bake, Don't Wrangle
-
-Blake transforms your content cleanly and gets out of your way. No ongoing maintenance, no dependency conflicts, no mysterious build failures.
+| Principle                | Description                                                                                                                                                                                                                  |
+|--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **1. No Assumptions**    | Blake makes as few assumptions as possible about your project structure, content organization, or workflow. The only requirements are valid Razor template files and markdown content.                                        |
+| **2. No Hidden Logic**   | Every transformation Blake performs is transparent and predictable. You can see exactly how your markdown becomes HTML by looking at your templates.                                                                         |
+| **3. Folders Are Structure** | Your folder organization becomes your site structure. No complex routing configuration or URL rewriting—what you see in the file system is what you get in the browser.                                                   |
+| **4. Templates Own Complexity** | All rendering complexity lives in your templates, not in Blake itself. Templates are standard Razor—no proprietary syntax to learn or maintain.                                                                         |
+| **5. No Required Config** | Blake starts working immediately without configuration files. Every setting is optional and follows sensible defaults.                                                                                                       |
+| **6. Drafts Are Opt-In** | Content is published by default. If you want draft functionality, explicitly mark content as draft and use `--includeDrafts` when needed.                                                                                    |
+| **7. Bake, Don't Wrangle** | Blake transforms your content cleanly and gets out of your way. No ongoing maintenance, no dependency conflicts, no mysterious build failures.                                                                              |
 
 ## Why No Configuration System?
 
@@ -163,6 +145,6 @@ Explore how these principles translate into practice:
 - [Extending with plugins](/pages/2%20using%20blake/using-plugins)
 
 :::note
-**Philosophy in Practice**
+**Philosophy in Practice**    
 Every feature in Blake is evaluated against these principles. If a proposed feature would require breaking these rules, it either gets redesigned to fit Blake's philosophy or gets rejected entirely.
 :::
