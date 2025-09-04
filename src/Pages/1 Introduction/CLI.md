@@ -127,10 +127,10 @@ blake serve --disableDefaultRenderers
 
 ## Need More Detail?
 
-- **Site Templates:** See [Site Templates](/pages/2 using blake/site-templates) for available templates and how to use them
-- **Content Creation:** See [Authoring Content](/pages/2 using blake/authoring-content) for working with Markdown and frontmatter
-- **Page Templates:** See [Page Templates](/pages/2 using blake/page-templates) for customizing how content renders
-- **Deployment:** See the [Deploying](/pages/3 deploying) section for publishing your site
+- **Site Templates:** See [Site Templates](</pages/2 using blake/site-templates>) for available templates and how to use them
+- **Content Creation:** See [Authoring Content](</pages/2 using blake/authoring-content>) for working with Markdown and frontmatter
+- **Page Templates:** See [Page Templates](</pages/2 using blake/page-templates>) for customizing how content renders
+- **Deployment:** See the [Deploying](</pages/3 deploying>) section for publishing your site
 
 ## Notes
 

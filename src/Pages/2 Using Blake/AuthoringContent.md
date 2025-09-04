@@ -31,7 +31,7 @@ Blake uses Razor components as templates for pages. Page templates are defined a
 
 Any directory containing Markdown file (`.md`) files will be treated as a content directory, and Blake will automatically generate pages for each Markdown file found in that directory, using either the `template.razor` if one exists in that directory, or `cascading-template.razor` if one is inherited from a parent directory.
 
-You can read more about how these work in [Page Templates](/pages/2 using blake/page-templates).
+You can read more about how these work in [Page Templates](</pages/2 using blake/page-templates>).
 
 ## General Markdown Notes
 
@@ -109,18 +109,18 @@ For example, if you have a property called `Title` in your `PageModel`, you can 
 <h1>@Title</h1>
 ```
 
-Any other properties are assigned to the `Metadata` dictionary, of the `PageModel` class, and can be accessed from the generated content index (see the relevant section in [Page Templates](/pages/2 using blake/page-templates)).
+Any other properties are assigned to the `Metadata` dictionary, of the `PageModel` class, and can be accessed from the generated content index (see the relevant section in [Page Templates](</pages/2 using blake/page-templates>)).
 
-Blake plugins can also add additional frontmatter fields, which can be used to control how content is rendered or processed. For example, the DocsRenderer plugin adds a `category` field to group related content together. You can learn more about plugins in the [Using Plugins](/pages/2 using blake/using-plugins) page.
+Blake plugins can also add additional frontmatter fields, which can be used to control how content is rendered or processed. For example, the DocsRenderer plugin adds a `category` field to group related content together. You can learn more about plugins in the [Using Plugins](</pages/2 using blake/using-plugins>) page.
 
 ## Content Creation
 
 To create content in Blake, simply add Markdown files to your content directories. Blake will automatically generate pages for each Markdown file found in the directory when you run `blake bake`, using the specified templates.
 
-The `blake bake` command processes all your Markdown files and templates, generating Blazor components in the `.generated` folder. This typically happens automatically during your build process, but you can run it manually when needed. See the [CLI Reference](/pages/1 introduction/cli) for more details on Blake commands.
+The `blake bake` command processes all your Markdown files and templates, generating Blazor components in the `.generated` folder. This typically happens automatically during your build process, but you can run it manually when needed. See the [CLI Reference](</pages/1 introduction/cli>) for more details on Blake commands.
 
-Blake supports standard Markdown syntax, including headings, lists, links, images, and more. You can also use HTML tags for more complex formatting, and you can even insert Razor components directly into your Markdown files (see the [Using Components](/pages/2 using blake/components) page for more details).
+Blake supports standard Markdown syntax, including headings, lists, links, images, and more. You can also use HTML tags for more complex formatting, and you can even insert Razor components directly into your Markdown files (see the [Using Components](</pages/2 using blake/components>) page for more details).
 
-Blake also supports using Markdown containers, which allow you to access Razor components in an idiomatic way. Blake includes some default container renderers, supporting `note`, `warning`, `info`, and `tip` containers, which can be used to highlight important information in your content. These are based on Bootstrap, as Bootstrap is included in the default Blazor template, but you can disable these if you prefer to use your own styles or frameworks (see the [CLI Reference](/pages/1 introduction/cli) page for more details).
+Blake also supports using Markdown containers, which allow you to access Razor components in an idiomatic way. Blake includes some default container renderers, supporting `note`, `warning`, `info`, and `tip` containers, which can be used to highlight important information in your content. These are based on Bootstrap, as Bootstrap is included in the default Blazor template, but you can disable these if you prefer to use your own styles or frameworks (see the [CLI Reference](</pages/1 introduction/cli>) page for more details).
 
-For any unrecognised containers, or the default containers if you have disabled the renderer, Blake will render them as a Razor component, allowing you to create your own custom containers. You can learn more about this in the [Using Components](/pages/2 using blake/components) page.
+For any unrecognised containers, or the default containers if you have disabled the renderer, Blake will render them as a Razor component, allowing you to create your own custom containers. You can learn more about this in the [Using Components](</pages/2 using blake/components>) page.
