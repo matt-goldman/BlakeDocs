@@ -5,7 +5,7 @@ image: images/blake-logo.png
 tags: []
 description: Understand Blake's core rendering pipeline and how content is processed.
 iconIdentifier: "bi bi-plus-square-fill-nav-menu"
-pageOrder: 1
+pageOrder: 2
 category: "Contributing"
 ---
 
