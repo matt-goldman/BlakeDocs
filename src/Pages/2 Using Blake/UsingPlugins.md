@@ -18,6 +18,7 @@ Blake plugins extend the static site generation process by implementing the IBla
 Blake plugins are .NET packages that implement the `IBlakePlugin` interface from `Blake.BuildTools`. They provide a clean extension point for modifying how Blake processes your content during the bake phase.
 
 Plugins allow you to:
+
 - **Transform content** during the Markdown-to-HTML conversion
 - **Add metadata** to pages for use in templates
 - **Inject scripts or stylesheets** into generated pages
@@ -32,9 +33,13 @@ The plugin system follows Blake's core philosophy - it's simple, transparent, an
 
 Blake plugins participate in the site generation process through well-defined hooks:
 
-1. **BeforeBakeAsync** - Called before processing begins, ideal for setup tasks
-2. **During bake** - Plugins can modify content as it's processed
-3. **AfterBakeAsync** - Called after all content is processed, perfect for cleanup or final transformations
+1. **Before bake**      - Called via the `BeforeBakeAsync` method before processing begins, ideal for setup tasks
+2. **During bake**      - Plugins can modify content as it's processed by providing Markdig extensions
+3. **After bake**   - Called via the `AfterBakeAsync` method after all content is processed, perfect for cleanup or final transformations
+
+:::note
+"Bake" refers to the process of generating Razor from Markdown (baking the content).
+:::
 
 ### Plugin Discovery
 
@@ -47,7 +52,7 @@ Blake automatically discovers plugins in your project through a specific naming 
 Blake searches by NuGet package reference and project reference. Currently, other approaches like referencing DLLs directly are not supported, and there's no provision for manual plugin registration.
 
 :::note
-**Build Pipeline Integration**
+**Build Pipeline Integration**    
 Plugin discovery and execution is part of Blake's build pipeline. For detailed information about how plugins integrate with the build process, see the 🚧 [Build Pipeline](/pages/2%20using%20blake/build-pipeline) documentation (work in progress).
 :::
 
@@ -68,9 +73,10 @@ Once added to your project, Blake automatically loads and executes them during t
 
 #### BlakePlugin.DocsRenderer
 
-The DocsRenderer plugin is distributed as a Razor Class Library (RCL) that includes both bake-time processing and runtime components to transform Blake sites into documentation-focused experiences:
+The DocsRenderer plugin is distributed as a Razor Class Library (RCL) that includes both bake-time processing and runtime components to transform Blake sites into documentation-focused experiences.
 
 **What it provides:**
+
 - **Document sectioning** - Wraps content in `<section>` elements to facilitate table of contents functionality
 - **Enhanced Prism renderer** - Custom Markdig renderer with supporting JavaScript and CSS for improved code highlighting
 - **Navigation components** - Specialized Blazor components for site and page-level navigation
@@ -79,6 +85,7 @@ The DocsRenderer plugin is distributed as a Razor Class Library (RCL) that inclu
 - **Bootstrap-compatible components** - Designed to work with Bootstrap-based layouts
 
 **How to use:**
+
 ```xml
 <PackageReference Include="BlakePlugin.DocsRenderer" Version="1.0.9" />
 ```
@@ -86,6 +93,7 @@ The DocsRenderer plugin is distributed as a Razor Class Library (RCL) that inclu
 The plugin automatically applies its enhancements during baking - no configuration required. Your existing page templates will be enhanced with documentation-specific features.
 
 **Example template usage:**
+
 ```razor
 @* The DocsRenderer plugin adds navigation components *@
 <SiteToc />
@@ -95,11 +103,6 @@ The plugin automatically applies its enhancements during baking - no configurati
     <h1>@Title</h1>
     @Body
 </div>
-
-@* Plugin adds metadata like reading time *@
-<div class="page-meta">
-    Reading time: @ReadTimeMinutes minutes
-</div>
 ```
 
 #### BlakePlugin.ReadTime
@@ -107,16 +110,19 @@ The plugin automatically applies its enhancements during baking - no configurati
 Calculates reading time estimates for content pages:
 
 **What it provides:**
-- **Automatic calculation** using industry-standard 200 words per minute
+
+- **Automatic calculation** using industry-standard 200 words per minute (customisable with a CLI argument)
 - **Metadata injection** accessible in all templates
 - **Zero configuration** - works immediately upon installation
 
 **How to use:**
+
 ```xml
 <PackageReference Include="BlakePlugin.ReadTime" Version="1.0.0" />
 ```
 
 **Accessing reading time in templates:**
+
 ```razor
 @{
     var page = GeneratedContentIndex.GetPages()
@@ -132,8 +138,8 @@ Calculates reading time estimates for content pages:
 ## Creating Custom Plugins
 
 :::info
-**Comprehensive Plugin Development Guide**
-Ready to develop Blake plugins? The complete guide to plugin development, including architecture overview, step-by-step tutorials, advanced patterns, and best practices, is available in the [Writing Plugins](/pages/5%20contributing/writing-plugins) section of our Contributing documentation.
+**Comprehensive Plugin Development Guide**    
+The complete guide to plugin development, including architecture overview, step-by-step tutorials, advanced patterns, and best practices, is available in the [Writing Plugins](/pages/5%20contributing/writing-plugins) section of our Contributing documentation.
 :::
 
 ### When to Consider Plugin Development
@@ -141,7 +147,7 @@ Ready to develop Blake plugins? The complete guide to plugin development, includ
 You might want to create a custom Blake plugin if you need to:
 
 - **Process content** in ways not supported by existing plugins
-- **Integrate with external APIs** during site generation
+- **Integrate with external APIs** during site generation (although this is strongly discouraged)
 - **Add consistent metadata** across multiple projects or sites
 - **Implement reusable build logic** that other Blake users could benefit from
 
