@@ -234,81 +234,22 @@ or:
 
 ## Code Style and Conventions
 
-Blake follows standard .NET conventions with some specific guidelines:
+Blake follows standard .NET conventions. For detailed guidelines, see [Code Style & Conventions](/pages/5%20contributing/code-style).
 
-### General Principles
+### Key Principles
 
 - **Favour explicitness over cleverness**
 - **Use descriptive names** for methods, variables, and classes
 - **Keep methods focused** - single responsibility principle
-- **Prefer composition** over inheritance where appropriate
 - **Write self-documenting code** - comments explain why, not what
 
-### Specific Guidelines
+## Specialized Contribution Areas
 
-For detailed code style guidelines, see [Code Style & Conventions](/pages/5%20contributing/code-style).
+Blake offers several ways to contribute beyond core development:
 
-### File Organization
-
-- **Follow established patterns** in the codebase
-- **Group related functionality** together
-- **Use appropriate namespaces** that reflect the folder structure
-- **Keep files focused** - split large files when they serve multiple purposes
-
-## Plugin Development
-
-Blake's plugin system is a major extensibility point. If you're interested in plugin development:
-
-### Getting Started with Plugins
-
-1. **Read the [Writing Plugins](/pages/5%20contributing/writing-plugins) guide**
-2. **Review existing plugins** like BlakePlugin.ReadTime and BlakePlugin.DocsRenderer
-3. **Start with simple plugins** before tackling complex functionality
-4. **Follow plugin naming conventions** (`BlakePlugin.YourPluginName`)
-
-### Plugin Contribution Guidelines
-
-- **Zero-configuration preferred** - plugins should work out of the box; for plugins where this is not the case, include a sample template
-- **Clear documentation** - explain what the plugin does and when to use it
-- **Good error handling** - fail gracefully, don't break builds
-- **Performance conscious** - minimize impact on build times
-- **Follow Blake philosophy** - simplicity and transparency
-
-## Site Template Development
-
-Help expand Blake's template ecosystem:
-
-### Template Guidelines
-
-- **Responsive design** - work well on all device sizes
-- **Accessibility** - follow WCAG guidelines
-- **Performance** - optimize for fast loading
-- **Customization** - make it easy to adapt the template
-- **Documentation** - include setup and customization instructions
-
-### Template Structure
-
-For guidance on creating site templates, see [Creating Site Templates](/pages/5%20contributing/creating-site-templates).
-
-## Documentation Contributions
-
-Good documentation is crucial.
-
-### Documentation Principles
-
-- **User-focused** - solve real problems developers face
-- **Progressive disclosure** - basic concepts first, advanced topics later
-- **Practical examples** - include working code samples
-- **Current and accurate** - keep information up to date
-- **Consistent style** - follow established patterns
-
-### Documentation Standards
-
-- Use clear, concise language
-- Include code examples for concepts
-- Cross-reference related topics
-- Test all code samples
-- Follow the established frontmatter format
+- **[Plugin Development](/pages/5%20contributing/writing-plugins)** - Extend Blake's functionality with custom plugins
+- **[Site Template Creation](/pages/5%20contributing/creating-site-templates)** - Build templates for the community
+- **[Documentation Improvements](/pages/5%20contributing/writing-plugins#documentation-contributions)** - Help make Blake more accessible
 
 ## Community Guidelines
 
@@ -338,11 +279,15 @@ Ready to contribute? Here's how to get started:
 
 ### Useful Links
 
-- **[Code Style & Conventions](/pages/5%20contributing/code-style)** - Formatting and naming guidelines
-- **[Writing Plugins](/pages/5%20contributing/writing-plugins)** - Complete plugin development guide
+**Development Guides:**
+- **[How to Test](/pages/5%20contributing/how-to-test)** - Testing your changes thoroughly
 - **[Build Pipeline](/pages/5%20contributing/build-pipeline)** - Understanding Blake's architecture
-- **[How to Test](/pages/5%20contributing/how-to-test)** - Testing your changes
+- **[Code Style & Conventions](/pages/5%20contributing/code-style)** - Formatting and naming guidelines
+
+**Specialized Contributing:**
+- **[Writing Plugins](/pages/5%20contributing/writing-plugins)** - Complete plugin development guide
 - **[Plugin Hooks](/pages/5%20contributing/plugin-hooks)** - Available extension points
+- **[Creating Site Templates](/pages/5%20contributing/creating-site-templates)** - Template development guide
 
 :::note
 **Questions or Need Help?**
