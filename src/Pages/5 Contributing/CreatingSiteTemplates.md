@@ -13,6 +13,29 @@ category: "Contributing"
 Blake site templates provide starter projects for common use cases. They combine page templates, layouts, styling, and sample content to help users quickly create professional sites. This guide covers creating, testing, and distributing templates for the Blake community.
 :::
 
+## Quick Navigation
+
+**Getting Started:**
+- [Understanding Site Templates](#understanding-blake-site-templates)
+- [Template Categories](#template-categories)
+- [Creating Your First Template](#creating-your-first-template)
+
+**Development:**
+- [Essential Components](#essential-template-components)
+- [Advanced Features](#advanced-template-features)
+- [Making Templates Configurable](#making-templates-configurable)
+
+**Documentation & Distribution:**
+- [Template Documentation](#template-documentation)
+- [Distributing Your Template](#distributing-your-template)
+- [Template Maintenance](#template-maintenance)
+
+**Reference:**
+- [Best Practices Summary](#best-practices-summary)
+- [Next Steps](#next-steps)
+
+---
+
 ## Understanding Blake Site Templates
 
 Site templates in Blake are complete project scaffolds that provide:
@@ -720,6 +743,11 @@ Ready to create your Blake template?
 4. **Test thoroughly** across devices and browsers
 5. **Document comprehensively** for future users
 6. **Share with the community** and gather feedback
+
+**Related Contributing Guides:**
+- **[How to Test](/pages/5%20contributing/how-to-test)** - Testing strategies for templates
+- **[Code Style Guidelines](/pages/5%20contributing/code-style)** - Follow Blake's conventions
+- **[Writing Plugins](/pages/5%20contributing/writing-plugins)** - If your template needs custom functionality
 
 :::note
 **Template Development Questions?**

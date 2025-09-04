@@ -13,6 +13,27 @@ category: "Contributing"
 Blake plugins are .NET class libraries implementing the IBlakePlugin interface. They extend Blake's functionality by modifying content processing, adding metadata, injecting assets, and customizing the build pipeline without requiring changes to Blake's core.
 :::
 
+## Quick Navigation
+
+**Getting Started:**
+- [Understanding Plugin Development](#understanding-blake-plugin-development)
+- [When to Build a Plugin](#when-to-build-your-own-plugin)
+- [Plugin Architecture](#plugin-architecture-overview)
+- [Creating Your First Plugin](#creating-your-first-plugin)
+
+**Advanced Topics:**
+- [Advanced Plugin Patterns](#advanced-plugin-patterns)
+- [Plugin Configuration](#plugin-configuration)
+- [Packaging and Distribution](#plugin-packaging-and-distribution)
+- [Best Practices](#plugin-best-practices)
+
+**Reference:**
+- [Testing Your Plugin](#testing-your-plugin)
+- [Examples and Templates](#plugin-examples-and-templates)
+- [Next Steps](#next-steps)
+
+---
+
 ## Understanding Blake Plugin Development
 
 Blake plugins provide a powerful extension mechanism for customizing your static site generation process. Unlike configuration-heavy approaches used by other generators, Blake plugins are code-first, giving you the full power of .NET to transform content and enhance functionality.
@@ -657,15 +678,16 @@ Ready to create your first Blake plugin? Here's what to do next:
 3. **Join the community** to discuss plugin ideas and get help
 4. **Review the [Plugin Hooks](/pages/5%20contributing/plugin-hooks)** documentation for advanced scenarios
 5. **Check out the [Build Pipeline](/pages/5%20contributing/build-pipeline)** to understand Blake's architecture
+6. **Follow [Testing Guidelines](/pages/5%20contributing/how-to-test)** to validate your plugin
 
 :::note
-**Plugin Development Guidelines**
+**Plugin Development Resources**
 
 - **Use ILogger, not Console** - Always use the provided ILogger parameter instead of Console.WriteLine(). Blake can be used without the CLI, and different ILogger implementations may be passed to BuildTools methods.
-- **Blake.BuildTools API Reference** - Complete interface documentation
+- **[Plugin Hooks Reference](/pages/5%20contributing/plugin-hooks)** - Complete interface documentation
+- **[Code Style Guidelines](/pages/5%20contributing/code-style)** - Follow Blake's coding conventions
 - **Example plugins** - Open source plugins for reference and learning
-- **Community Discord** - Discuss plugin ideas and get development help
-- **Plugin template** - Scaffolding for creating new Blake plugins quickly
+- **Community discussions** - Get help and share plugin ideas
 - **Contributing guidelines** - How to contribute plugins back to the Blake ecosystem
 
 :::
