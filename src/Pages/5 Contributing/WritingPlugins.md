@@ -18,6 +18,7 @@ Blake plugins are .NET class libraries implementing the IBlakePlugin interface. 
 Blake plugins provide a powerful extension mechanism for customizing your static site generation process. Unlike configuration-heavy approaches used by other generators, Blake plugins are code-first, giving you the full power of .NET to transform content and enhance functionality.
 
 Plugin development follows Blake's core philosophy:
+
 - **Simple by default** - Zero configuration plugins that work immediately
 - **Transparent behavior** - Clear documentation of what plugins do and when
 - **.NET-native approach** - Leverage familiar tools and patterns
@@ -36,6 +37,7 @@ Consider creating a plugin when you need to:
 - **Create cross-cutting functionality** that applies to multiple pages
 
 **When NOT to build a plugin:**
+
 - Simple one-off customizations (use template logic instead)
 - Site-specific styling (use regular CSS/Blazor components)
 - Basic metadata manipulation (use frontmatter)
@@ -84,6 +86,7 @@ Both lifecycle methods receive a `BlakeContext` that provides:
 - **Build configuration** - Access to Blake's build settings
 
 **Important architectural notes:**
+
 - Plugin execution order is not controllable
 - Plugins should be designed as stateless operations
 - Generated content uses record types (replace entire items, don't modify properties directly)
@@ -307,6 +310,7 @@ public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
 **For plugins that provide CSS, JavaScript, or Blazor components, create a Razor Class Library and optionally include an `IBlakePlugin` implementation:**
 
 **1. Create an RCL project:**
+
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
@@ -323,6 +327,7 @@ public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
 ```
 
 **2. Include assets and components:**
+
 ```razor
 @* Components/MyPluginComponent.razor *@
 <div class="my-plugin-component">
@@ -337,6 +342,7 @@ public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
 ```
 
 **3. Optionally add plugin logic:**
+
 ```csharp
 public class MyPlugin : IBlakePlugin
 {
@@ -365,6 +371,7 @@ Blake encourages zero-configuration plugins that work immediately upon installat
 ### Custom Configuration Loading
 
 **Example configuration file (plugin-config.json):**
+
 ```json
 {
   "MyAwesomePlugin": {
@@ -404,13 +411,16 @@ private PluginConfig LoadPluginConfig(string configPath)
 }
 ```
 
+:::note
 **Alternative: Embedded Resource Configuration**
 
 You can instruct users to make their appsettings.json an embedded resource, then use reflection to access it from the executing assembly.
+:::
 
 ### Alternative Configuration Methods
 
 **Project File Configuration:**
+
 ```xml
 <PropertyGroup>
   <MyPluginEnabled>true</MyPluginEnabled>
@@ -419,6 +429,7 @@ You can instruct users to make their appsettings.json an embedded resource, then
 ```
 
 **Environment Variables:**
+
 ```csharp
 public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
@@ -536,18 +547,21 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 ### Recommended Plugin Patterns
 
 **BeforeBakeAsync Usage:**
+
 - Setting up Markdig pipeline extensions for content processing
 - Adding metadata to pages (reading time, word counts, etc.)
 - Fetching external data that content will reference
 - Preparing data that will be needed during content generation
 
 **AfterBakeAsync Usage:**
+
 - Accessing and modifying generated content
 - Creating additional output files (sitemaps, feeds, etc.)
 - Performing final processing steps
 - Cleaning up temporary data
 
 **Generally Discouraged:**
+
 - External API calls (except for specific, well-documented scenarios)
 - Complex configuration requirements
 - Stateful operations that depend on execution order
@@ -622,11 +636,13 @@ dotnet new blakeplugin -n MyAwesomePlugin
 ### Real-World Plugin Examples
 
 **BlakePlugin.ReadTime** - Simple metadata enhancement:
+
 - Calculates reading time for all pages
 - Zero configuration required
 - Good example of BeforeBakeAsync usage
 
 **BlakePlugin.DocsRenderer** - Complex content transformation:
+
 - Markdig extensions for enhanced rendering
 - RCL distribution with assets
 - BeforeBake and AfterBake coordination
@@ -651,4 +667,5 @@ Ready to create your first Blake plugin? Here's what to do next:
 - **Community Discord** - Discuss plugin ideas and get development help
 - **Plugin template** - Scaffolding for creating new Blake plugins quickly
 - **Contributing guidelines** - How to contribute plugins back to the Blake ecosystem
+
 :::

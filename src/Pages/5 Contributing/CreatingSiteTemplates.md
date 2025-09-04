@@ -34,6 +34,7 @@ Unlike page templates (which render individual Markdown files), site templates a
 **Examples:** Developer documentation, product manuals, knowledge bases
 
 **Key requirements:**
+
 - Clear navigation and information architecture
 - Search functionality
 - Responsive design for mobile/tablet reading
@@ -47,6 +48,7 @@ Unlike page templates (which render individual Markdown files), site templates a
 **Examples:** Developer blogs, creative portfolios, personal sites
 
 **Key requirements:**
+
 - Chronological post organization
 - Tag and category systems
 - Archive pages
@@ -60,6 +62,7 @@ Unlike page templates (which render individual Markdown files), site templates a
 **Examples:** Product marketing sites, company homepages, landing pages
 
 **Key requirements:**
+
 - Professional design and branding
 - SEO optimization
 - Contact and lead generation forms
@@ -73,6 +76,7 @@ Unlike page templates (which render individual Markdown files), site templates a
 **Examples:** Design portfolios, developer showcases, creative work
 
 **Key requirements:**
+
 - Visual project presentation
 - Case study layouts
 - Image optimization
@@ -84,6 +88,7 @@ Unlike page templates (which render individual Markdown files), site templates a
 ### Initial Setup
 
 **Start with Blake CLI:**
+
 ```bash
 # Create new Blake site
 mkdir MyTemplate
@@ -100,16 +105,17 @@ blake init --template docs
 ```
 
 **Project structure planning:**
-```
+
+```tree
 MyTemplate/
 ├── src/
-│   ├── Pages/                 # Content organization
-│   ├── Components/            # Reusable Blazor components
-│   ├── Layout/               # Site layout components
-│   ├── wwwroot/              # Static assets
-│   ├── template.razor        # Default page template
-│   └── Program.cs            # App configuration
-├── sample-content/           # Example content for users
+│   ├── Pages/               # Content organization
+│   |   └── SamplePage.md    # Example content for users
+│   |   └── template.razor   # Default page template
+│   ├── Components/          # Reusable Blazor components
+│   ├── Layout/              # Site layout components
+│   ├── wwwroot/             # Static assets
+│   └── Program.cs           # App configuration
 ├── README.md                # Setup and usage instructions
 ├── CUSTOMIZATION.md         # How to modify the template
 └── LICENSE                  # License information
@@ -117,79 +123,17 @@ MyTemplate/
 
 ### Essential Template Components
 
-#### 1. Main Layout Component
+In addition to the standard components required for a Blazor sie (e.g. `MainLayout`, navigation, etc.), there are some critical Blake-specific components you should include.
+
+At a minimum, you must include a default page template. Blake automatically adds the `@@page` directive, so templates focus on content.
+
+Minimal example:
 
 ```razor
-@* Layout/MainLayout.razor *@
-@inherits LayoutComponentBase
-@inject IConfiguration Configuration
-
-<div class="page">
-    <header class="site-header">
-        <nav class="navbar">
-            <div class="navbar-brand">
-                <a href="/">@GetSiteName()</a>
-            </div>
-            <div class="navbar-menu">
-                <NavMenu />
-            </div>
-        </nav>
-    </header>
-
-    <main class="content">
-        @Body
-    </main>
-
-    <footer class="site-footer">
-        <div class="container">
-            <p>&copy; @DateTime.Now.Year @GetSiteName(). Built with Blake.</p>
-        </div>
-    </footer>
-</div>
-
-@code {
-    private string GetSiteName()
-    {
-        return Configuration["Site:Name"] ?? "Blake Site";
-    }
-}
+@Body
 ```
 
-#### 2. Navigation Component
-
-**Blake provides the `GeneratedContentIndex` for navigation:**
-
-```razor
-@* Components/NavMenu.razor *@
-@using Blake.Types
-
-<ul class="nav">
-    @foreach (var category in GetCategories())
-    {
-        <li class="nav-item">
-            <a class="nav-link" href="/category/@category.ToLowerInvariant()">
-                @category
-            </a>
-        </li>
-    }
-</ul>
-
-@code {
-    private List<string> GetCategories()
-    {
-        return GeneratedContentIndex.GetPages()
-            .Where(p => !string.IsNullOrEmpty(p.Category))
-            .Select(p => p.Category)
-            .Distinct()
-            .OrderBy(c => c)
-            .ToList();
-    }
-}
-```
-
-#### 3. Default Page Template
-
-**Blake automatically adds the `@@page` directive, so templates focus on content:**
+Hypothetically, if enough of your site's layout is defined in `MainLayout` (or equivalent), the above may be sufficient. Realistically, you will probably want to create a formatted template.
 
 ```razor
 @* template.razor *@
@@ -245,7 +189,9 @@ MyTemplate/
 
 ### Template Configuration
 
-**Note:** Blake doesn't have built-in configuration. If template authors want to make their templates configurable, this is how they should implement it using standard .NET configuration patterns.
+:::note
+Blake doesn't have built-in configuration. If template authors want to make their templates configurable, this is how they should implement it using standard .NET configuration patterns.
+:::
 
 #### appsettings.json
 
@@ -282,6 +228,8 @@ MyTemplate/
 
 **Note:** The package references and UI libraries shown are illustrative examples. Template authors can choose any libraries that fit their design goals.
 
+It's important to ensure that the generated files are included in builds, and equally that template files are excluded. The following example shows how to handle this.
+
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
   <PropertyGroup>
@@ -315,6 +263,7 @@ MyTemplate/
     <Exec Command="blake bake" Condition="Exists('blake')" />
   </Target>
 
+  <!-- ALWAYS include the following in site templates -->
   <ItemGroup>
     <!-- Include generated content -->
     <Content Include=".generated/**/*.razor" />
@@ -333,7 +282,7 @@ MyTemplate/
 
 ### Customizable Theming
 
-**Note:** Template styling is completely template-dependent. Authors can choose Bootstrap, Tailwind, custom CSS, or any approach that fits their design goals. Consider Blazor CSS isolation for component-specific styling.
+Template styling is completely template-dependent. Authors can choose Bootstrap, Tailwind, custom CSS, or any approach that fits their design goals. Consider Blazor CSS isolation for component-specific styling.
 
 #### CSS Custom Properties
 
@@ -376,7 +325,7 @@ MyTemplate/
 
 #### Configuration-Based Theming
 
-**Note:** This is an illustrative example of dynamic theming. Template authors should lean into the Blazor ecosystem and may prefer existing UI frameworks (MudBlazor, Lumex, etc.) or NuGet packages with Razor components rather than building custom solutions.
+This is an illustrative example of dynamic theming. Template authors should lean into the Blazor ecosystem and may prefer existing UI frameworks (MudBlazor, Lumex, etc.) or NuGet packages with Razor components rather than building custom solutions.
 
 ```razor
 @* Components/ThemeProvider.razor *@
@@ -624,6 +573,10 @@ Create reusable components in `Components/`:
 
 ## SEO and Analytics
 
+Blake sites are single page applications (SPAs), meaning there is really only one page that gets returned to search crawlers and indexers.
+
+There are some essential patterns to be aware of when using a SPA when SEO is essential. Use the following as a guide, but also consider using (or extending) the existing [OpenGraph](https://github.com/matt-goldman/BlakePlugin.OpenGraph) and [RSS](https://github.com/matt-goldman/BlakePlugin.RSS) plugins.
+
 ### Meta Tags
 
 Add to your layout:
@@ -649,46 +602,6 @@ Add to `Layout/MainLayout.razor`:
   gtag('js', new Date());
   gtag('config', 'GA_TRACKING_ID');
 </script>
-```
-
-
-## Testing Your Template
-
-### Local Testing
-
-```bash
-# Test basic functionality
-blake bake
-dotnet build
-dotnet run
-
-# Test with sample content
-# Add various content types
-# Verify all features work
-
-# Test responsiveness
-# Check mobile and tablet layouts
-# Verify touch interactions
-```
-
-### Cross-Browser Testing
-
-```bash
-# Test in multiple browsers
-# Chrome, Firefox, Safari, Edge
-
-# Check for CSS compatibility issues
-# Verify JavaScript functionality
-# Test print styles
-```
-
-### Performance Testing
-
-```bash
-# Use Lighthouse for auditing
-# Check Core Web Vitals
-# Optimize images and assets
-# Minimize CSS and JavaScript
 ```
 
 ### Accessibility Testing
@@ -812,6 +725,7 @@ Ready to create your Blake template?
 **Template Development Questions?**
 
 Need help creating your Blake template?
+
 - Check existing templates for reference patterns
 - Ask in GitHub discussions for architectural advice
 - Review the Blake documentation for best practices
