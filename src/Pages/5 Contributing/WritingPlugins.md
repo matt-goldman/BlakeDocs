@@ -192,6 +192,8 @@ dotnet add reference ../MyBlakePlugin/MyBlakePlugin.csproj
 blake bake
 ```
 
+---
+
 ## Advanced Plugin Patterns
 
 ### Content Processing Through Markdig Extensions
@@ -506,6 +508,8 @@ Blake automatically discovers plugins using these conventions:
 
 No manual registration required - just install and Blake will find it.
 
+---
+
 ## Plugin Best Practices
 
 ### Performance Considerations
@@ -597,6 +601,8 @@ When creating plugins, follow Blake's principles:
 - **Follow .NET conventions** - Use established patterns for naming and behavior
 - **Provide just-in-time knowledge** - Document what users need when they need it
 - **Fail gracefully** - Don't break sites when something goes wrong
+
+---
 
 ## Testing Your Plugin
 

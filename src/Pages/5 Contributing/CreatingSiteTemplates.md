@@ -48,6 +48,8 @@ Site templates in Blake are complete project scaffolds that provide:
 
 Unlike page templates (which render individual Markdown files), site templates are full Blazor projects that users can clone and customize.
 
+---
+
 ## Template Categories
 
 ### Documentation Sites
@@ -105,6 +107,8 @@ Unlike page templates (which render individual Markdown files), site templates a
 - Image optimization
 - Mobile-first responsive design
 - Contact and networking features
+
+---
 
 ## Creating Your First Template
 
@@ -301,6 +305,8 @@ It's important to ensure that the generated files are included in builds, and eq
 </Project>
 ```
 
+---
+
 ## Advanced Template Features
 
 ### Customizable Theming
@@ -484,6 +490,8 @@ Instead of prescribing a specific README format, template authors should ensure 
 
 For a complete example of how these elements can be structured, see the [sample README template](https://raw.githubusercontent.com/matt-goldman/BlakeDocs/refs/heads/main/README-sample.md) included with this documentation.
 
+---
+
 ## Making Templates Configurable
 
 If you want your template to support customization, you can implement configuration using standard .NET patterns. Blake itself doesn't provide configuration, but templates can use `appsettings.json` and `IConfiguration`.
@@ -638,6 +646,8 @@ Add to `Layout/MainLayout.razor`:
 # Ensure proper heading hierarchy
 ```
 
+---
+
 ## Distributing Your Template
 
 ### Package Preparation
@@ -706,6 +716,8 @@ Submit your template to Blake's official template registry (when available).
 - **Accept pull requests** that improve the template
 - **Provide documentation** for common customizations
 - **Share usage examples** and showcase sites
+
+---
 
 ## Best Practices Summary
 
