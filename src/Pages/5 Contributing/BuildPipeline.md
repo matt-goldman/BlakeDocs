@@ -10,16 +10,10 @@ category: "Contributing"
 ---
 
 :::summary
-Blake's build pipeline transforms Markdown and Razor templates into Blazor components through a modular system of loaders, transformers, and renderers. Understanding this architecture helps when contributing to Blake or building advanced integrations.
+Blake's build pipeline transforms Markdown and templates into Razor through a modular system of loaders, transformers, and renderers. Understanding this architecture helps when contributing to Blake or building advanced integrations.
 :::
 
-> 🚧 **Coming Soon**  
-> This page is under construction. Check back soon or [contribute on GitHub](https://github.com/YOUR-REPO).
-
-This will cover Blake’s internal architecture: loaders, transformers, renderers, and how plugins tie in.
-
-
-Blake processes your Markdown and Razor templates to generate `.razor` files in a `.generated folder`.
+Blake processes your Markdown and Razor templates to generate `.razor` files in a `.generated` folder.
 
 **NOTE:** This page needs to include some information about how the Blake CLI is essentially just a wrapper/facade around the Blake build system (BuildTools and Markdwon Parser). There's no reaason why someone couldn't take a dependency on BuildTools and use Blake as part of another pipeline or build system, skipping the CLI altogether. The The methods include arguments that can be provided however you like, and also take an `ILogger` for feeding back to your sink instead of depending on console output. The only thing to be wary of is anything that's `Internal` (I would ahve to check this, I think I may have made somethings internal but visible to the CLI). 
 

@@ -25,6 +25,10 @@ Cloudflare Pages provides high-performance static site hosting with a global CDN
 
 ## Quick Setup Guide
 
+:::note
+This setup is based on Cloudflare documentation and is untested. Corrections to these docs are welcome via a PR on the repo!
+:::
+
 ### Basic Deployment Steps
 
 1. **Connect your repository** to Cloudflare Pages

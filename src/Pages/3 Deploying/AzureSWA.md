@@ -182,6 +182,7 @@ yourdomain.com -> [Azure IP addresses]
 ### SSL Certificates
 
 Azure Static Web Apps automatically provides free SSL certificates for:
+
 - Default `.azurestaticapps.net` domains
 - Custom domains after DNS verification
 
@@ -204,79 +205,26 @@ Add environment variables in the Azure Portal:
 3. **Add** application settings as needed
 
 Common Blake site configurations:
+
 ```
 BaseUrl=https://yourdomain.com
 Environment=Production
 ```
 
-## Authentication (Optional)
-
-Azure Static Web Apps provides built-in authentication with major providers:
-
-### Enabling Authentication
-
-1. **In Azure Portal**, go to "Role management"
-2. **Configure** authentication providers:
-   - GitHub
-   - Azure Active Directory
-   - Twitter
-   - Google
-   - Facebook
-
-### Protecting Routes
-
-Create a `staticwebapp.config.json` file in your `wwwroot` folder:
-
-```json
-{
-  "routes": [
-    {
-      "route": "/admin/*",
-      "allowedRoles": ["admin"]
-    },
-    {
-      "route": "/profile/*",
-      "allowedRoles": ["authenticated"]
-    }
-  ],
-  "responseOverrides": {
-    "401": {
-      "redirect": "/.auth/login/github",
-      "statusCode": 302
-    }
-  }
-}
-```
-
-## Monitoring and Diagnostics
-
-### Application Insights
-
-Enable monitoring for your Blake site:
-
-1. **Create** an Application Insights resource
-2. **Link** it to your Static Web App
-3. **Add** the connection string to your environment variables
-
-### Log Streaming
-
-View real-time logs in the Azure Portal:
-- **Go to** your Static Web App
-- **Select** "Log Stream" from the left menu
-- **Monitor** deployment and runtime logs
-
 ## Troubleshooting
 
 ### Common Issues
 
-**Blake CLI Not Found**
+#### Blake CLI Not Found
+
 ```yaml
 # Ensure Blake CLI is installed
 - name: Install Blake CLI
   run: dotnet tool install -g Blake.CLI --version 1.0.12
 ```
 
-**Build Fails During Publish**
+#### Build Fails During Publish
+
 ```yaml
 # Run blake bake before building
 - name: Bake static content
@@ -284,7 +232,8 @@ View real-time logs in the Azure Portal:
   working-directory: ./src  # If Blake project is in src folder
 ```
 
-**Assets Not Loading**
+#### Assets Not Loading
+
 - Check that base path is set to "/" (default for custom domains)
 - Verify `wwwroot` folder structure is correct
 - Ensure all asset paths are relative
@@ -292,27 +241,10 @@ View real-time logs in the Azure Portal:
 ### Deployment Logs
 
 View detailed deployment information:
+
 1. **Go to** Actions tab in your GitHub repository
 2. **Click** on the failed workflow run
 3. **Expand** the "Build And Deploy" step for detailed logs
-
-## Cost Management
-
-### Free Tier Limits
-
-Azure Static Web Apps free tier includes:
-- **100 GB bandwidth** per month
-- **0.5 GB storage**
-- **2 custom domains**
-- **Unlimited** staging environments
-
-### Scaling Up
-
-For larger Blake sites, consider the Standard tier:
-- **100 GB bandwidth** per month (then pay-per-use)
-- **0.5 GB storage** (then pay-per-use)
-- **5 custom domains** (then pay-per-domain)
-- **Password protection** for staging environments
 
 ## Next Steps
 
