@@ -9,7 +9,7 @@ pageOrder: 5
 category: "Creating Site Templates"
 ---
 
-:::info
+:::summary
 Ready to share your Blake template with the community? This guide covers packaging, publishing options, and maintaining your template for long-term success.
 :::
 

@@ -9,7 +9,7 @@ pageOrder: 3
 category: "Creating Site Templates"
 ---
 
-:::info
+:::summary
 Take your Blake site templates to the next level with advanced features like customizable theming, search integration, and dynamic components. These features help create professional, user-friendly templates.
 :::
 

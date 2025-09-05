@@ -9,7 +9,7 @@ pageOrder: 1
 category: "Creating Site Templates"
 ---
 
-:::info
+:::summary
 Blake site templates provide starter projects for common use cases. They combine page templates, layouts, styling, and sample content to help users quickly create professional sites. This section covers creating, testing, and distributing templates for the Blake community.
 :::
 

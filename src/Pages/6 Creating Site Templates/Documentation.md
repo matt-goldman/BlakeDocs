@@ -9,7 +9,7 @@ pageOrder: 4
 category: "Creating Site Templates"
 ---
 
-:::info
+:::summary
 Comprehensive documentation is essential for template adoption. Learn how to create clear documentation and make your templates configurable for different use cases.
 :::
 

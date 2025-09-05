@@ -9,7 +9,7 @@ pageOrder: 2
 category: "Creating Site Templates"
 ---
 
-:::info
+:::summary
 Learn how to create your first Blake site template from scratch. This guide covers the initial setup, essential components, and basic configuration needed for a functional template.
 :::
 
