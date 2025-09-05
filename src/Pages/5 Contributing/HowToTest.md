@@ -416,7 +416,7 @@ Now that you understand testing Blake:
 
 **For specialized contributions:**
 - **[Plugin Development Testing](/pages/5%20contributing/writing-plugins#testing-your-plugin)** - Test plugins thoroughly
-- **[Site Template Testing](/pages/5%20contributing/creating-site-templates#template-maintenance)** - Validate template functionality
+- **[Site Template Testing](/pages/6%20creating%20site%20templates/distribution#testing-your-template)** - Validate template functionality
 
 :::note
 **Testing Questions?**
