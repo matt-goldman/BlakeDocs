@@ -257,11 +257,13 @@ Ready to contribute? Here's how to get started:
 ### Useful Links
 
 **Development Guides:**
+
 - **[How to Test](/pages/5%20contributing/how-to-test)** - Testing your changes thoroughly
 - **[Build Pipeline](/pages/5%20contributing/build-pipeline)** - Understanding Blake's architecture
 - **[Code Style & Conventions](/pages/5%20contributing/code-style)** - Formatting and naming guidelines
 
 **Specialized Contributing:**
+
 - **[Writing Plugins](/pages/5%20contributing/writing-plugins)** - Complete plugin development guide
 - **[Plugin Hooks](/pages/5%20contributing/plugin-hooks)** - Available extension points
 - **[Creating Site Templates](/pages/5%20contributing/creating-site-templates)** - Template development guide

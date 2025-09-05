@@ -13,27 +13,6 @@ category: "Contributing"
 Blake plugins are .NET class libraries implementing the IBlakePlugin interface. They extend Blake's functionality by modifying content processing, adding metadata, injecting assets, and customizing the build pipeline without requiring changes to Blake's core.
 :::
 
-## Quick Navigation
-
-**Getting Started:**
-- [Understanding Plugin Development](#understanding-blake-plugin-development)
-- [When to Build a Plugin](#when-to-build-your-own-plugin)
-- [Plugin Architecture](#plugin-architecture-overview)
-- [Creating Your First Plugin](#creating-your-first-plugin)
-
-**Advanced Topics:**
-- [Advanced Plugin Patterns](#advanced-plugin-patterns)
-- [Plugin Configuration](#plugin-configuration)
-- [Packaging and Distribution](#plugin-packaging-and-distribution)
-- [Best Practices](#plugin-best-practices)
-
-**Reference:**
-- [Testing Your Plugin](#testing-your-plugin)
-- [Examples and Templates](#plugin-examples-and-templates)
-- [Next Steps](#next-steps)
-
----
-
 ## Understanding Blake Plugin Development
 
 Blake plugins provide a powerful extension mechanism for customizing your static site generation process. Unlike configuration-heavy approaches used by other generators, Blake plugins are code-first, giving you the full power of .NET to transform content and enhance functionality.
@@ -191,8 +170,6 @@ dotnet add reference ../MyBlakePlugin/MyBlakePlugin.csproj
 # Run blake bake to test your plugin
 blake bake
 ```
-
----
 
 ## Advanced Plugin Patterns
 
@@ -508,8 +485,6 @@ Blake automatically discovers plugins using these conventions:
 
 No manual registration required - just install and Blake will find it.
 
----
-
 ## Plugin Best Practices
 
 ### Performance Considerations
@@ -602,8 +577,6 @@ When creating plugins, follow Blake's principles:
 - **Provide just-in-time knowledge** - Document what users need when they need it
 - **Fail gracefully** - Don't break sites when something goes wrong
 
----
-
 ## Testing Your Plugin
 
 ### Unit Testing
@@ -669,6 +642,33 @@ dotnet new blakeplugin -n MyAwesomePlugin
 - Good example of BeforeBakeAsync usage
 
 **BlakePlugin.DocsRenderer** - Complex content transformation:
+
+- Markdig extensions for enhanced rendering
+- RCL distribution with assets
+- BeforeBake and AfterBake coordination
+- Good example of advanced plugin patterns
+
+## Next Steps
+
+Ready to create your first Blake plugin? Here's what to do next:
+
+1. **Install the plugin template** and create a basic plugin
+2. **Study existing plugins** like BlakePlugin.ReadTime for inspiration
+3. **Join the community** to discuss plugin ideas and get help
+4. **Review the [Plugin Hooks](/pages/5%20contributing/plugin-hooks)** documentation for advanced scenarios
+5. **Check out the [Build Pipeline](/pages/5%20contributing/build-pipeline)** to understand Blake's architecture
+
+:::note
+**Plugin Development Guidelines**
+
+- **Use ILogger, not Console** - Always use the provided ILogger parameter instead of Console.WriteLine(). Blake can be used without the CLI, and different ILogger implementations may be passed to BuildTools methods.
+- **Blake.BuildTools API Reference** - Complete interface documentation
+- **Example plugins** - Open source plugins for reference and learning
+- **Community Discord** - Discuss plugin ideas and get development help
+- **Plugin template** - Scaffolding for creating new Blake plugins quickly
+- **Contributing guidelines** - How to contribute plugins back to the Blake ecosystem
+
+:::
 
 - Markdig extensions for enhanced rendering
 - RCL distribution with assets
