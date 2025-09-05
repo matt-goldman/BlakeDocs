@@ -669,3 +669,31 @@ Ready to create your first Blake plugin? Here's what to do next:
 - **Contributing guidelines** - How to contribute plugins back to the Blake ecosystem
 
 :::
+
+- Markdig extensions for enhanced rendering
+- RCL distribution with assets
+- BeforeBake and AfterBake coordination
+- Good example of advanced plugin patterns
+
+## Next Steps
+
+Ready to create your first Blake plugin? Here's what to do next:
+
+1. **Install the plugin template** and create a basic plugin
+2. **Study existing plugins** like BlakePlugin.ReadTime for inspiration
+3. **Join the community** to discuss plugin ideas and get help
+4. **Review the [Plugin Hooks](/pages/5%20contributing/plugin-hooks)** documentation for advanced scenarios
+5. **Check out the [Build Pipeline](/pages/5%20contributing/build-pipeline)** to understand Blake's architecture
+6. **Follow [Testing Guidelines](/pages/5%20contributing/how-to-test)** to validate your plugin
+
+:::note
+**Plugin Development Resources**
+
+- **Use ILogger, not Console** - Always use the provided ILogger parameter instead of Console.WriteLine(). Blake can be used without the CLI, and different ILogger implementations may be passed to BuildTools methods.
+- **[Plugin Hooks Reference](/pages/5%20contributing/plugin-hooks)** - Complete interface documentation
+- **[Code Style Guidelines](/pages/5%20contributing/code-style)** - Follow Blake's coding conventions
+- **Example plugins** - Open source plugins for reference and learning
+- **Community discussions** - Get help and share plugin ideas
+- **Contributing guidelines** - How to contribute plugins back to the Blake ecosystem
+
+:::
