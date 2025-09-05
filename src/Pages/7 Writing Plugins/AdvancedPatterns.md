@@ -23,7 +23,7 @@ Rather than providing direct content transformation methods, Blake plugins work 
 public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
     // Add custom Markdig extension to the pipeline
-    context.MarkdigPipelineBuilder.Extensions.Add(new MyCustomExtension());
+    context.PipelineBuilder.Extensions.Add(new MyCustomExtension());
 }
 ```
 
@@ -50,32 +50,34 @@ public class CalloutExtension : IMarkdownExtension
 
 ### Metadata Enhancement
 
-Plugins can add metadata during the BeforeBake phase by modifying frontmatter, which then becomes available in GeneratedPages metadata:
+:::tip
+Blake's `MarkdownPage` and `GeneratedPage` types are immutable records. To modify them, you must use the `with` keyword to create new instances rather than directly modifying properties.
+:::
+
+Plugins can modify content during the BeforeBake phase by updating the markdown itself. The metadata will be extracted during baking and made available in the `GeneratedPages` collection:
 
 ```csharp
 public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
-    foreach (var page in context.MarkdownPages)
+    for (int i = 0; i < context.MarkdownPages.Count; i++)
     {
-        // Calculate word count from raw markdown
-        var wordCount = page.RawMarkdown.Split(new[] { ' ', '\n', '\r' },
+        var page = context.MarkdownPages[i];
+        
+        // Calculate word count from raw markdown (excluding frontmatter)
+        var contentStart = page.RawMarkdown.IndexOf("---", 3); // Find end of frontmatter
+        var content = contentStart > 0 ? page.RawMarkdown.Substring(contentStart + 3) : page.RawMarkdown;
+        var wordCount = content.Split(new[] { ' ', '\n', '\r' },
             StringSplitOptions.RemoveEmptyEntries).Length;
 
         // Estimate reading time (200 words per minute)
         var readingTime = Math.Max(1, (int)Math.Ceiling(wordCount / 200.0));
 
-        // Modify frontmatter to add metadata
-        // (This is a simplified example - actual implementation would parse and update YAML)
+        // Add metadata to frontmatter by modifying the raw markdown
         var updatedMarkdown = AddToFrontmatter(page.RawMarkdown,
             "readTimeMinutes", readingTime.ToString());
 
-        // Extract first paragraph as excerpt
-        var firstParagraph = page.Content.Split('\n')
-            .FirstOrDefault(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith('#'));
-        if (!string.IsNullOrEmpty(firstParagraph))
-        {
-            page.Metadata["excerpt"] = firstParagraph.Trim();
-        }
+        // Replace the page in the collection
+        context.MarkdownPages[i] = page with { RawMarkdown = updatedMarkdown };
     }
 }
 ```
@@ -110,28 +112,40 @@ public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
 
 ### Advanced Pattern: Data Persistence Between Hooks
 
-For plugins that need to share data between before and after bake phases, embed structured data as comments:
+:::note
+Plugins are stateless by design. The following example demonstrates one possible workaround for sharing data between before and after bake phases, but this should be used sparingly and only when necessary. It's important to namespace your comments to avoid conflicts with other plugins.
+:::
+
+For plugins that need to share data between hooks, one approach is to embed structured data as comments:
 
 ```csharp
 public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
-    foreach (var page in context.Pages)
+    for (int i = 0; i < context.MarkdownPages.Count; i++)
     {
+        var page = context.MarkdownPages[i];
+        
         // Analyze content and collect data
-        var sections = ExtractSections(page.Content);
+        var sections = ExtractSections(page.RawMarkdown);
 
-        // Serialize and embed as comment
+        // Serialize and embed as namespaced comment
         var sectionData = JsonSerializer.Serialize(sections);
-        page.Content += $"\n<!-- BLAKE_PLUGIN_DATA:MyPlugin:{sectionData} -->";
+        var updatedMarkdown = page.RawMarkdown + 
+            $"\n<!-- BLAKE_PLUGIN_DATA:MyPlugin:{sectionData} -->";
+        
+        // Replace the page in the collection
+        context.MarkdownPages[i] = page with { RawMarkdown = updatedMarkdown };
     }
 }
 
 public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
 {
-    foreach (var page in context.GeneratedContent)
+    for (int i = 0; i < context.GeneratedPages.Count; i++)
     {
-        // Extract embedded data
-        var match = Regex.Match(page.Content,
+        var page = context.GeneratedPages[i];
+        
+        // Extract embedded data from the generated HTML
+        var match = Regex.Match(page.RawHtml,
             @"<!-- BLAKE_PLUGIN_DATA:MyPlugin:(.*?) -->");
         if (match.Success)
         {

@@ -17,30 +17,39 @@ Follow Blake plugin best practices for performance optimization, graceful error 
 
 ### Performance Considerations
 
-- **Cache expensive operations** - Store results to avoid repeated API calls or file operations
+- **Cache expensive operations** - Store results to avoid repeated file I/O or computation
 - **Process in batches** - Handle multiple pages together when possible
 - **Use async patterns** - Blake's plugin interface is fully asynchronous
 - **Minimize memory usage** - Process large content collections efficiently
 
 ```csharp
-// Good: Batch API calls
-private readonly Dictionary<string, string> _apiCache = new();
+// Good: Cache expensive file operations
+private readonly Dictionary<string, string> _fileCache = new();
 
 public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
-    var pagesToProcess = context.Pages.Where(p => p.Metadata.ContainsKey("needsApiData")).ToList();
+    var pagesToProcess = context.MarkdownPages.Where(p => 
+        p.RawMarkdown.Contains("<!-- include-file:")).ToList();
 
-    if (pagesToProcess.Any())
+    foreach (var page in pagesToProcess)
     {
-        // Single API call for all pages
-        var batchData = await FetchBatchApiData(pagesToProcess.Select(p => p.Slug));
-
-        foreach (var page in pagesToProcess)
+        // Process file inclusions in batches to avoid repeated disk I/O
+        var fileIncludes = ExtractFileIncludes(page.RawMarkdown);
+        
+        foreach (var includeFile in fileIncludes)
         {
-            if (batchData.TryGetValue(page.Slug, out var data))
+            if (!_fileCache.TryGetValue(includeFile, out var content))
             {
-                page.Metadata["apiData"] = data;
+                content = await File.ReadAllTextAsync(includeFile);
+                _fileCache[includeFile] = content;
             }
+            
+            // Replace include marker with actual content
+            var updatedMarkdown = page.RawMarkdown.Replace(
+                $"<!-- include-file:{includeFile} -->", content);
+            
+            context.MarkdownPages[context.MarkdownPages.IndexOf(page)] = 
+                page with { RawMarkdown = updatedMarkdown };
         }
     }
 }
@@ -48,22 +57,36 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 
 ### Error Handling
 
-- **Fail gracefully** - Don't stop the entire build for non-critical features
+- **Use logging over exceptions** - Blake catches all plugin exceptions, so prefer logging errors
 - **Provide clear messages** - Help users understand what went wrong and how to fix it
 - **Use the provided logger** - Prefer ILogger over Console output for structured logging
+- **Handle gracefully** - Plugin failures shouldn't break the entire build process
+
+:::note
+Blake runs all plugins in a try/catch block, so any exceptions you throw will be caught by Blake rather than stopping the build. For this reason, it's better to log errors and continue processing rather than throwing exceptions, which should be reserved for truly exceptional circumstances.
+:::
 
 ```csharp
 public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
-    try
+    foreach (var page in context.MarkdownPages)
     {
-        await ProcessContent(context);
-    }
-    catch (HttpRequestException ex)
-    {
-        logger?.LogWarning($"Plugin API call failed: {ex.Message}. Using cached data if available.");
-        // Continue with cached data or default behavior
-    }
+        try
+        {
+            var result = await ProcessContentSafely(page);
+            if (result == null)
+            {
+                logger?.LogWarning($"Failed to process page {page.Slug}. Skipping enhancement.");
+                continue;
+            }
+            
+            // Apply successful processing
+        }
+        catch (FileNotFoundException ex)
+        {
+            logger?.LogError($"Required file not found for page {page.Slug}: {ex.Message}");
+            // Continue with other pages
+        }
     catch (Exception ex)
     {
         logger?.LogError($"Plugin processing failed: {ex.Message}");
@@ -185,10 +208,17 @@ public class ReadTimePlugin : IBlakePlugin
     public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
     {
         // Calculate reading time for each page independently
-        foreach (var page in context.Pages)
+        for (int i = 0; i < context.MarkdownPages.Count; i++)
         {
-            var readingTime = CalculateReadingTime(page.Content);
-            page.Metadata["readingTime"] = readingTime;
+            var page = context.MarkdownPages[i];
+            var readingTime = CalculateReadingTime(page.RawMarkdown);
+            
+            var updatedMarkdown = AddToFrontmatter(page.RawMarkdown, 
+                "readingTime", readingTime.ToString());
+            
+            context.MarkdownPages[i] = page with { RawMarkdown = updatedMarkdown };
+            
+            OverrideOtherPluginParams(context);
         }
     }
 }
@@ -210,19 +240,42 @@ public class BadPlugin : IBlakePlugin
 ```csharp
 public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 {
-    using var httpClient = new HttpClient();
+    // Use proper resource management for file operations
+    var tempFiles = new List<string>();
     
     try
     {
-        // Use resources within the method scope
-        var data = await httpClient.GetStringAsync("https://api.example.com/data");
-        // Process data...
+        foreach (var page in context.MarkdownPages)
+        {
+            if (page.RawMarkdown.Contains("<!-- generate-diagram -->"))
+            {
+                var tempFile = Path.GetTempFileName();
+                tempFiles.Add(tempFile);
+                
+                await File.WriteAllTextAsync(tempFile, ExtractDiagramCode(page.RawMarkdown));
+                var diagram = await ProcessDiagramFile(tempFile);
+                
+                // Update the page with the generated diagram
+                var updatedMarkdown = page.RawMarkdown.Replace(
+                    "<!-- generate-diagram -->", diagram);
+                    
+                context.MarkdownPages[context.MarkdownPages.IndexOf(page)] = 
+                    page with { RawMarkdown = updatedMarkdown };
+            }
+        }
     }
     catch (Exception ex)
     {
-        logger?.LogError($"Failed to fetch external data: {ex.Message}");
+        logger?.LogError($"Failed to generate diagrams: {ex.Message}");
     }
-    // HttpClient automatically disposed
+    finally
+    {
+        // Clean up temporary files
+        foreach (var tempFile in tempFiles)
+        {
+            try { File.Delete(tempFile); } catch { /* ignore cleanup errors */ }
+        }
+    }
 }
 ```
 

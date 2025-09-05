@@ -45,9 +45,11 @@ Blake plugins participate in the site generation process through two well-define
 
 ### BlakeContext
 
-**The BlakeContext is instantiated at the start of the bake process and persists through the entire pipeline. A single BlakeContext represents the entire bake from start to finish. It's passed sequentially to every plugin's BeforeBakeAsync hook, then Blake performs the bake (creating a Markdig pipeline by calling .Build() on the PipelineBuilder), then calls AfterBakeAsync sequentially on every plugin.**
+The BlakeContext is instantiated at the start of the bake process and persists through the entire pipeline. A single BlakeContext represents the entire bake from start to finish. It's passed sequentially to every plugin's BeforeBakeAsync hook, then Blake performs the bake (creating a Markdig pipeline by calling .Build() on the PipelineBuilder), then calls AfterBakeAsync sequentially on every plugin.
 
-**Note:** There's no built-in mechanism for plugins to persist state in the context (other than through the content itself). Plugins should remain stateless.
+:::note
+There's no built-in mechanism for plugins to persist state in the context (other than through the content itself). Plugins should remain stateless.
+:::
 
 Both lifecycle methods receive a `BlakeContext` that provides:
 

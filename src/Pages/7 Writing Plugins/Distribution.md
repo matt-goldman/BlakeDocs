@@ -124,24 +124,21 @@ MIT
 
 ### Multi-Targeting
 
-For broader compatibility, consider multi-targeting:
+Blake requires .NET 9, so multi-targeting is generally not necessary for Blake plugins:
 
 ```xml
 <PropertyGroup>
-  <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+  <TargetFramework>net9.0</TargetFramework>
 </PropertyGroup>
 ```
 
 ### Including Assets
 
-For plugins with static assets (CSS, JS, images):
+For plugins with static assets (CSS, JS, images), these are automatically handled by Blazor's static web asset system:
 
 ```xml
 <ItemGroup>
-  <Content Include="wwwroot\**\*.*">
-    <Pack>true</Pack>
-    <PackagePath>staticwebassets\</PackagePath>
-  </Content>
+  <Content Include="wwwroot\**\*.*" />
 </ItemGroup>
 ```
 

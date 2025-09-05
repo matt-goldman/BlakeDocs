@@ -19,6 +19,10 @@ Learn Blake plugin development through templates, real-world examples like Blake
 
 Use the Blake plugin template to get started quickly:
 
+:::note
+Coming soon - The Blake template package is currently in development and will be available in a future release.
+:::
+
 ```bash
 # Install the Blake plugin template
 dotnet new install Blake.Templates
@@ -177,7 +181,7 @@ public class CodeHighlighterPlugin : IBlakePlugin
     public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
     {
         // Add syntax highlighting extension to Markdig
-        context.MarkdigPipelineBuilder.Extensions.Add(new SyntaxHighlightingExtension());
+        context.PipelineBuilder.Extensions.Add(new SyntaxHighlightingExtension());
     }
 }
 
@@ -237,19 +241,37 @@ public class WordCountPlugin : IBlakePlugin
 {
     public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
     {
-        foreach (var page in context.Pages)
+        for (int i = 0; i < context.MarkdownPages.Count; i++)
         {
-            var wordCount = page.Content
+            var page = context.MarkdownPages[i];
+            
+            // Count words in the raw markdown content (excluding frontmatter)
+            var contentStart = page.RawMarkdown.IndexOf("---", 3);
+            var content = contentStart > 0 ? page.RawMarkdown.Substring(contentStart + 3) : page.RawMarkdown;
+            
+            var wordCount = content
                 .Split(new[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
                 .Length;
                 
-            page.Metadata["wordCount"] = wordCount.ToString();
+            // Add word count to frontmatter
+            var updatedMarkdown = AddToFrontmatter(page.RawMarkdown, 
+                "wordCount", wordCount.ToString());
+            
+            context.MarkdownPages[i] = page with { RawMarkdown = updatedMarkdown };
         }
     }
 
     public async Task AfterBakeAsync(BlakeContext context, ILogger? logger = null)
     {
-        // No post-processing needed
+        // Access the metadata in generated pages if needed
+        foreach (var page in context.GeneratedPages)
+        {
+            if (page.Page.Metadata.TryGetValue("wordCount", out var wordCount))
+            {
+                // Word count is now available in the generated page metadata
+                Console.WriteLine($"Page {page.Page.Slug} has {wordCount} words");
+            }
+        }
     }
 }
 ```

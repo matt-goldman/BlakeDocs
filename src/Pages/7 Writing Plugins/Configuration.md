@@ -17,11 +17,13 @@ Blake encourages zero-configuration plugins but supports custom configuration lo
 
 ### Configuration Philosophy
 
-Blake encourages zero-configuration plugins that work immediately upon installation. However, if your plugin requires configuration, you must implement your own configuration loading mechanism since Blake doesn't provide built-in configuration.
+Blake encourages zero-configuration plugins that work immediately upon installation. However, if your plugin requires configuration, you should follow .NET conventions and use `appsettings.json` for configuration whenever possible, rather than implementing custom configuration files.
 
-### Custom Configuration Loading
+### .NET Configuration Approach (Recommended)
 
-**Example configuration file (plugin-config.json):**
+Blake follows .NET and Blazor idioms, so configuration should be handled through the standard `appsettings.json` file when feasible:
+
+**Example appsettings.json configuration:**
 
 ```json
 {
@@ -78,6 +80,10 @@ You can instruct users to make their appsettings.json an embedded resource, then
   <MyPluginApiKey>your-api-key</MyPluginApiKey>
 </PropertyGroup>
 ```
+
+:::tip
+When using configuration files with secrets (like API keys), use placeholder values in your source code and have your CI/CD pipeline replace them with actual secrets during deployment. Never commit real secrets to source control.
+:::
 
 Access in your plugin:
 

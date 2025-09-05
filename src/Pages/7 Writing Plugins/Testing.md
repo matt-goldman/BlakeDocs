@@ -32,8 +32,8 @@ public async Task LastModifiedPlugin_AddsTimestampMetadata()
     await plugin.BeforeBakeAsync(context, logger);
 
     // Assert
-    Assert.All(context.Pages, page =>
-        Assert.True(page.Metadata.ContainsKey("lastModified")));
+    Assert.All(context.MarkdownPages, page =>
+        Assert.Contains("lastModified", page.RawMarkdown));
 }
 ```
 
@@ -42,22 +42,29 @@ public async Task LastModifiedPlugin_AddsTimestampMetadata()
 ```csharp
 private BlakeContext CreateTestBlakeContext()
 {
-    var pages = new List<PageModel>
+    var markdownPages = new List<MarkdownPage>
     {
-        new PageModel
-        {
-            Slug = "test-page",
-            Content = "# Test Page\n\nThis is test content.",
-            SourcePath = "/test/test-page.md",
-            Metadata = new Dictionary<string, string>()
-        }
+        new MarkdownPage(
+            MdPath: "/test/test-page.md",
+            TemplatePath: "/test/template.razor", 
+            Slug: "/test/test-page",
+            RawMarkdown: """
+                ---
+                title: Test Page
+                ---
+                # Test Page
+
+                This is test content.
+                """)
     };
 
     return new BlakeContext
     {
-        Pages = pages,
         ProjectPath = "/test",
-        GeneratedContent = new List<GeneratedPage>()
+        Arguments = new List<string>(),
+        PipelineBuilder = new Markdig.MarkdownPipelineBuilder(),
+        MarkdownPages = markdownPages,
+        GeneratedPages = new List<GeneratedPage>()
     };
 }
 ```
@@ -99,9 +106,15 @@ public async Task Plugin_HandlesNullLogger_Gracefully()
 Test your plugin with actual Blake content:
 
 1. **Create a minimal Blake site for testing**
-2. **Install your plugin via project reference**
+2. **Install your plugin via project reference or NuGet package**
 3. **Run `blake bake` and verify output**
 4. **Use automated tests to verify generated content**
+
+:::note
+Blake doesn't load plugins by DLL file alone - they must be referenced in the target project either as a NuGet package reference or project reference. Simply copying a DLL will cause restore to fail. For testing, either:
+- Add your plugin project as a project reference to your test site
+- Create a local NuGet package feed for your plugin
+:::
 
 **Example Integration Test:**
 
@@ -111,11 +124,10 @@ public async Task Plugin_IntegrationTest_WithRealBlakeSite()
 {
     // Arrange
     var testSitePath = CreateTestBlakeSite();
-    var pluginPath = Path.Combine(testSitePath, "TestPlugin.dll");
     
-    // Copy your compiled plugin to test site
-    File.Copy("../../../bin/Debug/net9.0/MyPlugin.dll", pluginPath);
-
+    // Add plugin as project reference (preferred for testing)
+    await AddProjectReference(testSitePath, "../../../MyPlugin/MyPlugin.csproj");
+    
     // Act
     var result = await RunBlakeBake(testSitePath);
 
