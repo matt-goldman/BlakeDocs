@@ -415,7 +415,7 @@ Now that you understand testing Blake:
 5. **Explore [Build Pipeline](/pages/5%20contributing/build-pipeline)** to understand Blake's architecture
 
 **For specialized contributions:**
-- **[Plugin Development Testing](/pages/5%20contributing/writing-plugins#testing-your-plugin)** - Test plugins thoroughly
+- **[Plugin Development Testing](/pages/7%20writing%20plugins/testing)** - Test plugins thoroughly
 - **[Site Template Testing](/pages/5%20contributing/creating-site-templates#template-maintenance)** - Validate template functionality
 
 :::note

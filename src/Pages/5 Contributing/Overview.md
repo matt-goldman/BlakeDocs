@@ -29,7 +29,7 @@ Blake is an open-source static site generator that follows the philosophy of "Oc
 **Build for the Blake ecosystem:**
 
 - **[Create site templates](/pages/5%20contributing/creating-site-templates)** for different use cases (blogs, docs, portfolios, etc.)
-- **[Develop plugins](/pages/5%20contributing/writing-plugins)** that extend Blake's functionality
+- **[Develop plugins](/pages/7%20writing%20plugins/overview)** that extend Blake's functionality
 - Improve existing templates and plugins
 - Add responsive design and accessibility features
 
@@ -224,9 +224,9 @@ Blake follows standard .NET conventions. For detailed guidelines, see [Code Styl
 
 Blake offers several ways to contribute beyond core development:
 
-- **[Plugin Development](/pages/5%20contributing/writing-plugins)** - Extend Blake's functionality with custom plugins
+- **[Plugin Development](/pages/7%20writing%20plugins/overview)** - Extend Blake's functionality with custom plugins
 - **[Site Template Creation](/pages/5%20contributing/creating-site-templates)** - Build templates for the community
-- **[Documentation Improvements](/pages/5%20contributing/writing-plugins#documentation-contributions)** - Help make Blake more accessible
+- **[Documentation Improvements](/pages/7%20writing%20plugins/overview)** - Help make Blake more accessible
 
 ## Community Guidelines
 
@@ -264,7 +264,7 @@ Ready to contribute? Here's how to get started:
 
 **Specialized Contributing:**
 
-- **[Writing Plugins](/pages/5%20contributing/writing-plugins)** - Complete plugin development guide
+- **[Writing Plugins](/pages/7%20writing%20plugins/overview)** - Complete plugin development guide
 - **[Plugin Hooks](/pages/5%20contributing/plugin-hooks)** - Available extension points
 - **[Creating Site Templates](/pages/5%20contributing/creating-site-templates)** - Template development guide
 
