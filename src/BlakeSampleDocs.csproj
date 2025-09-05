@@ -40,6 +40,7 @@
 
   <ItemGroup>
     <Folder Include="Pages\5 Contributing\" />
+    <Folder Include="Pages\6 Creating Site Templates\" />
   </ItemGroup>
 
   <ItemGroup>

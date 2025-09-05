@@ -189,7 +189,7 @@ To contribute a template to the registry:
 2. **Test thoroughly** across different content types and scenarios  
 3. **Submit to registry** via GitHub pull request
 
-Detailed guidance on creating site templates is available in the [Contributing section](/pages/5%20contributing/) of this documentation.
+Detailed guidance on creating site templates is available in the [Creating Site Templates section](/pages/6%20creating%20site%20templates/) of this documentation.
 
 :::note
 **Template Guidelines**
