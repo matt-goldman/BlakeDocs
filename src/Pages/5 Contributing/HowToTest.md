@@ -340,6 +340,136 @@ blake bake
 chmod +x generated-files  # Test permissions
 ```
 
+## Debug Template Registry
+
+Blake CLI uses different template registry sources depending on the build configuration, which affects how `blake new --list` and template installation work during development and testing.
+
+### How Template Registry Works
+
+**In Release builds (normal operation):**
+- Blake fetches templates from the live registry: `https://raw.githubusercontent.com/matt-goldman/blake/refs/heads/main/TemplateRegistry.json`
+- This is what end users experience when using Blake CLI
+
+**In Debug builds (development/testing):**
+- Blake reads from a local file: `%USERPROFILE%/.blake/TemplateRegistry.json` (Windows) or `$HOME/.blake/TemplateRegistry.json` (macOS/Linux)
+- This allows testing template functionality without modifying the live registry
+
+### Setting Up Debug Registry
+
+**When working with template-related functionality:**
+
+1. **Create the debug registry file** if it doesn't exist:
+
+```bash
+# Create the directory
+mkdir -p ~/.blake
+
+# Create a local template registry for testing
+cat > ~/.blake/TemplateRegistry.json << 'EOF'
+{
+  "Templates": [
+    {
+      "Id": "test-template-id",
+      "ShortName": "test-template",
+      "Name": "Test Template",
+      "Description": "A template for testing",
+      "MainCategory": "Test",
+      "Author": "Developer",
+      "LastUpdated": "2024-01-01T00:00:00Z",
+      "RepositoryUrl": "https://github.com/your-username/test-template"
+    }
+  ]
+}
+EOF
+```
+
+2. **Test template functionality** in debug mode:
+
+```bash
+# Build Blake CLI in debug mode
+dotnet build src/Blake.CLI --configuration Debug
+
+# Test template listing
+dotnet run --project src/Blake.CLI --configuration Debug -- new --list
+
+# Test template installation (if repository exists)
+dotnet run --project src/Blake.CLI --configuration Debug -- new /path/to/test-site --template test-template
+```
+
+### Testing Pattern Used in Blake Tests
+
+**Blake's integration tests** handle the debug registry automatically:
+
+- **Before test**: Check if `~/.blake/TemplateRegistry.json` exists
+- **Create if missing**: Generate a mock registry with test templates
+- **Run test**: Execute template-related functionality
+- **Clean up**: Delete the mock registry if the test created it
+
+**Example test pattern:**
+
+```csharp
+// Create debug registry if it doesn't exist
+var created = CreateDebugRegistryIfNotExists();
+
+// Run Blake command that uses template registry
+var result = await RunBlakeCommandAsync(["new", "--list"]);
+
+// Clean up if we created the file
+if (created) DeleteDebugRegistry();
+```
+
+### Developer Workflow Options
+
+**When working on template-related features, you can:**
+
+1. **Use the debug registry** (recommended for testing):
+   - Create `~/.blake/TemplateRegistry.json` with test templates
+   - Develop and test against local templates
+   - No risk of affecting live registry
+
+2. **Comment out debug code temporarily**:
+   - Modify `TemplateService.cs` to always use the live registry
+   - Test against real templates in the main Blake repository
+   - Remember to restore debug functionality before committing
+
+3. **Create local template repositories**:
+   - Set up local Git repositories for testing template cloning
+   - Point debug registry entries to these local repositories
+   - Test complete template installation workflow
+
+### Debug Registry File Format
+
+The debug registry file uses the same format as the live registry:
+
+```json
+{
+  "Templates": [
+    {
+      "Id": "unique-guid-here",
+      "ShortName": "short-name",
+      "Name": "Full Template Name",
+      "Description": "Description of what this template provides",
+      "MainCategory": "Blog|Docs|Portfolio|etc",
+      "Author": "Template Author",
+      "LastUpdated": "2024-01-01T00:00:00Z",
+      "RepositoryUrl": "https://github.com/username/template-repo"
+    }
+  ]
+}
+```
+
+:::tip
+**Development Best Practice**
+
+When developing template-related features, always use the debug registry to avoid accidentally affecting the live template registry that end users rely on.
+:::
+
+:::note
+**Test Cleanup**
+
+Blake's automated tests create and clean up the debug registry file automatically. If you're running tests manually and they fail, you may need to manually delete `~/.blake/TemplateRegistry.json` to avoid affecting subsequent test runs.
+:::
+
 ## Testing Checklists
 
 ### Pre-Submit Testing
