@@ -451,7 +451,7 @@ public class PageModel
 
 Ready to implement plugin hooks? Here's what to do next:
 
-1. **Review the [Writing Plugins](/pages/5%20contributing/writing-plugins)** guide for complete implementation details
+1. **Review the [Writing Plugins](/pages/7%20writing%20plugins/overview)** guide for complete implementation details
 2. **Study existing plugins** to see hooks in action
 3. **Start with simple BeforeBake hooks** before attempting complex AfterBake patterns
 4. **Test thoroughly** with different content types and scenarios

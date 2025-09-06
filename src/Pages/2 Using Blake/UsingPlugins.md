@@ -139,7 +139,7 @@ Calculates reading time estimates for content pages:
 
 :::info
 **Comprehensive Plugin Development Guide**    
-The complete guide to plugin development, including architecture overview, step-by-step tutorials, advanced patterns, and best practices, is available in the [Writing Plugins](/pages/5%20contributing/writing-plugins) section of our Contributing documentation.
+The complete guide to plugin development, including architecture overview, step-by-step tutorials, advanced patterns, and best practices, is available in the [Writing Plugins](/pages/7%20writing%20plugins/overview) section.
 :::
 
 ### When to Consider Plugin Development
@@ -161,7 +161,7 @@ Blake plugins are .NET class libraries that implement the `IBlakePlugin` interfa
 3. Implement `IBlakePlugin` interface
 4. Test with a local Blake site
 
-For detailed implementation guidance, examples, and advanced patterns, see the complete [Writing Plugins](/pages/5%20contributing/writing-plugins) documentation in the Contributing section.
+For detailed implementation guidance, examples, and advanced patterns, see the complete [Writing Plugins](/pages/7%20writing%20plugins/overview) documentation.
 
 ## Next Steps
 
