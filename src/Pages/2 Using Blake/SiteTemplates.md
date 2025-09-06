@@ -181,6 +181,16 @@ Templates in the registry are defined using JSON metadata based on the actual re
 Users should exercise the same caution with site templates as with any other packages - you are responsible for ensuring you trust the code you're executing on your computer. The template registry does not provide guarantees of safety, but does make template discovery easier and will provide minimum baseline guarantees when [planned template validation work](https://github.com/matt-goldman/blake/issues/22) is completed.
 :::
 
+:::note
+**Template Registry Sources**
+
+Blake CLI fetches templates from different sources depending on the build configuration:
+- **Release builds** (normal usage): Fetches from the official GitHub registry
+- **Debug builds** (development): Reads from a local file at `~/.blake/TemplateRegistry.json`
+
+This allows developers to test template functionality locally without affecting the live registry. For more details on using the debug registry during development, see the [Testing Guide](/pages/5%20contributing/how-to-test#debug-template-registry).
+:::
+
 ### Contributing Templates
 
 To contribute a template to the registry:
