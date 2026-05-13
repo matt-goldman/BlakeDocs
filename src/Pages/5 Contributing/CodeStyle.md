@@ -205,7 +205,7 @@ Before submitting code:
 - **Run the analyzers** on your contributions
 - **Ask questions** if any guidelines are unclear
 
-For specific testing guidance, see [How to Test Your Changes](/pages/5%20contributing/how-to-test).
+For specific testing guidance, see [How to Test Your Changes](/5%20contributing/howtotest).
 
 :::note
 **Style Questions?**

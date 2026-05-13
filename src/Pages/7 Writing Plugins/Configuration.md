@@ -161,6 +161,6 @@ public class MyPlugin : IBlakePlugin
 
 ## Next Steps
 
-- **[Distribution](/pages/7%20writing%20plugins/distribution)** - Package and share your configurable plugin
-- **[Best Practices](/pages/7%20writing%20plugins/best-practices)** - Follow recommended development patterns
-- **[Testing](/pages/7%20writing%20plugins/testing)** - Test different configuration scenarios
+- **[Distribution](/7%20writing%20plugins/distribution)** - Package and share your configurable plugin
+- **[Best Practices](/7%20writing%20plugins/bestpractices)** - Follow recommended development patterns
+- **[Testing](/7%20writing%20plugins/testing)** - Test different configuration scenarios

@@ -203,9 +203,9 @@ While the dedicated Blake guide is in development:
 
 While waiting for comprehensive Vercel guidance, consider these well-documented alternatives:
 
-- **[GitHub Pages](/pages/3%20deploying/github-pages)** - Free hosting with complete Blake documentation
-- **[Azure Static Web Apps](/pages/3%20deploying/azure-swa)** - Enterprise features with detailed Blake setup guide
-- **[Cloudflare Pages](/pages/3%20deploying/cloudflare)** - Fast global CDN with growing Blake community support
+- **[GitHub Pages](/3%20deploying/githubpages)** - Free hosting with complete Blake documentation
+- **[Azure Static Web Apps](/3%20deploying/azureswa)** - Enterprise features with detailed Blake setup guide
+- **[Cloudflare Pages](/3%20deploying/cloudflare)** - Fast global CDN with growing Blake community support
 
 ## Community Contributions
 
@@ -222,5 +222,5 @@ Your input helps create better documentation for the entire Blake community!
 
 - **Try the basic setup** with your Blake site
 - **Join [Blake Discussions](https://github.com/matt-goldman/blake/discussions)** for community support
-- **Consider [GitHub Pages](/pages/3%20deploying/github-pages)** or [Azure SWA](/pages/3%20deploying/azure-swa) for well-documented alternatives
+- **Consider [GitHub Pages](/3%20deploying/githubpages)** or [Azure SWA](/3%20deploying/azureswa) for well-documented alternatives
 - **Stay tuned** for the comprehensive Vercel deployment guide

@@ -167,6 +167,6 @@ Consider submitting your plugin to the community registry:
 
 ## Next Steps
 
-- **[Testing](/pages/7%20writing%20plugins/testing)** - Thoroughly test before publishing
-- **[Best Practices](/pages/7%20writing%20plugins/best-practices)** - Follow recommended patterns
-- **[Examples](/pages/7%20writing%20plugins/examples)** - Study successful plugin examples
+- **[Testing](/7%20writing%20plugins/testing)** - Thoroughly test before publishing
+- **[Best Practices](/7%20writing%20plugins/bestpractices)** - Follow recommended patterns
+- **[Examples](/7%20writing%20plugins/examples)** - Study successful plugin examples

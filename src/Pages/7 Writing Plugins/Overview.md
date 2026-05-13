@@ -46,8 +46,8 @@ Consider creating a plugin when you need to:
 
 Ready to start building Blake plugins? Continue with:
 
-- **[Plugin Architecture](/pages/7%20writing%20plugins/architecture)** - Understand the technical foundation
-- **[Getting Started](/pages/7%20writing%20plugins/getting-started)** - Create your first plugin
-- **[Examples](/pages/7%20writing%20plugins/examples)** - See real-world plugin implementations
+- **[Plugin Architecture](/7%20writing%20plugins/architecture)** - Understand the technical foundation
+- **[Getting Started](/7%20writing%20plugins/gettingstarted)** - Create your first plugin
+- **[Examples](/7%20writing%20plugins/examples)** - See real-world plugin implementations
 
-For using existing plugins, see [Using Plugins](/pages/2%20using%20blake/using-plugins).
+For using existing plugins, see [Using Plugins](/2%20using%20blake/usingplugins).

@@ -220,6 +220,6 @@ public class MyPlugin : IBlakePlugin
 
 ## Next Steps
 
-- **[Configuration](/pages/7%20writing%20plugins/configuration)** - Add configuration options to your plugins
-- **[Best Practices](/pages/7%20writing%20plugins/best-practices)** - Follow recommended development patterns
-- **[Testing](/pages/7%20writing%20plugins/testing)** - Ensure your advanced patterns work correctly
+- **[Configuration](/7%20writing%20plugins/configuration)** - Add configuration options to your plugins
+- **[Best Practices](/7%20writing%20plugins/bestpractices)** - Follow recommended development patterns
+- **[Testing](/7%20writing%20plugins/testing)** - Ensure your advanced patterns work correctly

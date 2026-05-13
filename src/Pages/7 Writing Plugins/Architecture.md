@@ -67,6 +67,6 @@ Both lifecycle methods receive a `BlakeContext` that provides:
 
 ## Next Steps
 
-- **[Getting Started](/pages/7%20writing%20plugins/getting-started)** - Create your first plugin
-- **[Advanced Patterns](/pages/7%20writing%20plugins/advanced-patterns)** - Learn sophisticated plugin techniques
-- **[Best Practices](/pages/7%20writing%20plugins/best-practices)** - Follow recommended development patterns
+- **[Getting Started](/7%20writing%20plugins/gettingstarted)** - Create your first plugin
+- **[Advanced Patterns](/7%20writing%20plugins/advancedpatterns)** - Learn sophisticated plugin techniques
+- **[Best Practices](/7%20writing%20plugins/bestpractices)** - Follow recommended development patterns

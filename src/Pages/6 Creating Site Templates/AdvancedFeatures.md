@@ -340,8 +340,8 @@ With these advanced features, your template will offer:
 - **Performance optimizations** for better user experience
 
 Ready to document your template? See:
-- [Documentation Guidelines](/pages/6%20creating%20site%20templates/documentation) - How to document and configure your template
-- [Distribution Guide](/pages/6%20creating%20site%20templates/distribution) - Publishing and maintaining your template
+- [Documentation Guidelines](/6%20creating%20site%20templates/documentation) - How to document and configure your template
+- [Distribution Guide](/6%20creating%20site%20templates/distribution) - Publishing and maintaining your template
 
 :::tip
 **Advanced Feature Tips**

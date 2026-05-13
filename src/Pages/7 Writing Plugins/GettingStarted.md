@@ -141,7 +141,7 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 
 ## Next Steps
 
-- **[Advanced Patterns](/pages/7%20writing%20plugins/advanced-patterns)** - Learn sophisticated plugin techniques
-- **[Configuration](/pages/7%20writing%20plugins/configuration)** - Add configuration to your plugins
-- **[Testing](/pages/7%20writing%20plugins/testing)** - Test your plugin thoroughly
-- **[Distribution](/pages/7%20writing%20plugins/distribution)** - Package and share your plugin
+- **[Advanced Patterns](/7%20writing%20plugins/advancedpatterns)** - Learn sophisticated plugin techniques
+- **[Configuration](/7%20writing%20plugins/configuration)** - Add configuration to your plugins
+- **[Testing](/7%20writing%20plugins/testing)** - Test your plugin thoroughly
+- **[Distribution](/7%20writing%20plugins/distribution)** - Package and share your plugin

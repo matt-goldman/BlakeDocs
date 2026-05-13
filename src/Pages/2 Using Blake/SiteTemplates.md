@@ -15,7 +15,7 @@ Site templates provide complete starting points for your Blake projects. Use `bl
 
 ## Understanding Site Templates
 
-Site templates are different from [page templates](/pages/2%20using%20blake/page-templates) - they provide complete project scaffolding rather than individual page rendering.
+Site templates are different from [page templates](/2%20using%20blake/pagetemplates) - they provide complete project scaffolding rather than individual page rendering.
 
 :::info
 **Why "Site Templates" Instead of "Themes"?**
@@ -188,7 +188,7 @@ Blake CLI fetches templates from different sources depending on the build config
 - **Release builds** (normal usage): Fetches from the official GitHub registry
 - **Debug builds** (development): Reads from a local file at `~/.blake/TemplateRegistry.json`
 
-This allows developers to test template functionality locally without affecting the live registry. For more details on using the debug registry during development, see the [Testing Guide](/pages/5%20contributing/how-to-test#debug-template-registry).
+This allows developers to test template functionality locally without affecting the live registry. For more details on using the debug registry during development, see the [Testing Guide](/5%20contributing/howtotest#debug-template-registry).
 :::
 
 ### Contributing Templates
@@ -199,7 +199,7 @@ To contribute a template to the registry:
 2. **Test thoroughly** across different content types and scenarios  
 3. **Submit to registry** via GitHub pull request
 
-Detailed guidance on creating site templates is available in the [Creating Site Templates section](/pages/6%20creating%20site%20templates/) of this documentation.
+Detailed guidance on creating site templates is available in the [Creating Site Templates section](/6%20creating%20site%20templates/overview) of this documentation.
 
 :::note
 **Template Guidelines**
@@ -219,13 +219,13 @@ When creating templates for contribution:
 Understanding the relationship between site templates and page templates:
 
 - **Site templates** provide the entire project structure and multiple page templates
-- **Page templates** (covered in [Page Templates](/pages/2%20using%20blake/page-templates)) define how individual markdown files are rendered
+- **Page templates** (covered in [Page Templates](/2%20using%20blake/pagetemplates)) define how individual markdown files are rendered
 - A single site template could include several different page templates for different content types
 - You can mix and match - use a site template as a starting point, then create custom page templates for specific sections
 
 ## Next Steps
 
-- Learn about creating custom [Page Templates](/pages/2%20using%20blake/page-templates)
-- Explore [Using Plugins](/pages/2%20using%20blake/using-plugins) to extend your site's functionality
-- Check the [CLI Reference](/pages/2%20using%20blake/cli) for all template-related commands
-- Review [Authoring Content](/pages/2%20using%20blake/authoring-content) to start adding your own content
+- Learn about creating custom [Page Templates](/2%20using%20blake/pagetemplates)
+- Explore [Using Plugins](/2%20using%20blake/usingplugins) to extend your site's functionality
+- Check the [CLI Reference](/2%20using%20blake/cli) for all template-related commands
+- Review [Authoring Content](/2%20using%20blake/authoringcontent) to start adding your own content

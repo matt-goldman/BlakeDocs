@@ -235,9 +235,9 @@ Once you have the basic structure in place:
 
 Now that you have a basic template:
 
-- **Add [Advanced Features](/pages/6%20creating%20site%20templates/advanced-features)** like theming and search
-- **Create comprehensive [Documentation](/pages/6%20creating%20site%20templates/documentation)** for users
-- **Prepare for [Distribution](/pages/6%20creating%20site%20templates/distribution)** to the community
+- **Add [Advanced Features](/6%20creating%20site%20templates/advancedfeatures)** like theming and search
+- **Create comprehensive [Documentation](/6%20creating%20site%20templates/documentation)** for users
+- **Prepare for [Distribution](/6%20creating%20site%20templates/distribution)** to the community
 
 :::tip
 **Template Development Tips**

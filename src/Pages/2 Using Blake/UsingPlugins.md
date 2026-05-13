@@ -53,7 +53,7 @@ Blake searches by NuGet package reference and project reference. Currently, othe
 
 :::note
 **Build Pipeline Integration**    
-Plugin discovery and execution is part of Blake's build pipeline. For detailed information about how plugins integrate with the build process, see the 🚧 [Build Pipeline](/pages/2%20using%20blake/build-pipeline) documentation (work in progress).
+Plugin discovery and execution is part of Blake's build pipeline. For detailed information about how plugins integrate with the build process, see the 🚧 [Build Pipeline](/2%20using%20blake/buildpipeline) documentation (work in progress).
 :::
 
 ## Using Existing Plugins
@@ -139,7 +139,7 @@ Calculates reading time estimates for content pages:
 
 :::info
 **Comprehensive Plugin Development Guide**    
-The complete guide to plugin development, including architecture overview, step-by-step tutorials, advanced patterns, and best practices, is available in the [Writing Plugins](/pages/7%20writing%20plugins/overview) section.
+The complete guide to plugin development, including architecture overview, step-by-step tutorials, advanced patterns, and best practices, is available in the [Writing Plugins](/7%20writing%20plugins/overview) section.
 :::
 
 ### When to Consider Plugin Development
@@ -161,14 +161,14 @@ Blake plugins are .NET class libraries that implement the `IBlakePlugin` interfa
 3. Implement `IBlakePlugin` interface
 4. Test with a local Blake site
 
-For detailed implementation guidance, examples, and advanced patterns, see the complete [Writing Plugins](/pages/7%20writing%20plugins/overview) documentation.
+For detailed implementation guidance, examples, and advanced patterns, see the complete [Writing Plugins](/7%20writing%20plugins/overview) documentation.
 
 ## Next Steps
 
 - Explore existing plugins on [NuGet](https://www.nuget.org/packages?q=BlakePlugin)
-- Learn about [Page Templates](/pages/2%20using%20blake/page-templates) to understand how plugins enhance rendering
-- Check the [CLI Reference](/pages/2%20using%20blake/cli) for plugin-related commands
-- Review [Site Templates](/pages/2%20using%20blake/site-templates) to see how templates and plugins work together
+- Learn about [Page Templates](/2%20using%20blake/pagetemplates) to understand how plugins enhance rendering
+- Check the [CLI Reference](/2%20using%20blake/cli) for plugin-related commands
+- Review [Site Templates](/2%20using%20blake/sitetemplates) to see how templates and plugins work together
 
 :::note
 **Plugin Development Resources**

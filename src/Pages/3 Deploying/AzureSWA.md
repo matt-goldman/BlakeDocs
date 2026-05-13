@@ -251,5 +251,5 @@ View detailed deployment information:
 - **Configure [custom domains and SSL](https://docs.microsoft.com/azure/static-web-apps/custom-domain)**
 - **Set up [authentication](https://docs.microsoft.com/azure/static-web-apps/authentication-authorization)**
 - **Add [Azure Functions APIs](https://docs.microsoft.com/azure/static-web-apps/add-api)** for dynamic functionality
-- **Explore [GitHub Pages](/pages/3%20deploying/github-pages)** for open-source projects
-- **Learn about [Blake site templates](/pages/2%20using%20blake/site-templates)** with pre-configured Azure workflows
+- **Explore [GitHub Pages](/3%20deploying/githubpages)** for open-source projects
+- **Learn about [Blake site templates](/2%20using%20blake/sitetemplates)** with pre-configured Azure workflows

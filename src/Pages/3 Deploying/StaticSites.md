@@ -27,10 +27,10 @@ It's possible to use Blazor Server or even mixed rendering apps too. There are n
 
 Blake sites work perfectly with modern static hosting platforms:
 
-- **[GitHub Pages](/pages/3%20deploying/github-pages)** - Free hosting directly from your repository
-- **[Azure Static Web Apps](/pages/3%20deploying/azure-swa)** - Microsoft's static hosting with CI/CD integration  
-- **[Cloudflare Pages](/pages/3%20deploying/cloudflare)** - Fast global CDN with automatic builds
-- **[Vercel](/pages/3%20deploying/vercel)** - Optimized for frontend frameworks
+- **[GitHub Pages](/3%20deploying/githubpages)** - Free hosting directly from your repository
+- **[Azure Static Web Apps](/3%20deploying/azureswa)** - Microsoft's static hosting with CI/CD integration  
+- **[Cloudflare Pages](/3%20deploying/cloudflare)** - Fast global CDN with automatic builds
+- **[Vercel](/3%20deploying/vercel)** - Optimized for frontend frameworks
 - **Netlify** - Popular choice with form handling and serverless functions
 
 ### Self-Hosting Options
@@ -96,10 +96,10 @@ Blake sites use Blazor WebAssembly routing. For proper navigation:
 
 Each hosting platform has specific requirements and optimizations:
 
-- **[GitHub Pages](/pages/3%20deploying/github-pages)** - Repository setup, base path configuration, and workflow automation
-- **[Azure Static Web Apps](/pages/3%20deploying/azure-swa)** - Azure integration, custom domains, and environment management
-- **[Cloudflare Pages](/pages/3%20deploying/cloudflare)** - CDN optimization and build settings
-- **[Vercel](/pages/3%20deploying/vercel)** - Framework detection and deployment configuration
+- **[GitHub Pages](/3%20deploying/githubpages)** - Repository setup, base path configuration, and workflow automation
+- **[Azure Static Web Apps](/3%20deploying/azureswa)** - Azure integration, custom domains, and environment management
+- **[Cloudflare Pages](/3%20deploying/cloudflare)** - CDN optimization and build settings
+- **[Vercel](/3%20deploying/vercel)** - Framework detection and deployment configuration
 
 ## Getting Help
 
@@ -115,7 +115,7 @@ The Blake community focuses primarily on GitHub Actions workflows, but we welcom
 
 Choose your deployment platform and follow the specific guide:
 
-- New to static hosting? Start with **[GitHub Pages](/pages/3%20deploying/github-pages)**
-- Need enterprise features? Try **[Azure Static Web Apps](/pages/3%20deploying/azure-swa)**
-- Want global performance? Consider **[Cloudflare Pages](/pages/3%20deploying/cloudflare)**
-- Prefer modern development workflows? Check out **[Vercel](/pages/3%20deploying/vercel)**
+- New to static hosting? Start with **[GitHub Pages](/3%20deploying/githubpages)**
+- Need enterprise features? Try **[Azure Static Web Apps](/3%20deploying/azureswa)**
+- Want global performance? Consider **[Cloudflare Pages](/3%20deploying/cloudflare)**
+- Prefer modern development workflows? Check out **[Vercel](/3%20deploying/vercel)**

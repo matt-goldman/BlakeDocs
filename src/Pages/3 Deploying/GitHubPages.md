@@ -259,6 +259,6 @@ jobs:
 
 ## Next Steps
 
-- **Explore [Azure Static Web Apps](/pages/3%20deploying/azure-swa)** for enterprise features
-- **Learn about [Blake site templates](/pages/2%20using%20blake/site-templates)** for pre-configured workflows
+- **Explore [Azure Static Web Apps](/3%20deploying/azureswa)** for enterprise features
+- **Learn about [Blake site templates](/2%20using%20blake/sitetemplates)** for pre-configured workflows
 - **Join [Blake Discussions](https://github.com/matt-goldman/blake/discussions)** for deployment tips and community support
