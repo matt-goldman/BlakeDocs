@@ -140,9 +140,9 @@ Understanding Blake's philosophy helps you work with it effectively:
 
 Explore how these principles translate into practice:
 
-- [Getting started with Blake](/pages/1%20introduction/quickstart)
-- [Understanding page templates](/pages/2%20using%20blake/page-templates)
-- [Extending with plugins](/pages/2%20using%20blake/using-plugins)
+- [Getting started with Blake](/1%20introduction/quickstart)
+- [Understanding page templates](/2%20using%20blake/pagetemplates)
+- [Extending with plugins](/2%20using%20blake/usingplugins)
 
 :::note
 **Philosophy in Practice**    

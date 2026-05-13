@@ -281,6 +281,6 @@ public async Task BeforeBakeAsync(BlakeContext context, ILogger? logger = null)
 
 ## Next Steps
 
-- **[Testing](/pages/7%20writing%20plugins/testing)** - Validate your plugin follows these practices
-- **[Examples](/pages/7%20writing%20plugins/examples)** - See these practices in real implementations
-- **[Overview](/pages/7%20writing%20plugins/overview)** - Review the big picture of plugin development
+- **[Testing](/7%20writing%20plugins/testing)** - Validate your plugin follows these practices
+- **[Examples](/7%20writing%20plugins/examples)** - See these practices in real implementations
+- **[Overview](/7%20writing%20plugins/overview)** - Review the big picture of plugin development

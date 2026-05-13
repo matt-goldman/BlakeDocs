@@ -294,7 +294,7 @@ For developers creating or maintaining templates:
 
 ## Next Steps
 
-- Learn about [Authoring Content](/pages/2%20using%20blake/authoring-content) to understand the content creation workflow
-- Explore [Using Components](/pages/2%20using%20blake/components) for advanced template functionality  
-- Check the [Build Pipeline](/pages/5%20contributing/build-pipeline) documentation for technical details about the baking process
-- Review [Site Templates](/pages/2%20using%20blake/site-templates) for complete site starter templates
+- Learn about [Authoring Content](/2%20using%20blake/authoringcontent) to understand the content creation workflow
+- Explore [Using Components](/2%20using%20blake/components) for advanced template functionality  
+- Check the [Build Pipeline](/5%20contributing/buildpipeline) documentation for technical details about the baking process
+- Review [Site Templates](/2%20using%20blake/sitetemplates) for complete site starter templates

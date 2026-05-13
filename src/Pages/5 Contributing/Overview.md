@@ -28,8 +28,8 @@ Blake is an open-source static site generator that follows the philosophy of "Oc
 
 **Build for the Blake ecosystem:**
 
-- **[Create site templates](/pages/6%20creating%20site%20templates/overview)** for different use cases (blogs, docs, portfolios, etc.)
-- **[Develop plugins](/pages/7%20writing%20plugins/overview)** that extend Blake's functionality
+- **[Create site templates](/6%20creating%20site%20templates/overview)** for different use cases (blogs, docs, portfolios, etc.)
+- **[Develop plugins](/7%20writing%20plugins/overview)** that extend Blake's functionality
 
 - Improve existing templates and plugins
 - Add responsive design and accessibility features
@@ -91,7 +91,7 @@ dotnet build
 
 Before contributing, familiarize yourself with Blake's core components:
 
-- **[Build Pipeline](/pages/5%20contributing/build-pipeline)** - How Blake processes content
+- **[Build Pipeline](/5%20contributing/buildpipeline)** - How Blake processes content
 - **Blake.CLI** - Command-line interface
 - **Blake.BuildTools** - Core build functionality
 - **Blake.Types** - Shared types and interfaces
@@ -212,7 +212,7 @@ or:
 
 ## Code Style and Conventions
 
-Blake follows standard .NET conventions. For detailed guidelines, see [Code Style & Conventions](/pages/5%20contributing/code-style).
+Blake follows standard .NET conventions. For detailed guidelines, see [Code Style & Conventions](/5%20contributing/codestyle).
 
 ### Key Principles
 
@@ -225,9 +225,9 @@ Blake follows standard .NET conventions. For detailed guidelines, see [Code Styl
 
 Blake offers several ways to contribute beyond core development:
 
-- **[Plugin Development](/pages/7%20writing%20plugins/overview)** - Extend Blake's functionality with custom plugins
-- **[Site Template Creation](/pages/6%20creating%20site%20templates/overview)** - Build templates for the community
-- **[Documentation Improvements](/pages/5%20contributing/writing-plugins#documentation-contributions)** - Help make Blake more accessible
+- **[Plugin Development](/7%20writing%20plugins/overview)** - Extend Blake's functionality with custom plugins
+- **[Site Template Creation](/6%20creating%20site%20templates/overview)** - Build templates for the community
+- **[Documentation Improvements](/7%20writing%20plugins/overview#documentation-contributions)** - Help make Blake more accessible
 
 ## Community Guidelines
 
@@ -259,15 +259,15 @@ Ready to contribute? Here's how to get started:
 
 **Development Guides:**
 
-- **[How to Test](/pages/5%20contributing/how-to-test)** - Testing your changes thoroughly
-- **[Build Pipeline](/pages/5%20contributing/build-pipeline)** - Understanding Blake's architecture
-- **[Code Style & Conventions](/pages/5%20contributing/code-style)** - Formatting and naming guidelines
+- **[How to Test](/5%20contributing/howtotest)** - Testing your changes thoroughly
+- **[Build Pipeline](/5%20contributing/buildpipeline)** - Understanding Blake's architecture
+- **[Code Style & Conventions](/5%20contributing/codestyle)** - Formatting and naming guidelines
 
 **Specialized Contributing:**
 
-- **[Writing Plugins](/pages/7%20writing%20plugins/overview)** - Complete plugin development guide
-- **[Plugin Hooks](/pages/5%20contributing/plugin-hooks)** - Available extension points
-- **[Creating Site Templates](/pages/6%20creating%20site%20templates/overview)** - Template development guide
+- **[Writing Plugins](/7%20writing%20plugins/overview)** - Complete plugin development guide
+- **[Plugin Hooks](/5%20contributing/pluginhooks)** - Available extension points
+- **[Creating Site Templates](/6%20creating%20site%20templates/overview)** - Template development guide
 
 :::note
 **Questions or Need Help?**

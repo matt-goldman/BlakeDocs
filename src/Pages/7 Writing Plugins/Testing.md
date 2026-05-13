@@ -319,6 +319,6 @@ Before releasing your plugin:
 
 ## Next Steps
 
-- **[Examples](/pages/7%20writing%20plugins/examples)** - Study well-tested plugin implementations
-- **[Distribution](/pages/7%20writing%20plugins/distribution)** - Package your thoroughly tested plugin
-- **[Best Practices](/pages/7%20writing%20plugins/best-practices)** - Review development guidelines
+- **[Examples](/7%20writing%20plugins/examples)** - Study well-tested plugin implementations
+- **[Distribution](/7%20writing%20plugins/distribution)** - Package your thoroughly tested plugin
+- **[Best Practices](/7%20writing%20plugins/bestpractices)** - Review development guidelines

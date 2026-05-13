@@ -121,10 +121,10 @@ Ready to create your Blake template?
 6. **Share with the community** and gather feedback
 
 For detailed implementation guidance, see:
-- [Getting Started](/pages/6%20creating%20site%20templates/getting-started) - Creating your first template
-- [Advanced Features](/pages/6%20creating%20site%20templates/advanced-features) - Theming and search integration
-- [Documentation](/pages/6%20creating%20site%20templates/documentation) - Documentation and configuration guidelines
-- [Distribution](/pages/6%20creating%20site%20templates/distribution) - Publishing and maintaining templates
+- [Getting Started](/6%20creating%20site%20templates/gettingstarted) - Creating your first template
+- [Advanced Features](/6%20creating%20site%20templates/advancedfeatures) - Theming and search integration
+- [Documentation](/6%20creating%20site%20templates/documentation) - Documentation and configuration guidelines
+- [Distribution](/6%20creating%20site%20templates/distribution) - Publishing and maintaining templates
 
 :::note
 **Template Development Questions?**

@@ -264,9 +264,9 @@ Before releasing your template:
 
 With comprehensive documentation, your template is ready for distribution:
 
-- Learn about [Distribution strategies](/pages/6%20creating%20site%20templates/distribution) for publishing your template
-- Review the [Overview](/pages/6%20creating%20site%20templates/overview) for template development best practices
-- Explore [Advanced Features](/pages/6%20creating%20site%20templates/advanced-features) to enhance your template
+- Learn about [Distribution strategies](/6%20creating%20site%20templates/distribution) for publishing your template
+- Review the [Overview](/6%20creating%20site%20templates/overview) for template development best practices
+- Explore [Advanced Features](/6%20creating%20site%20templates/advancedfeatures) to enhance your template
 
 :::tip
 **Documentation Success Tips**

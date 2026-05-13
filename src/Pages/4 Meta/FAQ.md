@@ -54,15 +54,15 @@ Check these items in order:
 
 Check the output for any errors relating to missing pages.
 
-For more details on content authoring, see [Authoring Content](/pages/2%20using%20blake/authoring-content).
+For more details on content authoring, see [Authoring Content](/2%20using%20blake/authoringcontent).
 
 ### How do I customize the layout?
 
-Blake uses [Page Templates](/pages/2%20using%20blake/page-templates) to control how your content is rendered:
+Blake uses [Page Templates](/2%20using%20blake/pagetemplates) to control how your content is rendered:
 
 - **Single folder**: Create a `template.razor` file in the folder containing your Markdown files
 - **Multiple folders**: Use `cascading-template.razor` to apply templates to subfolders
-- **Site-wide**: Start with a [Site Template](/pages/2%20using%20blake/site-templates) and customize from there
+- **Site-wide**: Start with a [Site Template](/2%20using%20blake/sitetemplates) and customize from there
 
 Templates use standard Razor syntax - no proprietary templating language to learn.
 
@@ -71,7 +71,7 @@ Templates use standard Razor syntax - no proprietary templating language to lear
 - **Page Templates** (`template.razor`) define how individual Markdown files are rendered into HTML
 - **Site Templates** are complete project scaffolds you get when running `blake new -t <template-name>`
 
-See [Site Templates](/pages/2%20using%20blake/site-templates) for available options.
+See [Site Templates](/2%20using%20blake/sitetemplates) for available options.
 
 ## Build and Deployment
 
@@ -100,7 +100,7 @@ Blake generates standard Blazor WebAssembly applications. Deploy them like any o
 - **CDN**: Any content delivery network that supports static files
 - **Web servers**: IIS, Apache, nginx with proper MIME type configuration
 
-For detailed deployment guidance, see the [Deploying](/pages/3%20deploying/) section.
+For detailed deployment guidance, see the [Deploying](/3%20deploying/staticsites) section.
 
 ## Customization and Features
 
@@ -124,7 +124,7 @@ Blake plugins are NuGet packages that extend functionality:
 
 2. **Run blake bake**: Plugins are automatically discovered and executed
 
-For more details, see [Using Plugins](/pages/2%20using%20blake/using-plugins).
+For more details, see [Using Plugins](/2%20using%20blake/usingplugins).
 
 ### Can I use components from other Blazor libraries?
 
@@ -160,7 +160,7 @@ Report bugs and issues in the [Blake repository](https://github.com/matt-goldman
 
 ### Contributing
 
-Want to contribute to Blake or this documentation? See the [Contributing](/pages/5%20contributing/) guide for details on:
+Want to contribute to Blake or this documentation? See the [Contributing](/5%20contributing/overview) guide for details on:
 
 - Creating site templates
 - Creating plugins

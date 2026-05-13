@@ -149,9 +149,9 @@ While waiting for the detailed Blake guide, these resources will help:
 
 Consider these well-documented alternatives while Cloudflare Pages guidance is being developed:
 
-- **[GitHub Pages](/pages/3%20deploying/github-pages)** - Free hosting with detailed Blake documentation
-- **[Azure Static Web Apps](/pages/3%20deploying/azure-swa)** - Enterprise features with comprehensive Blake guide
-- **[Vercel](/pages/3%20deploying/vercel)** - Modern deployment platform
+- **[GitHub Pages](/3%20deploying/githubpages)** - Free hosting with detailed Blake documentation
+- **[Azure Static Web Apps](/3%20deploying/azureswa)** - Enterprise features with comprehensive Blake guide
+- **[Vercel](/3%20deploying/vercel)** - Modern deployment platform
 
 ## Contributing
 

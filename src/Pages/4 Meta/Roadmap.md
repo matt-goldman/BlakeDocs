@@ -159,7 +159,7 @@ Blake development benefits from community feedback and contributions:
 - **Documentation** - Improve this documentation with clarifications and examples
 - **Bug reports** - Report issues via GitHub Issues
 
-See the [Contributing](/pages/5%20contributing/) guide for detailed information.
+See the [Contributing](/5%20contributing/overview) guide for detailed information.
 
 ### Getting Involved
 

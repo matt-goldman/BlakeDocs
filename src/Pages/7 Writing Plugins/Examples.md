@@ -380,8 +380,8 @@ Ready to create your first Blake plugin? Start with:
 1. **Install the plugin template** and create a basic plugin
 2. **Study existing plugins** like BlakePlugin.ReadTime for inspiration
 3. **Join the community** to discuss plugin ideas and get help
-4. **Review [Getting Started](/pages/7%20writing%20plugins/getting-started)** for step-by-step guidance
-5. **Follow [Best Practices](/pages/7%20writing%20plugins/best-practices)** for quality development
+4. **Review [Getting Started](/7%20writing%20plugins/gettingstarted)** for step-by-step guidance
+5. **Follow [Best Practices](/7%20writing%20plugins/bestpractices)** for quality development
 
 :::note
 **Plugin Development Resources**
